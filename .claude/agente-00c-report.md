@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-03T22:30:57Z
+**Gerado em**: 2026-06-03T22:38:59Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,32 +18,33 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 1 |
+| Ondas executadas | 2 |
 | Tool calls totais | 1 |
-| Decisoes registradas | 8 |
+| Decisoes registradas | 10 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda-001 concluiu a etapa briefing do projeto financial-dashboard (sistema de vendas/comissoes/pagamentos, stack Go+React+Postgres). Em modo autonomo, inferi 3 atores (Gestor/Admin, Vendedor, Financeiro) e regras de negocio de mercado (comissao = percentual sobre pedido pago, apuracao mensal, maquinas de estado de pedido/pagamento), todas registradas como suposicoes a validar (dec-003..dec-006). briefing.md salvo, aspectos-chave de drift inicializados. Proxima etapa: constitution.
+Onda-002 ratificou a constitution v1.0.0 do Financial Dashboard (docs/constitution.md) com 5 principios de governanca financeira: (I) Auditabilidade Financeira Total, (II) Integridade do Calculo de Comissao, (III) Precisao Monetaria sem Float, (IV) Autorizacao por Papel/RBAC deny-by-default, (V) Conformidade LGPD. constitution-conflict retornou none-exists (sem conflito raiz-vs-feature). Pipeline avancou para a etapa specify. Primeiro commit local da execucao (git agora inicializado pelo operador). Suposicoes de negocio dec-003..dec-006 permanecem a validar em clarify.
 
 ## 2. Linha do Tempo
 
 | Onda | Inicio | Fim | Etapas | Tool calls | Wallclock | Termino |
 |------|--------|-----|--------|------------|-----------|---------|
 | onda-001 | 2026-06-03T22:25:10Z | 2026-06-03T22:30:24Z | briefing | 1 | 314s | etapa_concluida_avancando |
+| onda-002 | 2026-06-03T22:34:53Z | 2026-06-03T22:38:12Z | constitution | 0 | 199s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 8 decisoes registradas.
+Total: 10 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 1 |
-| orquestrador-00c | 7 |
+| agente-00c-feature-orchestrator | 2 |
+| orquestrador-00c | 8 |
 
 ### 3.2 Lista detalhada
 
@@ -168,6 +169,38 @@ Total: 8 decisoes registradas.
 **Escolha**: pular-commit-persistir-so-state
 
 **Justificativa**: Blast Radius confinado — nao inicializo repo git autonomamente (decisao de versionamento e do operador). State persistido via sha256-update (atomico+backup). Commit e best-effort; ausencia nao bloqueia a pipeline.
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-009 — model-routing — agente-00c-feature-orchestrator — 2026-06-03T22:34:08Z
+
+**Contexto**: Selecao de modelo para onda 1 (fase constitution)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:opus
+
+**Justificativa**: sugerido=opus aplicado=opus origem=mapa | faixa=profunda fase=constitution (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-010 — constitution — orquestrador-00c — 2026-06-03T22:35:12Z
+
+**Contexto**: pipeline.sh constitution-conflict retornou exit 0 status=none-exists: nao existe docs/constitution.md raiz nem constitution.md de feature no projeto-alvo. Sem conflito raiz-vs-feature.
+
+**Opcoes consideradas**: invocar-skill-constitution / bloquear-para-humano / abortar
+
+**Escolha**: invocar-skill-constitution
+
+**Justificativa**: Exit 0 (none-exists) autoriza invocacao normal da skill conforme tabela do contrato. Projeto e POC de vendas/comissoes/pagamentos: constitution deve cravar principios de governanca financeira (auditoria, integridade de calculo de comissao, autorizacao por papel).
 
 **Score**: 2
 

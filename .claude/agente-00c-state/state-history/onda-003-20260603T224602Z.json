@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "plan",
-  "next_instruction": "Iniciar etapa plan — gerar plano tecnico de implementacao (arquitetura, modelo de dados, contratos de API, pesquisa, cenarios de teste)",
+  "current_stage": "specify",
+  "next_instruction": "Iniciar etapa specify — converter o briefing (sistema vendas/comissoes/pagamentos) em spec.md SDD. Constitution v1.0.0 ratificada na onda-002 (docs/constitution.md, 5 principios: auditabilidade financeira, integridade de calculo de comissao, precisao monetaria, RBAC deny-by-default, LGPD). Suposicoes dec-003..dec-006 ainda a validar em clarify. Lembrar read-back loop (5.d.bis) no inicio de specify.",
   "waves": [
     {
       "id": "onda-001",
@@ -70,56 +70,13 @@
     {
       "id": "onda-003",
       "started_at": "2026-06-03T22:41:40Z",
-      "finished_at": "2026-06-03T22:47:54Z",
+      "finished_at": null,
       "executed_stages": [],
       "tool_calls": 0,
-      "wallclock_seconds": 374,
-      "termination_reason": "etapa_concluida_avancando",
+      "wallclock_seconds": 0,
+      "termination_reason": null,
       "next_wave_scheduled_for": null,
-      "skills_invoked": [
-        {
-          "skill": "specify",
-          "timestamp": "2026-06-03T22:46:20Z",
-          "decision_id": "dec-013"
-        },
-        {
-          "skill": "specify",
-          "timestamp": "2026-06-03T22:47:54Z",
-          "decision_id": null
-        }
-      ],
-      "touched_key_aspects": [
-        "vendedores",
-        "pedidos",
-        "comissoes",
-        "dashboards",
-        "pagamentos"
-      ]
-    },
-    {
-      "id": "onda-004",
-      "started_at": "2026-06-03T22:52:42Z",
-      "finished_at": "2026-06-03T22:57:52Z",
-      "executed_stages": [
-        "clarify"
-      ],
-      "tool_calls": 17,
-      "wallclock_seconds": 310,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-03T23:00:52Z",
-      "skills_invoked": [
-        {
-          "skill": "clarify",
-          "timestamp": "2026-06-03T22:56:29Z",
-          "decision_id": "dec-018"
-        }
-      ],
-      "touched_key_aspects": [
-        "comissoes",
-        "pagamentos",
-        "pedidos",
-        "vendedores"
-      ]
+      "skills_invoked": []
     }
   ],
   "decisions": [
@@ -368,163 +325,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-014",
-      "wave_id": "onda-003",
-      "timestamp": "2026-06-03T22:46:32Z",
-      "stage": "specify",
-      "agent": "agente-00c-orchestrator",
-      "context": "Spec.md gerado para financial-dashboard: 5 user stories (P1-P5), 26 requisitos funcionais (FR-001..FR-026), 9 criterios de sucesso (SC-001..SC-009), 6 entidades-chave, alinhado a P-I..P-V da constitution",
-      "options_considered": [
-        "gerar-spec-completa",
-        "gerar-spec-parcial",
-        "aguardar-clarify-primeiro"
-      ],
-      "choice": "gerar-spec-completa",
-      "rationale": "Briefing e constitution disponíveis com contexto suficiente (5 dominios MVP bem definidos); suposições marcadas [A VALIDAR] para clarify; modo autonomo exige avancar sem bloqueio humano salvo ambiguidade irreducivel",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-015",
-      "wave_id": "onda-003",
-      "timestamp": "2026-06-03T22:46:41Z",
-      "stage": "specify",
-      "agent": "agente-00c-orchestrator",
-      "context": "Ambiguidade A-005: qual data usar para selecionar versao da regra de comissao quando o percentual muda no meio do periodo — data do pedido ou data da apuracao?",
-      "options_considered": [
-        "data-do-pedido",
-        "data-da-apuracao",
-        "data-da-confirmacao"
-      ],
-      "choice": "data-do-pedido",
-      "rationale": "Padrao de mercado para comissoes: o percentual vigente no momento em que o pedido foi registrado (ou pago) e o que gera a obrigacao financeira. Usar data-da-apuracao seria retroativo e violaria expectativa do vendedor. A validar em clarify (score 2: constitution suporta, sem evidencia empirica do operador)",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-016",
-      "wave_id": "onda-003",
-      "timestamp": "2026-06-03T22:46:51Z",
-      "stage": "specify",
-      "agent": "agente-00c-orchestrator",
-      "context": "Ambiguidade A-006: quando um pedido pago e cancelado APÓS a comissao ja ter sido apurada e aprovada, qual e a politica correta? Estorno total? Estorno parcial? Marcar para revisao manual?",
-      "options_considered": [
-        "marcar-para-revisao-manual",
-        "estorno-automatico-total",
-        "estorno-automatico-parcial",
-        "proibir-cancelamento-pos-comissao-aprovada"
-      ],
-      "choice": "marcar-para-revisao-manual",
-      "rationale": "Politica de estorno e decisao de negocio com impacto financeiro nao trivial; o spec marca como [A VALIDAR] e a resolucao fica para clarify. Adotar marcar-para-revisao como padrao seguro interim (evita estorno automatico sem validacao humana)",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-017",
-      "wave_id": "onda-003",
-      "timestamp": "2026-06-03T22:52:12Z",
-      "stage": "model-routing",
-      "agent": "agente-00c-feature-orchestrator",
-      "context": "Selecao de modelo para onda 3 (fase clarify)",
-      "options_considered": [
-        "haiku",
-        "sonnet",
-        "opus",
-        "manter-atual"
-      ],
-      "choice": "model:sonnet",
-      "rationale": "sugerido=sonnet aplicado=sonnet origem=mapa | faixa=media fase=clarify (mapa primario)",
-      "justification_score": 0,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-018",
-      "wave_id": "onda-004",
-      "timestamp": "2026-06-03T22:55:44Z",
-      "stage": "clarify",
-      "agent": "clarify-answerer",
-      "context": "A-001: confirmar 3 atores inferidos (Gestor/Admin, Vendedor, Financeiro) e suas fronteiras de acesso",
-      "options_considered": [
-        "confirmar-3-atores",
-        "adicionar-ator-Comprador",
-        "adicionar-ator-Supervisor",
-        "reduzir-para-2-atores"
-      ],
-      "choice": "confirmar-3-atores",
-      "rationale": "Briefing secao 2 lista exatamente os 3 atores com acoes principais. Constitution P-IV crava as fronteiras: Gestor=admin total, Vendedor=proprias metricas, Financeiro=pagamentos. Nenhuma evidencia de ator adicional no escopo MVP.",
-      "justification_score": 3,
-      "evidence": "briefing.md secao 2: 'Gestor/Admin [suposicao a validar] | Administracao geral'; 'Vendedor [suposicao a validar] | Usuario final'; 'Financeiro [suposicao a validar] | Controle financeiro'. Constitution P-IV: 'Papeis e fronteiras MUST ser respeitados em TODA operacao: Gestor/Admin, Vendedor, Financeiro'",
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-019",
-      "wave_id": "onda-004",
-      "timestamp": "2026-06-03T22:56:00Z",
-      "stage": "clarify",
-      "agent": "clarify-answerer",
-      "context": "A-004: confirmar maquina de estado de pedido — 4 estados, 4 transicoes validas (rascunho→confirmado→pago; confirmado→cancelado; pago→cancelado)",
-      "options_considered": [
-        "confirmar-4-estados-4-transicoes",
-        "adicionar-estado-devolvido",
-        "adicionar-transicao-pago-para-confirmado",
-        "simplificar-para-3-estados"
-      ],
-      "choice": "confirmar-4-estados-4-transicoes",
-      "rationale": "FR-008 da spec ja detalha os 4 estados e 4 transicoes validas. Constitution exige 'Maquinas de estado explicitas'. Briefing lista estados rascunho/confirmado/pago/cancelado (dec-005). Nenhum requisito de adicionar estado de devolucao no MVP — fora de escopo declarado.",
-      "justification_score": 3,
-      "evidence": "spec.md FR-008: 'rascunho→confirmado, confirmado→pago, confirmado→cancelado, pago→cancelado — Todas as demais transicoes MUST ser rejeitadas'. briefing.md: 'Estados de Pedido: rascunho, confirmado, pago, cancelado (dec-005)'",
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-020",
-      "wave_id": "onda-004",
-      "timestamp": "2026-06-03T22:56:12Z",
-      "stage": "clarify",
-      "agent": "clarify-answerer",
-      "context": "A-005: confirmar criterio de data para selecao da versao de regra de comissao (data do pedido vs data da apuracao)",
-      "options_considered": [
-        "data-do-pedido",
-        "data-da-apuracao",
-        "data-do-pagamento-do-pedido"
-      ],
-      "choice": "data-do-pedido",
-      "rationale": "Padrao de mercado para sistemas de comissao: o percentual vigente no momento em que o vendedor realizou a venda (data do pedido) e o criterio justo e auditavel. Permite auditar retroativamente sem ambiguidade. Constitution P-I (rastreabilidade) e P-II (determinismo) suportam: dado o pedido, a regra aplicada e deterministica e imutavel. dec-015 (onda-003) ja havia registrado esta escolha com score 2.",
-      "justification_score": 3,
-      "evidence": "spec.md FR-012 (pre-clarify): 'percentual_vigente e o percentual do vendedor na data do pedido (ou na data de apuracao — A VALIDAR)'. briefing.md: 'Comissao = percentual configuravel aplicado sobre o valor total do pedido pago (dec-004)'. Constitution P-I: 'cada comissao apurada MUST referenciar... o percentual aplicado e a versao da regra de comissao vigente no momento da apuracao'",
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-021",
-      "wave_id": "onda-004",
-      "timestamp": "2026-06-03T22:56:23Z",
-      "stage": "clarify",
-      "agent": "clarify-answerer",
-      "context": "A-006: politica de cancelamento de pedido quando comissao ja foi apurada (possivelmente aprovada ou paga)",
-      "options_considered": [
-        "estorno-como-entidade-separada-valor-negativo",
-        "modificar-comissao-original",
-        "reapuracao-completa-do-periodo",
-        "marcar-comissao-invalida-sem-estorno"
-      ],
-      "choice": "estorno-como-entidade-separada-valor-negativo",
-      "rationale": "Opcao alinhada a P-I (imutabilidade de registros financeiros) e P-II (determinismo): criar entidade Estorno de Comissao separada com valor negativo, referenciando a comissao original. Os registros originais nao sao tocados — auditoria sempre reconstruivel. Se comissao ja aprovada/paga, Estorno fica pendente de aprovacao do Financeiro (mesmo fluxo FR-020). Padrao conservador de mercado para sistemas contabeis: lancamentos de estorno, nao edicao retroativa.",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -538,16 +338,16 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 17,
-    "current_wave_start": "2026-06-03T22:52:42Z"
+    "tool_calls_current_wave": 0,
+    "current_wave_start": "2026-06-03T22:41:40Z"
   },
   "accumulated_metrics": {
-    "waves_total": 4,
-    "tool_calls_total": 18,
-    "wallclock_total_seconds": 1197,
+    "waves_total": 2,
+    "tool_calls_total": 1,
+    "wallclock_total_seconds": 513,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 21,
+    "decisions_total": 13,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,

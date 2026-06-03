@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "plan",
-  "next_instruction": "Iniciar etapa plan — gerar plano tecnico de implementacao (arquitetura, modelo de dados, contratos de API, pesquisa, cenarios de teste)",
+  "current_stage": "clarify",
+  "next_instruction": "Iniciar etapa clarify — retomada pela rede de seguranca do command pai (onda anterior fechada sem Schedule intent).",
   "waves": [
     {
       "id": "onda-001",
@@ -99,27 +99,13 @@
     {
       "id": "onda-004",
       "started_at": "2026-06-03T22:52:42Z",
-      "finished_at": "2026-06-03T22:57:52Z",
-      "executed_stages": [
-        "clarify"
-      ],
-      "tool_calls": 17,
-      "wallclock_seconds": 310,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-03T23:00:52Z",
-      "skills_invoked": [
-        {
-          "skill": "clarify",
-          "timestamp": "2026-06-03T22:56:29Z",
-          "decision_id": "dec-018"
-        }
-      ],
-      "touched_key_aspects": [
-        "comissoes",
-        "pagamentos",
-        "pedidos",
-        "vendedores"
-      ]
+      "finished_at": null,
+      "executed_stages": [],
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
+      "skills_invoked": []
     }
   ],
   "decisions": [
@@ -505,26 +491,6 @@
       "evidence": "spec.md FR-012 (pre-clarify): 'percentual_vigente e o percentual do vendedor na data do pedido (ou na data de apuracao — A VALIDAR)'. briefing.md: 'Comissao = percentual configuravel aplicado sobre o valor total do pedido pago (dec-004)'. Constitution P-I: 'cada comissao apurada MUST referenciar... o percentual aplicado e a versao da regra de comissao vigente no momento da apuracao'",
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-021",
-      "wave_id": "onda-004",
-      "timestamp": "2026-06-03T22:56:23Z",
-      "stage": "clarify",
-      "agent": "clarify-answerer",
-      "context": "A-006: politica de cancelamento de pedido quando comissao ja foi apurada (possivelmente aprovada ou paga)",
-      "options_considered": [
-        "estorno-como-entidade-separada-valor-negativo",
-        "modificar-comissao-original",
-        "reapuracao-completa-do-periodo",
-        "marcar-comissao-invalida-sem-estorno"
-      ],
-      "choice": "estorno-como-entidade-separada-valor-negativo",
-      "rationale": "Opcao alinhada a P-I (imutabilidade de registros financeiros) e P-II (determinismo): criar entidade Estorno de Comissao separada com valor negativo, referenciando a comissao original. Os registros originais nao sao tocados — auditoria sempre reconstruivel. Se comissao ja aprovada/paga, Estorno fica pendente de aprovacao do Financeiro (mesmo fluxo FR-020). Padrao conservador de mercado para sistemas contabeis: lancamentos de estorno, nao edicao retroativa.",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -538,16 +504,16 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 17,
+    "tool_calls_current_wave": 6,
     "current_wave_start": "2026-06-03T22:52:42Z"
   },
   "accumulated_metrics": {
-    "waves_total": 4,
-    "tool_calls_total": 18,
-    "wallclock_total_seconds": 1197,
+    "waves_total": 3,
+    "tool_calls_total": 1,
+    "wallclock_total_seconds": 887,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 21,
+    "decisions_total": 20,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,

@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "plan",
-  "next_instruction": "Iniciar etapa plan — gerar plano tecnico de implementacao (arquitetura, modelo de dados, contratos de API, pesquisa, cenarios de teste)",
+  "current_stage": "clarify",
+  "next_instruction": "Iniciar etapa clarify — retomada pela rede de seguranca do command pai (onda anterior fechada sem Schedule intent).",
   "waves": [
     {
       "id": "onda-001",
@@ -99,26 +99,18 @@
     {
       "id": "onda-004",
       "started_at": "2026-06-03T22:52:42Z",
-      "finished_at": "2026-06-03T22:57:52Z",
-      "executed_stages": [
-        "clarify"
-      ],
-      "tool_calls": 17,
-      "wallclock_seconds": 310,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-03T23:00:52Z",
+      "finished_at": null,
+      "executed_stages": [],
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
           "skill": "clarify",
           "timestamp": "2026-06-03T22:56:29Z",
           "decision_id": "dec-018"
         }
-      ],
-      "touched_key_aspects": [
-        "comissoes",
-        "pagamentos",
-        "pedidos",
-        "vendedores"
       ]
     }
   ],
@@ -538,13 +530,13 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 17,
+    "tool_calls_current_wave": 12,
     "current_wave_start": "2026-06-03T22:52:42Z"
   },
   "accumulated_metrics": {
-    "waves_total": 4,
-    "tool_calls_total": 18,
-    "wallclock_total_seconds": 1197,
+    "waves_total": 3,
+    "tool_calls_total": 1,
+    "wallclock_total_seconds": 887,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 21,
