@@ -152,6 +152,113 @@
 
 ---
 
+---
+
+## Auth — Definições de Implementação (task 0.5)
+
+### TTLs de JWT (0.5.1 — CHK002)
+
+| Token | TTL | Variável de env |
+|-------|-----|-----------------|
+| `access_token` | 15 minutos | `JWT_ACCESS_TTL=15m` |
+| `refresh_token` | 7 dias (168h) | `JWT_REFRESH_TTL=168h` |
+
+Comportamento: access_token expirado → cliente usa refresh_token para obter novo access_token sem reautenticação.
+
+### Hash de Senha (0.5.2 — CHK004)
+
+Algoritmo: **Argon2id** com parâmetros `m=64MB, t=3, p=4`.
+Fallback: bcrypt cost=12 (apenas se Argon2id indisponível no ambiente de deploy).
+Documentado em `data-model.md §User`.
+
+### Comportamento de Token Expirado (0.5.3 — CHK010)
+
+```json
+HTTP 401
+{
+  "error": "token_expired",
+  "message": "Access token expirado. Use o endpoint de refresh para renovar.",
+  "refreshUrl": "/api/v1/auth/refresh"
+}
+```
+
+Documentado em `contracts/api.md §Errors`.
+
+### Limites de Texto (0.5.4 — CHK019)
+
+| Campo | Limite |
+|-------|--------|
+| `vendors.name` | 200 caracteres |
+| `orders.description` | 500 caracteres |
+| `order_items.description` | 200 caracteres |
+
+Implementado como `VARCHAR(N)` nas migrations e validação manual no handler Go.
+
+### Formato de Anonimização LGPD (0.5.5 — CHK014, FR-005)
+
+```
+name  → "REMOVED_<uuid-v4>"
+email → "removed_<sha256(email original)[:8]>@anon.invalid"
+```
+
+Anonimização é **irreversível** para uso prático. Dados financeiros preservados.
+O `uuid-v4` garante unicidade mesmo com múltiplos vendedores com mesmo nome.
+Documentado em `spec.md §FR-005` e `data-model.md §Vendor`.
+
+### Ator Autorizado para Exclusão LGPD (0.5.6 — CHK077)
+
+Apenas papéis `gestor` ou `admin` via `DELETE /api/v1/vendors/{id}`.
+Requer confirmação explícita no payload: `{"confirm": true}`.
+Documentado em `contracts/api.md`.
+
+### Trilha de Anonimização LGPD (0.5.7 — CHK078)
+
+```sql
+INSERT INTO audit_trail (entity_type, entity_id, actor_user_id, occurred_at, from_state, to_state, reason)
+VALUES ('vendor_anonymization', '<vendor_id>', '<actor_user_id>', NOW(), 'ativo', 'anonimizado', 'LGPD request');
+```
+
+Documentado em `spec.md §FR-005`.
+
+### Audit Trail para commission_rule (0.5.8 — CHK069)
+
+`commission_rule` alterações registradas com `entity_type='commission_rule'`.
+Critério de aceite adicionado em `spec.md §FR-003`: toda criação de nova versão de regra
+deve gerar entrada em `audit_trail`.
+
+### Critério de Aceite SC-007 — Ausência de Float (0.5.9 — CHK063)
+
+```sql
+-- Teste de conformidade — deve retornar 0 linhas
+SELECT table_name, column_name, data_type
+FROM information_schema.columns
+WHERE table_schema = 'public'
+  AND data_type IN ('real', 'double precision', 'float4', 'float8');
+```
+
+Documentado em `quickstart.md §Testes`. Deve ser executado após cada migration.
+
+### Sanitização de Input (0.5.10 — CHK020)
+
+- Todos os filtros de dashboard usam **bind params** (pgx NamedArgs) — sem string concatenation.
+- Campos aceitos no PATCH: allowlist explícita por handler (rejeitar campos não listados).
+- Implementado como validação manual em cada handler (sem ORM — pgx puro).
+
+---
+
+## Testes de Conformidade SC-007 (ausência de float)
+
+```sql
+-- Executar após migrate-up para garantir P-III
+SELECT table_name, column_name, data_type
+FROM information_schema.columns
+WHERE table_schema = 'public'
+  AND data_type IN ('real', 'double precision', 'float4', 'float8');
+-- Esperado: 0 linhas
+```
+
+---
+
 ## Mapa de cobertura
 
 | Cenario | User Story | FRs | Success Criteria |

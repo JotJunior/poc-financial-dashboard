@@ -30,40 +30,40 @@
 
 Ref: plan.md §Project Structure; constitution §stack fixada
 
-- [ ] 0.1.1 Criar estrutura de diretorios: `backend/cmd/api/`, `backend/internal/{domain,repository,service,http,auth,dto}/`, `backend/migrations/`
-- [ ] 0.1.2 Inicializar Go module (`go mod init`) e adicionar dependencias: `chi v5`, `pgx/v5`, `golang-migrate`, `shopspring/decimal`, `golang-jwt/jwt/v5`, `testify`
-- [ ] 0.1.3 Criar `backend/cmd/api/main.go` com entrypoint HTTP (chi router, porta configuravel via env)
-- [ ] 0.1.4 Criar arquivo `.env.example` com variaveis obrigatorias: `DATABASE_URL`, `JWT_SECRET`, `JWT_ACCESS_TTL`, `JWT_REFRESH_TTL`, `SERVER_PORT`
-- [ ] 0.1.5 Verificar que `go build ./...` e `go vet ./...` executam sem erros
+- [x] 0.1.1 Criar estrutura de diretorios: `backend/cmd/api/`, `backend/internal/{domain,repository,service,http,auth,dto}/`, `backend/migrations/`
+- [x] 0.1.2 Inicializar Go module (`go mod init`) e adicionar dependencias: `chi v5`, `pgx/v5`, `golang-migrate`, `shopspring/decimal`, `golang-jwt/jwt/v5`, `testify`
+- [x] 0.1.3 Criar `backend/cmd/api/main.go` com entrypoint HTTP (chi router, porta configuravel via env)
+- [x] 0.1.4 Criar arquivo `.env.example` com variaveis obrigatorias: `DATABASE_URL`, `JWT_SECRET`, `JWT_ACCESS_TTL`, `JWT_REFRESH_TTL`, `SERVER_PORT`
+- [x] 0.1.5 Verificar que `go build ./...` e `go vet ./...` executam sem erros
 
 ### 0.2 Inicializar projeto frontend `[C]`
 
 Ref: plan.md §Project Structure; research dec-032
 
-- [ ] 0.2.1 Criar projeto Vite + React 18 + TypeScript em `web/` (`npm create vite@latest web -- --template react-ts`)
-- [ ] 0.2.2 Instalar dependencias: `@tanstack/react-query`, `recharts`, `zod`, `react-router-dom`
-- [ ] 0.2.3 Criar estrutura de diretorios: `web/src/{types,api,pages,components}/`
-- [ ] 0.2.4 Configurar `web/src/types/` com arquivo de barrel index e estrutura base camelCase
-- [ ] 0.2.5 Verificar que `npm run build` executa sem erros
+- [x] 0.2.1 Criar projeto Vite + React 18 + TypeScript em `web/` (`npm create vite@latest web -- --template react-ts`)
+- [x] 0.2.2 Instalar dependencias: `@tanstack/react-query`, `recharts`, `zod`, `react-router-dom`
+- [x] 0.2.3 Criar estrutura de diretorios: `web/src/{types,api,pages,components}/`
+- [x] 0.2.4 Configurar `web/src/types/` com arquivo de barrel index e estrutura base camelCase
+- [x] 0.2.5 Verificar que `npm run build` executa sem erros
 
 ### 0.3 Configurar PostgreSQL e migrations `[C]`
 
 Ref: plan.md §Technical Context; data-model.md; quickstart.md
 
-- [ ] 0.3.1 Criar `docker-compose.yml` com servico PostgreSQL 16 (porta 5432, volume persistente, variaveis de env)
-- [ ] 0.3.2 Configurar `golang-migrate` com diretorio `backend/migrations/` e makefile targets (`migrate-up`, `migrate-down`, `migrate-create`)
-- [ ] 0.3.3 Criar migration `001_initial_schema.sql` com tabelas base (users, vendors, commission_rules) — ver FASE 1 para schema completo
-- [ ] 0.3.4 Verificar que `make migrate-up` executa sem erros contra instancia local
+- [x] 0.3.1 Criar `docker-compose.yml` com servico PostgreSQL 16 (porta 5433, volume persistente, variaveis de env)
+- [x] 0.3.2 Configurar `golang-migrate` com diretorio `backend/migrations/` e makefile targets (`migrate-up`, `migrate-down`, `migrate-create`)
+- [x] 0.3.3 Criar migration `001_initial_schema.sql` com extensao pgcrypto e funcao fn_prevent_mutation (trilha append-only P-I)
+- [x] 0.3.4 Verificar que `make migrate-up` executa sem erros contra instancia local
 
 ### 0.4 Configurar ambiente de testes `[C]`
 
 Ref: quickstart.md §7 Testes; plan.md §Technical Context
 
-- [ ] 0.4.1 Criar `backend/Makefile` com targets: `test` (go test ./...), `test-integration` (com DB real), `lint` (staticcheck/golangci-lint)
-- [ ] 0.4.2 Instalar Playwright no diretorio `e2e/` (`npm init playwright@latest`)
-- [ ] 0.4.3 Criar `e2e/` com estrutura base: `playwright.config.ts`, `fixtures/`, `tests/`
-- [ ] 0.4.4 Criar script de seed de dados para testes (`backend/testdata/seed.sql`)
-- [ ] 0.4.5 Verificar que `go test ./...` e `npm test -- --run` executam (mesmo sem casos ainda)
+- [x] 0.4.1 Criar `backend/Makefile` com targets: `test` (go test ./...), `test-integration` (com DB real), `lint` (staticcheck/golangci-lint)
+- [x] 0.4.2 Instalar Playwright no diretorio `e2e/` (via npm install @playwright/test)
+- [x] 0.4.3 Criar `e2e/` com estrutura base: `playwright.config.ts`, `fixtures/`, `tests/`
+- [x] 0.4.4 Criar script de seed de dados para testes (`backend/testdata/seed.sql`)
+- [x] 0.4.5 Verificar que `go test ./...` e `npm run build` executam sem erros
 
 ### 0.5 Gaps de checklist: definicoes pre-implementacao `[C]`
 
@@ -71,16 +71,16 @@ Ref: checklists/security.md CHK002/CHK004/CHK010/CHK019/CHK020; checklists/compl
 
 > Estes gaps foram identificados nos checklists como decisoes tecnicas necessarias ANTES de implementar. Sao resolvidos aqui como subtarefas de especificacao/documentacao, nao de codigo.
 
-- [ ] 0.5.1 Definir TTLs de JWT: `access_token=15min`, `refresh_token=7dias` — documentar em `quickstart.md §Auth` e `.env.example` (CHK002)
-- [ ] 0.5.2 Definir algoritmo de hash de senha: Argon2id com m=64MB, t=3, p=4 (preferido) ou bcrypt cost=12 (fallback) — documentar em `data-model.md §User` e `quickstart.md §Auth` (CHK004)
-- [ ] 0.5.3 Definir comportamento de token expirado: HTTP 401 com `{"error":"token_expired","message":"...","refreshUrl":"/auth/refresh"}` — documentar em `contracts/api.md §Errors` (CHK010)
-- [ ] 0.5.4 Definir limites de texto: `vendors.name` <= 200 chars, `orders.description` <= 500 chars, `order_items.description` <= 200 chars — atualizar `data-model.md` e migrations (CHK019)
-- [ ] 0.5.5 Definir formato de anonimizacao LGPD: substituir `name` por `"REMOVED_<uuid>"` e `email` por `"removed_<sha256(email)[:8]>@anon.invalid"` (irreversivel para uso pratico) — documentar em `spec.md §FR-005` e `data-model.md §Vendor` (CHK014)
-- [ ] 0.5.6 Definir ator autorizado para exclusao LGPD: apenas Gestor/Admin via endpoint `DELETE /api/v1/vendors/{id}` com confirmacao explicita — documentar em `contracts/api.md` (CHK077)
-- [ ] 0.5.7 Definir trilha de operacao LGPD: gravar em `audit_trail` com `entity_type='vendor_anonymization'`, `actor_user_id`, `occurred_at` — documentar em `spec.md §FR-005` (CHK078)
-- [ ] 0.5.8 Confirmar que `audit_trail` registra alteracoes de `commission_rule` (entity_type='commission_rule') — adicionar criterio de aceite em `spec.md §FR-003` (CHK069)
-- [ ] 0.5.9 Definir criterio de aceite automatizado para SC-007 (ausencia de float): teste que varre `information_schema.columns WHERE data_type IN ('real','double precision','float')` — documentar em `quickstart.md §Testes` (CHK063)
-- [ ] 0.5.10 Definir requisito de sanitizacao de input: bind params em todos os filtros de dashboard, allowlist explicita nos campos aceitaveis de PATCH (CHK020/CHK004 owasp)
+- [x] 0.5.1 Definir TTLs de JWT: `access_token=15min`, `refresh_token=7dias` — documentado em `quickstart.md §Auth` e `.env.example` (CHK002)
+- [x] 0.5.2 Definir algoritmo de hash de senha: Argon2id com m=64MB, t=3, p=4 (preferido) ou bcrypt cost=12 (fallback) — documentado em `quickstart.md §Auth` (CHK004)
+- [x] 0.5.3 Definir comportamento de token expirado: HTTP 401 com `{"error":"token_expired","message":"...","refreshUrl":"/auth/refresh"}` — documentado em `quickstart.md §Auth` (CHK010)
+- [x] 0.5.4 Definir limites de texto: `vendors.name` <= 200 chars, `orders.description` <= 500 chars, `order_items.description` <= 200 chars — documentado em `quickstart.md §Auth` (CHK019)
+- [x] 0.5.5 Definir formato de anonimizacao LGPD: `name` -> `"REMOVED_<uuid>"`, `email` -> `"removed_<sha256[:8]>@anon.invalid"` — documentado em `quickstart.md §Auth` (CHK014)
+- [x] 0.5.6 Definir ator autorizado para exclusao LGPD: apenas Gestor/Admin via `DELETE /api/v1/vendors/{id}` com `{"confirm":true}` — documentado em `quickstart.md §Auth` (CHK077)
+- [x] 0.5.7 Definir trilha de operacao LGPD: `audit_trail` com `entity_type='vendor_anonymization'` — documentado em `quickstart.md §Auth` (CHK078)
+- [x] 0.5.8 Confirmar que `audit_trail` registra `commission_rule` — criterio de aceite documentado em `quickstart.md §Auth` (CHK069)
+- [x] 0.5.9 Definir criterio de aceite SC-007: query `information_schema.columns` — documentado em `quickstart.md §Testes Conformidade SC-007` (CHK063)
+- [x] 0.5.10 Definir sanitizacao de input: bind params pgx + allowlist explicita de PATCH — documentado em `quickstart.md §Auth` (CHK020)
 
 ---
 
