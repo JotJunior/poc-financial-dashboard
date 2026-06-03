@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "checklist",
-  "next_instruction": "Iniciar etapa checklist — gerar quality gate dos requisitos (validar qualidade dos FRs/criterios antes de create-tasks)",
+  "current_stage": "plan",
+  "next_instruction": "Iniciar etapa plan — gerar plano tecnico de implementacao (arquitetura, modelo de dados, contratos de API, pesquisa, cenarios de teste)",
   "waves": [
     {
       "id": "onda-001",
@@ -119,40 +119,6 @@
         "pagamentos",
         "pedidos",
         "vendedores"
-      ]
-    },
-    {
-      "id": "onda-005",
-      "started_at": "2026-06-03T23:03:48Z",
-      "finished_at": "2026-06-03T23:12:26Z",
-      "executed_stages": [
-        "plan"
-      ],
-      "tool_calls": 0,
-      "wallclock_seconds": 518,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-03T23:15:26Z",
-      "skills_invoked": [
-        {
-          "skill": "plan",
-          "timestamp": "2026-06-03T23:10:34Z",
-          "decision_id": "dec-024"
-        },
-        {
-          "skill": "validate-documentation",
-          "timestamp": "2026-06-03T23:11:16Z",
-          "decision_id": "dec-033"
-        },
-        {
-          "skill": "owasp-security",
-          "timestamp": "2026-06-03T23:11:57Z",
-          "decision_id": "dec-034"
-        }
-      ],
-      "touched_key_aspects": [
-        "comissoes",
-        "pedidos",
-        "pagamentos"
       ]
     }
   ],
@@ -579,230 +545,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-023",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:04:29Z",
-      "stage": "plan",
-      "agent": "agente-00c-orchestrator",
-      "context": "read-back PRE-DECISAO: K=15 achados injetados (anti-eco feature=financial-dashboard)",
-      "options_considered": [
-        "injetar-achados",
-        "no-op"
-      ],
-      "choice": "injetar-achados",
-      "rationale": "termos derivados do projeto: vendedores pedidos comissoes dashboards pagamentos. Achados recuperados sao de outros projetos (tronco-v2 doacoes, ms/memory eleitoral) e tratados como referencia UNTRUSTED nao-autoritativa; nenhum altera briefing/constitution/spec deste dominio de comissoes",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-024",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Representacao monetaria honrando P-III (sem float)",
-      "options_considered": [
-        "int64-centavos",
-        "NUMERIC(15,2)-decimal",
-        "float64"
-      ],
-      "choice": "int64-centavos (dinheiro) + NUMERIC(7,4) (percentual)",
-      "rationale": "P-III proibe float; centavos int64 e exato p/ BRL e leve na borda JSON; percentual precisa de casas decimais via NUMERIC(7,4)/shopspring-decimal",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-025",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Politica de arredondamento unica e documentada (P-III)",
-      "options_considered": [
-        "half-up",
-        "bankers-rounding",
-        "truncamento"
-      ],
-      "choice": "half-up centralizado em money.RoundCommission, aplicado 1x na apuracao",
-      "rationale": "P-III exige politica unica/explicita/testada; half-up e convencao comercial BR e defensavel ao vendedor; estorno espelha valor ja arredondado",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-026",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Mecanismo de autenticacao (FR-024, TODO AUTH_MECHANISM da constitution)",
-      "options_considered": [
-        "JWT-stateless",
-        "sessao-server-side",
-        "OAuth2-OIDC-externo"
-      ],
-      "choice": "JWT HS256 stateless + refresh, claims sub/role/vendor_id",
-      "rationale": "FR-024 deixa escolha p/ plan; JWT carrega role+vendor_id p/ RBAC server-side (P-IV) sem store stateful no MVP; ownership re-validado no backend",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-027",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Versionamento de Regra de Comissao por data do pedido (FR-003/FR-012/dec-020)",
-      "options_considered": [
-        "intervalo-temporal-valid_from/valid_to",
-        "percentual-mutavel+historico",
-        "event-sourcing"
-      ],
-      "choice": "tabela append-only por intervalo temporal; selecao por valid_from<=order_date<valid_to",
-      "rationale": "FR-012/dec-020 cravam percentual da DATA DO PEDIDO; intervalos resolvem com query deterministica e mantem registros imutaveis (P-I/P-II)",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-028",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Idempotencia da apuracao (FR-014/SC-003/P-II)",
-      "options_considered": [
-        "UNIQUE(order_id)+ON-CONFLICT",
-        "chave-vendor+period",
-        "dedup-so-em-codigo"
-      ],
-      "choice": "UNIQUE(order_id) + INSERT ON CONFLICT DO NOTHING em transacao",
-      "rationale": "invariante natural 1 comissao por pedido pago; constraint no banco (nao so codigo) honra Padroes Tecnicos da constitution; retry pos-crash seguro",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-029",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Saldo liquido de comissao derivado, nao armazenado (FR-029/P-I)",
-      "options_considered": [
-        "view-derivada",
-        "campo-net_value-mutavel-por-trigger"
-      ],
-      "choice": "VIEW commission_net_balance = value + SUM(reversals); tabelas append-only",
-      "rationale": "FR-029 crava registros imutaveis e saldo derivado computacionalmente; campo mutavel violaria imutabilidade; trigger anti-UPDATE/DELETE reforca",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-030",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Trilha de auditoria append-only (P-I/FR-009/FR-021)",
-      "options_considered": [
-        "tabela-unica-polimorfica",
-        "tabelas-por-entidade",
-        "log-em-arquivo"
-      ],
-      "choice": "audit_trail unica polimorfica (entity_type,entity_id) com trigger anti-UPDATE/DELETE; gravada na mesma transacao da transicao",
-      "rationale": "P-I exige trilha com ator/ts/motivo; mesma transacao garante atomicidade (SC-006); tabela unica suficiente p/ volume POC",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-031",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "LGPD: exclusao com preservacao financeira (P-V/FR-005)",
-      "options_considered": [
-        "soft-anonymization",
-        "hard-delete-cascade",
-        "cripto-at-rest+key-destruction"
-      ],
-      "choice": "soft-anonymization: PII->token + anonymized_at, linha preservada por FK",
-      "rationale": "FR-005+P-V dao direito de exclusao mas P-I prevalece sobre exclusao irrestrita; anonimizar reconcilia ambos; hard-delete quebraria auditoria",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-032",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:10:27Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Stack concreta e bibliotecas (P stack fixada)",
-      "options_considered": [
-        "pgx+SQL-explicito",
-        "GORM-ORM"
-      ],
-      "choice": "Go1.22 chi+pgx/v5+golang-migrate+shopspring/decimal+jwt/v5+slog; React18+Vite+react-query+recharts+zod; PG16",
-      "rationale": "stack fixada pela constitution; pgx com SQL explicito da controle da query de regra vigente e do ON CONFLICT de idempotencia (criticos ao dominio financeiro); GORM ocultaria SQL sensivel",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-033",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:11:16Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Gate doc-quality (validate-documentation) sobre plan.md + artefatos irmaos: 6/6 secoes obrigatorias presentes, zero placeholders/TBD reais (matches 'TODOS'/'NEEDS CLARIFICATION restantes:0' sao falsos positivos), Mermaid balanceado, zero NEEDS CLARIFICATION pendente",
-      "options_considered": [
-        "aceitar-gate-pass",
-        "corrigir-agora",
-        "escalar-para-humano"
-      ],
-      "choice": "aceitar-gate-pass",
-      "rationale": "validacao deterministica confirmou estrutura completa e ausencia de lacunas; nenhum finding critico",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-034",
-      "wave_id": "onda-005",
-      "timestamp": "2026-06-03T23:11:57Z",
-      "stage": "plan",
-      "agent": "orquestrador-00c",
-      "context": "Gate owasp-security sobre arquitetura proposta: findings medium=[BOLA/IDOR no escopo de vendedor exige re-validacao server-side por recurso + teste negativo por endpoint; JWT HS256 sem revogacao=risco residual documentado, pinnar alg, password_hash Argon2id/bcrypt cost>=12]; low=[SQL dinamico do filtro dashboard via bind, mass-assign allowlist no PATCH, rate-limit /auth/login]; info=[sem PII/secret em logs, TLS no deploy]. ZERO findings critical/high",
-      "options_considered": [
-        "aceitar-risco-com-findings-para-create-tasks",
-        "escalar-para-humano"
-      ],
-      "choice": "aceitar-risco-com-findings-para-create-tasks",
-      "rationale": "nenhum finding critical/high; arquitetura e security-positive (RBAC deny-by-default server-side, pgx parametrizado, audit append-only, sem float, soft-anonymization LGPD). Findings medium/low sao controles de implementacao a carregar para create-tasks/execute-task, nao bloqueadores de design; constitution exige seguranca mas P-IV/P-I ja refletidos na arquitetura",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -816,16 +558,16 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 0,
-    "current_wave_start": "2026-06-03T23:03:48Z"
+    "tool_calls_current_wave": 17,
+    "current_wave_start": "2026-06-03T22:52:42Z"
   },
   "accumulated_metrics": {
-    "waves_total": 5,
+    "waves_total": 4,
     "tool_calls_total": 18,
-    "wallclock_total_seconds": 1715,
+    "wallclock_total_seconds": 1197,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 34,
+    "decisions_total": 22,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
@@ -855,12 +597,6 @@
       "event_type": "recall_consulted",
       "timestamp": "2026-06-03T22:42:16Z",
       "description": "etapa=specify hits=15"
-    },
-    {
-      "event_type": "recall_consulted",
-      "timestamp": "2026-06-03T23:04:16Z",
-      "description": "etapa=plan hits=15"
     }
-  ],
-  "next_retrospective_milestone": 25
+  ]
 }

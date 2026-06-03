@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-03T22:38:59Z
+**Gerado em**: 2026-06-03T22:58:34Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,15 +18,15 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 2 |
-| Tool calls totais | 1 |
-| Decisoes registradas | 10 |
+| Ondas executadas | 4 |
+| Tool calls totais | 18 |
+| Decisoes registradas | 21 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda-002 ratificou a constitution v1.0.0 do Financial Dashboard (docs/constitution.md) com 5 principios de governanca financeira: (I) Auditabilidade Financeira Total, (II) Integridade do Calculo de Comissao, (III) Precisao Monetaria sem Float, (IV) Autorizacao por Papel/RBAC deny-by-default, (V) Conformidade LGPD. constitution-conflict retornou none-exists (sem conflito raiz-vs-feature). Pipeline avancou para a etapa specify. Primeiro commit local da execucao (git agora inicializado pelo operador). Suposicoes de negocio dec-003..dec-006 permanecem a validar em clarify.
+Onda-004 executou a etapa clarify resolvendo todos os 4 itens [A VALIDAR] da spec: A-001 (atores confirmados), A-004 (maquina de estados confirmada), A-005 (criterio data do pedido confirmado), A-006 (politica de estorno como entidade separada, padrao conservador P-I/P-II). Spec atualizada para status Clarified com 29 FRs (incluindo novos FR-027/028/029 para estorno de comissao). Proxima etapa: plan.
 
 ## 2. Linha do Tempo
 
@@ -34,16 +34,20 @@ Onda-002 ratificou a constitution v1.0.0 do Financial Dashboard (docs/constituti
 |------|--------|-----|--------|------------|-----------|---------|
 | onda-001 | 2026-06-03T22:25:10Z | 2026-06-03T22:30:24Z | briefing | 1 | 314s | etapa_concluida_avancando |
 | onda-002 | 2026-06-03T22:34:53Z | 2026-06-03T22:38:12Z | constitution | 0 | 199s | etapa_concluida_avancando |
+| onda-003 | 2026-06-03T22:41:40Z | 2026-06-03T22:47:54Z |  | 0 | 374s | etapa_concluida_avancando |
+| onda-004 | 2026-06-03T22:52:42Z | 2026-06-03T22:57:52Z | clarify | 17 | 310s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 10 decisoes registradas.
+Total: 21 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 2 |
+| agente-00c-feature-orchestrator | 4 |
+| agente-00c-orchestrator | 5 |
+| clarify-answerer | 4 |
 | orquestrador-00c | 8 |
 
 ### 3.2 Lista detalhada
@@ -201,6 +205,182 @@ Total: 10 decisoes registradas.
 **Escolha**: invocar-skill-constitution
 
 **Justificativa**: Exit 0 (none-exists) autoriza invocacao normal da skill conforme tabela do contrato. Projeto e POC de vendas/comissoes/pagamentos: constitution deve cravar principios de governanca financeira (auditoria, integridade de calculo de comissao, autorizacao por papel).
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-011 — model-routing — agente-00c-feature-orchestrator — 2026-06-03T22:41:17Z
+
+**Contexto**: Selecao de modelo para onda 2 (fase specify)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=media fase=specify (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-012 — specify — agente-00c-orchestrator — 2026-06-03T22:42:24Z
+
+**Contexto**: read-back PRE-DECISAO: K=15 achados injetados (anti-eco feature=financial-dashboard)
+
+**Opcoes consideradas**: injetar-achados / no-op
+
+**Escolha**: injetar-achados
+
+**Justificativa**: termos derivados do projeto: vendedores pedidos comissoes dashboards pagamentos
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-013 — specify — agente-00c-orchestrator — 2026-06-03T22:42:44Z
+
+**Contexto**: Pre-flight skill-conflict specify: status=only-global (skill global em ~/.claude/skills/specify, sem versao local no projeto-alvo)
+
+**Opcoes consideradas**: usar-skill-global / aguardar-skill-local
+
+**Escolha**: usar-skill-global
+
+**Justificativa**: Nao ha versao local; skill global e a unica disponivel; proceeder normalmente com a skill global
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-014 — specify — agente-00c-orchestrator — 2026-06-03T22:46:32Z
+
+**Contexto**: Spec.md gerado para financial-dashboard: 5 user stories (P1-P5), 26 requisitos funcionais (FR-001..FR-026), 9 criterios de sucesso (SC-001..SC-009), 6 entidades-chave, alinhado a P-I..P-V da constitution
+
+**Opcoes consideradas**: gerar-spec-completa / gerar-spec-parcial / aguardar-clarify-primeiro
+
+**Escolha**: gerar-spec-completa
+
+**Justificativa**: Briefing e constitution disponíveis com contexto suficiente (5 dominios MVP bem definidos); suposições marcadas [A VALIDAR] para clarify; modo autonomo exige avancar sem bloqueio humano salvo ambiguidade irreducivel
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-015 — specify — agente-00c-orchestrator — 2026-06-03T22:46:41Z
+
+**Contexto**: Ambiguidade A-005: qual data usar para selecionar versao da regra de comissao quando o percentual muda no meio do periodo — data do pedido ou data da apuracao?
+
+**Opcoes consideradas**: data-do-pedido / data-da-apuracao / data-da-confirmacao
+
+**Escolha**: data-do-pedido
+
+**Justificativa**: Padrao de mercado para comissoes: o percentual vigente no momento em que o pedido foi registrado (ou pago) e o que gera a obrigacao financeira. Usar data-da-apuracao seria retroativo e violaria expectativa do vendedor. A validar em clarify (score 2: constitution suporta, sem evidencia empirica do operador)
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-016 — specify — agente-00c-orchestrator — 2026-06-03T22:46:51Z
+
+**Contexto**: Ambiguidade A-006: quando um pedido pago e cancelado APÓS a comissao ja ter sido apurada e aprovada, qual e a politica correta? Estorno total? Estorno parcial? Marcar para revisao manual?
+
+**Opcoes consideradas**: marcar-para-revisao-manual / estorno-automatico-total / estorno-automatico-parcial / proibir-cancelamento-pos-comissao-aprovada
+
+**Escolha**: marcar-para-revisao-manual
+
+**Justificativa**: Politica de estorno e decisao de negocio com impacto financeiro nao trivial; o spec marca como [A VALIDAR] e a resolucao fica para clarify. Adotar marcar-para-revisao como padrao seguro interim (evita estorno automatico sem validacao humana)
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-017 — model-routing — agente-00c-feature-orchestrator — 2026-06-03T22:52:12Z
+
+**Contexto**: Selecao de modelo para onda 3 (fase clarify)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=media fase=clarify (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-018 — clarify — clarify-answerer — 2026-06-03T22:55:44Z
+
+**Contexto**: A-001: confirmar 3 atores inferidos (Gestor/Admin, Vendedor, Financeiro) e suas fronteiras de acesso
+
+**Opcoes consideradas**: confirmar-3-atores / adicionar-ator-Comprador / adicionar-ator-Supervisor / reduzir-para-2-atores
+
+**Escolha**: confirmar-3-atores
+
+**Justificativa**: Briefing secao 2 lista exatamente os 3 atores com acoes principais. Constitution P-IV crava as fronteiras: Gestor=admin total, Vendedor=proprias metricas, Financeiro=pagamentos. Nenhuma evidencia de ator adicional no escopo MVP.
+
+**Score**: 3
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-019 — clarify — clarify-answerer — 2026-06-03T22:56:00Z
+
+**Contexto**: A-004: confirmar maquina de estado de pedido — 4 estados, 4 transicoes validas (rascunho→confirmado→pago; confirmado→cancelado; pago→cancelado)
+
+**Opcoes consideradas**: confirmar-4-estados-4-transicoes / adicionar-estado-devolvido / adicionar-transicao-pago-para-confirmado / simplificar-para-3-estados
+
+**Escolha**: confirmar-4-estados-4-transicoes
+
+**Justificativa**: FR-008 da spec ja detalha os 4 estados e 4 transicoes validas. Constitution exige 'Maquinas de estado explicitas'. Briefing lista estados rascunho/confirmado/pago/cancelado (dec-005). Nenhum requisito de adicionar estado de devolucao no MVP — fora de escopo declarado.
+
+**Score**: 3
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-020 — clarify — clarify-answerer — 2026-06-03T22:56:12Z
+
+**Contexto**: A-005: confirmar criterio de data para selecao da versao de regra de comissao (data do pedido vs data da apuracao)
+
+**Opcoes consideradas**: data-do-pedido / data-da-apuracao / data-do-pagamento-do-pedido
+
+**Escolha**: data-do-pedido
+
+**Justificativa**: Padrao de mercado para sistemas de comissao: o percentual vigente no momento em que o vendedor realizou a venda (data do pedido) e o criterio justo e auditavel. Permite auditar retroativamente sem ambiguidade. Constitution P-I (rastreabilidade) e P-II (determinismo) suportam: dado o pedido, a regra aplicada e deterministica e imutavel. dec-015 (onda-003) ja havia registrado esta escolha com score 2.
+
+**Score**: 3
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-021 — clarify — clarify-answerer — 2026-06-03T22:56:23Z
+
+**Contexto**: A-006: politica de cancelamento de pedido quando comissao ja foi apurada (possivelmente aprovada ou paga)
+
+**Opcoes consideradas**: estorno-como-entidade-separada-valor-negativo / modificar-comissao-original / reapuracao-completa-do-periodo / marcar-comissao-invalida-sem-estorno
+
+**Escolha**: estorno-como-entidade-separada-valor-negativo
+
+**Justificativa**: Opcao alinhada a P-I (imutabilidade de registros financeiros) e P-II (determinismo): criar entidade Estorno de Comissao separada com valor negativo, referenciando a comissao original. Os registros originais nao sao tocados — auditoria sempre reconstruivel. Se comissao ja aprovada/paga, Estorno fica pendente de aprovacao do Financeiro (mesmo fluxo FR-020). Padrao conservador de mercado para sistemas contabeis: lancamentos de estorno, nao edicao retroativa.
 
 **Score**: 2
 
