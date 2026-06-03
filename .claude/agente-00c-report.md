@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-03T23:23:49Z
+**Gerado em**: 2026-06-03T23:37:04Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,15 +18,15 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 6 |
-| Tool calls totais | 28 |
-| Decisoes registradas | 38 |
+| Ondas executadas | 7 |
+| Tool calls totais | 34 |
+| Decisoes registradas | 41 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda-006 executou a etapa checklist com quality gate multi-domínio dos requisitos (security, api, performance, compliance, requirements). 100 items gerados em 5 arquivos de checklist: 51 auto-resolvidos com evidencia citada, 41 aguardando decisao humana, 33 gaps/ambiguidades identificados para acao. Gaps criticos de seguranca (JWT revogacao, HTTPS, armazenamento JWT) devem ser resolvidos antes da tarefa de auth em execute-task. Gaps de compliance (atomicidade do estorno/apuracao) serao resolvidos na implementacao do service layer. 3 ambiguidades de requisitos (FR-019 vs FR-016 dashboard, fluxo cancelamento→estorno, indicadores de estorno pendente) devem ser clarificadas antes de create-tasks. Pipeline avancada para etapa create-tasks.
+Onda-007 concluiu etapa create-tasks: tasks.md gerado com 10 fases, 37 tasks, 200 subtarefas. Gaps de seguranca (CHK011 JWT revogacao, CHK025 HTTPS, CHK026 JWT storage, BOLA/IDOR) e compliance (CHK073 transacionalidade apuracao, CHK081 atomicidade cancelamento+estorno, CHK077/CHK078 LGPD) incorporados como tasks [C] e criterios de aceite. Pipeline avanca para execute-task.
 
 ## 2. Linha do Tempo
 
@@ -38,19 +38,20 @@ Onda-006 executou a etapa checklist com quality gate multi-domínio dos requisit
 | onda-004 | 2026-06-03T22:52:42Z | 2026-06-03T22:57:52Z | clarify | 17 | 310s | etapa_concluida_avancando |
 | onda-005 | 2026-06-03T23:03:48Z | 2026-06-03T23:12:26Z | plan | 0 | 518s | etapa_concluida_avancando |
 | onda-006 | 2026-06-03T23:15:27Z | 2026-06-03T23:23:11Z | checklist | 10 | 464s | etapa_concluida_avancando |
+| onda-007 | 2026-06-03T23:28:32Z | 2026-06-03T23:36:19Z | create-tasks | 6 | 467s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 38 decisoes registradas.
+Total: 41 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 6 |
+| agente-00c-feature-orchestrator | 7 |
 | agente-00c-orchestrator | 9 |
 | clarify-answerer | 4 |
-| orquestrador-00c | 19 |
+| orquestrador-00c | 21 |
 
 ### 3.2 Lista detalhada
 
@@ -655,6 +656,54 @@ Total: 38 decisoes registradas.
 **Escolha**: registrar-informativo-e-adicionar-ao-backlog
 
 **Justificativa**: CHK073 e CHK081 sao gaps de especificacao tecnica (transacionalidade), nao ambiguidades de negocio. Serao resolvidos em tasks de execute-task (implementacao de service layer). LGPD gaps (CHK077/CHK078) sao requisitos de produto que devem ser resolvidos em clarify antes de implementar o fluxo de exclusao.
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-039 — model-routing — agente-00c-feature-orchestrator — 2026-06-03T23:28:10Z
+
+**Contexto**: Selecao de modelo para onda 6 (fase create-tasks)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=media fase=create-tasks (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-040 — create-tasks — orquestrador-00c — 2026-06-03T23:29:32Z
+
+**Contexto**: Pre-flight create-tasks: invocar skill create-tasks com spec.md + plan.md + context de seguranca (dec-034/037/038). Findings a incorporar: JWT revogacao (CHK011/CHK025/CHK026), transacionalidade apuracao (CHK073), atomicidade cancelamento+estorno (CHK081), gaps LGPD (CHK077/CHK078), BOLA/IDOR (dec-034). Stack: Go/React/PG.
+
+**Opcoes consideradas**: invocar-skill-create-tasks / escrever-tasks-direto / bloquear-humano
+
+**Escolha**: invocar-skill-create-tasks
+
+**Justificativa**: create-tasks e skill obrigatoria (regra hard do orchestrator); escrever tasks.md direto e proibido (exec-2026-05-18 dec-014). Skill sera alimentada com paths de spec+plan e instrucoes explicitas sobre findings de seguranca/compliance a incluir como criterios de aceite ou tasks dedicadas.
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-041 — create-tasks — orquestrador-00c — 2026-06-03T23:35:51Z
+
+**Contexto**: Gate deterministico validate-tasks-template: RESULT critical=0 warning=0. detect-completion exit=0. tasks.md conforme ao template com 10 fases, 37 tasks, 200 subtarefas. Findings de seguranca (dec-037 CHK011/CHK025/CHK026/CHK004/BOLA) e compliance (dec-038 CHK073/CHK081/CHK077/CHK078) incorporados como tasks dedicadas ([C]) e criterios de aceite.
+
+**Opcoes consideradas**: avancar-para-execute-task / re-invocar-skill / bloquear-humano
+
+**Escolha**: avancar-para-execute-task
+
+**Justificativa**: template-fidelity PASS (0 critical, 0 warnings); detect-completion PASS; 41 gaps de checklist endereçados; caminho critico identificado (F0→F1→F2→F3→F4→F5); tasks organizadas por User Story (P1=primeiro)
 
 **Score**: 2
 
