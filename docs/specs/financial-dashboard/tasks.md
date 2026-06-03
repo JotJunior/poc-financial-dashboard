@@ -92,11 +92,11 @@ Ref: checklists/security.md CHK002/CHK004/CHK010/CHK019/CHK020; checklists/compl
 
 Ref: spec §FR-007; plan §P-III; research dec-024/dec-025; constitution P-III NON-NEGOTIABLE
 
-- [ ] 1.1.1 Criar `backend/internal/domain/money.go` com tipo `Money int64` representando centavos
-- [ ] 1.1.2 Implementar `money.RoundCommission(orderCents int64, percentage decimal.Decimal) int64` com arredondamento half-up (shopspring/decimal) — unico ponto de arredondamento no sistema
-- [ ] 1.1.3 Implementar helpers: `MoneyFromCents(int64) Money`, `ToCents() int64`, `String() string` (formato "R$ X,XX" para exibicao)
-- [ ] 1.1.4 Escrever testes unitarios: calcular 8% de R$5.000,00 = R$400,00 exatos; calcular 10% de R$1.000,00 = R$100,00; verificar que resultado e identico em 100% das execucoes (SC-002)
-- [ ] 1.1.5 Escrever teste de propriedade: arredondamento half-up nao usa float em nenhum ponto intermediario (verificar com `go vet` e inspecao de tipos)
+- [x] 1.1.1 Criar `backend/internal/domain/money.go` com tipo `Money int64` representando centavos
+- [x] 1.1.2 Implementar `money.RoundCommission(orderCents int64, percentage decimal.Decimal) int64` com arredondamento half-up (shopspring/decimal) — unico ponto de arredondamento no sistema
+- [x] 1.1.3 Implementar helpers: `MoneyFromCents(int64) Money`, `ToCents() int64`, `String() string` (formato "R$ X,XX" para exibicao)
+- [x] 1.1.4 Escrever testes unitarios: calcular 8% de R$5.000,00 = R$400,00 exatos; calcular 10% de R$1.000,00 = R$100,00; verificar que resultado e identico em 100% das execucoes (SC-002)
+- [x] 1.1.5 Escrever teste de propriedade: arredondamento half-up nao usa float em nenhum ponto intermediario (verificar com `go vet` e inspecao de tipos)
 
 ### 1.2 Maquina de estado: Pedido `[C]`
 
