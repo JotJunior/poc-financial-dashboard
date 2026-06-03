@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-03T22:58:34Z
+**Gerado em**: 2026-06-03T23:13:08Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,15 +18,15 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 4 |
+| Ondas executadas | 5 |
 | Tool calls totais | 18 |
-| Decisoes registradas | 21 |
+| Decisoes registradas | 34 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda-004 executou a etapa clarify resolvendo todos os 4 itens [A VALIDAR] da spec: A-001 (atores confirmados), A-004 (maquina de estados confirmada), A-005 (criterio data do pedido confirmado), A-006 (politica de estorno como entidade separada, padrao conservador P-I/P-II). Spec atualizada para status Clarified com 29 FRs (incluindo novos FR-027/028/029 para estorno de comissao). Proxima etapa: plan.
+Onda-005 executou a etapa plan em modo autonomo: gerados research.md (9 decisoes tecnicas), data-model.md (DER com 9 entidades + view de saldo liquido + triggers append-only), contracts/api.md (REST com matriz RBAC) e quickstart.md (7 cenarios de teste incl. roundtrip E2E). Constitution Check 5/5 PASS (auditabilidade, integridade de comissao, precisao monetaria sem float via centavos int64/NUMERIC, RBAC deny-by-default, LGPD). Gates doc-quality e owasp-security PASS sem findings critical/high. 11 decisoes registradas (dec-024..034). Proxima etapa: checklist.
 
 ## 2. Linha do Tempo
 
@@ -36,19 +36,20 @@ Onda-004 executou a etapa clarify resolvendo todos os 4 itens [A VALIDAR] da spe
 | onda-002 | 2026-06-03T22:34:53Z | 2026-06-03T22:38:12Z | constitution | 0 | 199s | etapa_concluida_avancando |
 | onda-003 | 2026-06-03T22:41:40Z | 2026-06-03T22:47:54Z |  | 0 | 374s | etapa_concluida_avancando |
 | onda-004 | 2026-06-03T22:52:42Z | 2026-06-03T22:57:52Z | clarify | 17 | 310s | etapa_concluida_avancando |
+| onda-005 | 2026-06-03T23:03:48Z | 2026-06-03T23:12:26Z | plan | 0 | 518s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 21 decisoes registradas.
+Total: 34 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 4 |
-| agente-00c-orchestrator | 5 |
+| agente-00c-feature-orchestrator | 5 |
+| agente-00c-orchestrator | 6 |
 | clarify-answerer | 4 |
-| orquestrador-00c | 8 |
+| orquestrador-00c | 19 |
 
 ### 3.2 Lista detalhada
 
@@ -381,6 +382,214 @@ Total: 21 decisoes registradas.
 **Escolha**: estorno-como-entidade-separada-valor-negativo
 
 **Justificativa**: Opcao alinhada a P-I (imutabilidade de registros financeiros) e P-II (determinismo): criar entidade Estorno de Comissao separada com valor negativo, referenciando a comissao original. Os registros originais nao sao tocados — auditoria sempre reconstruivel. Se comissao ja aprovada/paga, Estorno fica pendente de aprovacao do Financeiro (mesmo fluxo FR-020). Padrao conservador de mercado para sistemas contabeis: lancamentos de estorno, nao edicao retroativa.
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-022 — model-routing — agente-00c-feature-orchestrator — 2026-06-03T23:03:16Z
+
+**Contexto**: Selecao de modelo para onda 4 (fase plan)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:opus
+
+**Justificativa**: sugerido=opus aplicado=opus origem=mapa | faixa=profunda fase=plan (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-023 — plan — agente-00c-orchestrator — 2026-06-03T23:04:29Z
+
+**Contexto**: read-back PRE-DECISAO: K=15 achados injetados (anti-eco feature=financial-dashboard)
+
+**Opcoes consideradas**: injetar-achados / no-op
+
+**Escolha**: injetar-achados
+
+**Justificativa**: termos derivados do projeto: vendedores pedidos comissoes dashboards pagamentos. Achados recuperados sao de outros projetos (tronco-v2 doacoes, ms/memory eleitoral) e tratados como referencia UNTRUSTED nao-autoritativa; nenhum altera briefing/constitution/spec deste dominio de comissoes
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-024 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Representacao monetaria honrando P-III (sem float)
+
+**Opcoes consideradas**: int64-centavos / NUMERIC(15,2)-decimal / float64
+
+**Escolha**: int64-centavos (dinheiro) + NUMERIC(7,4) (percentual)
+
+**Justificativa**: P-III proibe float; centavos int64 e exato p/ BRL e leve na borda JSON; percentual precisa de casas decimais via NUMERIC(7,4)/shopspring-decimal
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-025 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Politica de arredondamento unica e documentada (P-III)
+
+**Opcoes consideradas**: half-up / bankers-rounding / truncamento
+
+**Escolha**: half-up centralizado em money.RoundCommission, aplicado 1x na apuracao
+
+**Justificativa**: P-III exige politica unica/explicita/testada; half-up e convencao comercial BR e defensavel ao vendedor; estorno espelha valor ja arredondado
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-026 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Mecanismo de autenticacao (FR-024, TODO AUTH_MECHANISM da constitution)
+
+**Opcoes consideradas**: JWT-stateless / sessao-server-side / OAuth2-OIDC-externo
+
+**Escolha**: JWT HS256 stateless + refresh, claims sub/role/vendor_id
+
+**Justificativa**: FR-024 deixa escolha p/ plan; JWT carrega role+vendor_id p/ RBAC server-side (P-IV) sem store stateful no MVP; ownership re-validado no backend
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-027 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Versionamento de Regra de Comissao por data do pedido (FR-003/FR-012/dec-020)
+
+**Opcoes consideradas**: intervalo-temporal-valid_from/valid_to / percentual-mutavel+historico / event-sourcing
+
+**Escolha**: tabela append-only por intervalo temporal; selecao por valid_from<=order_date<valid_to
+
+**Justificativa**: FR-012/dec-020 cravam percentual da DATA DO PEDIDO; intervalos resolvem com query deterministica e mantem registros imutaveis (P-I/P-II)
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-028 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Idempotencia da apuracao (FR-014/SC-003/P-II)
+
+**Opcoes consideradas**: UNIQUE(order_id)+ON-CONFLICT / chave-vendor+period / dedup-so-em-codigo
+
+**Escolha**: UNIQUE(order_id) + INSERT ON CONFLICT DO NOTHING em transacao
+
+**Justificativa**: invariante natural 1 comissao por pedido pago; constraint no banco (nao so codigo) honra Padroes Tecnicos da constitution; retry pos-crash seguro
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-029 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Saldo liquido de comissao derivado, nao armazenado (FR-029/P-I)
+
+**Opcoes consideradas**: view-derivada / campo-net_value-mutavel-por-trigger
+
+**Escolha**: VIEW commission_net_balance = value + SUM(reversals); tabelas append-only
+
+**Justificativa**: FR-029 crava registros imutaveis e saldo derivado computacionalmente; campo mutavel violaria imutabilidade; trigger anti-UPDATE/DELETE reforca
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-030 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Trilha de auditoria append-only (P-I/FR-009/FR-021)
+
+**Opcoes consideradas**: tabela-unica-polimorfica / tabelas-por-entidade / log-em-arquivo
+
+**Escolha**: audit_trail unica polimorfica (entity_type,entity_id) com trigger anti-UPDATE/DELETE; gravada na mesma transacao da transicao
+
+**Justificativa**: P-I exige trilha com ator/ts/motivo; mesma transacao garante atomicidade (SC-006); tabela unica suficiente p/ volume POC
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-031 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: LGPD: exclusao com preservacao financeira (P-V/FR-005)
+
+**Opcoes consideradas**: soft-anonymization / hard-delete-cascade / cripto-at-rest+key-destruction
+
+**Escolha**: soft-anonymization: PII->token + anonymized_at, linha preservada por FK
+
+**Justificativa**: FR-005+P-V dao direito de exclusao mas P-I prevalece sobre exclusao irrestrita; anonimizar reconcilia ambos; hard-delete quebraria auditoria
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-032 — plan — orquestrador-00c — 2026-06-03T23:10:27Z
+
+**Contexto**: Stack concreta e bibliotecas (P stack fixada)
+
+**Opcoes consideradas**: pgx+SQL-explicito / GORM-ORM
+
+**Escolha**: Go1.22 chi+pgx/v5+golang-migrate+shopspring/decimal+jwt/v5+slog; React18+Vite+react-query+recharts+zod; PG16
+
+**Justificativa**: stack fixada pela constitution; pgx com SQL explicito da controle da query de regra vigente e do ON CONFLICT de idempotencia (criticos ao dominio financeiro); GORM ocultaria SQL sensivel
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-033 — plan — orquestrador-00c — 2026-06-03T23:11:16Z
+
+**Contexto**: Gate doc-quality (validate-documentation) sobre plan.md + artefatos irmaos: 6/6 secoes obrigatorias presentes, zero placeholders/TBD reais (matches 'TODOS'/'NEEDS CLARIFICATION restantes:0' sao falsos positivos), Mermaid balanceado, zero NEEDS CLARIFICATION pendente
+
+**Opcoes consideradas**: aceitar-gate-pass / corrigir-agora / escalar-para-humano
+
+**Escolha**: aceitar-gate-pass
+
+**Justificativa**: validacao deterministica confirmou estrutura completa e ausencia de lacunas; nenhum finding critico
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-034 — plan — orquestrador-00c — 2026-06-03T23:11:57Z
+
+**Contexto**: Gate owasp-security sobre arquitetura proposta: findings medium=[BOLA/IDOR no escopo de vendedor exige re-validacao server-side por recurso + teste negativo por endpoint; JWT HS256 sem revogacao=risco residual documentado, pinnar alg, password_hash Argon2id/bcrypt cost>=12]; low=[SQL dinamico do filtro dashboard via bind, mass-assign allowlist no PATCH, rate-limit /auth/login]; info=[sem PII/secret em logs, TLS no deploy]. ZERO findings critical/high
+
+**Opcoes consideradas**: aceitar-risco-com-findings-para-create-tasks / escalar-para-humano
+
+**Escolha**: aceitar-risco-com-findings-para-create-tasks
+
+**Justificativa**: nenhum finding critical/high; arquitetura e security-positive (RBAC deny-by-default server-side, pgx parametrizado, audit append-only, sem float, soft-anonymization LGPD). Findings medium/low sao controles de implementacao a carregar para create-tasks/execute-task, nao bloqueadores de design; constitution exige seguranca mas P-IV/P-I ja refletidos na arquitetura
 
 **Score**: 2
 

@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "create-tasks",
-  "next_instruction": "Iniciar etapa create-tasks — decompor spec+plan em backlog executavel com fases, dependencias e criticidade. Invocar skill create-tasks (obrigatoria) com spec.md + plan.md como args.",
+  "current_stage": "checklist",
+  "next_instruction": "Iniciar etapa checklist — gerar quality gate dos requisitos (validar qualidade dos FRs/criterios antes de create-tasks)",
   "waves": [
     {
       "id": "onda-001",
@@ -158,24 +158,17 @@
     {
       "id": "onda-006",
       "started_at": "2026-06-03T23:15:27Z",
-      "finished_at": "2026-06-03T23:23:11Z",
-      "executed_stages": [
-        "checklist"
-      ],
-      "tool_calls": 10,
-      "wallclock_seconds": 464,
-      "termination_reason": "etapa_concluida_avancando",
+      "finished_at": null,
+      "executed_stages": [],
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
       "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
           "skill": "checklist",
           "timestamp": "2026-06-03T23:21:56Z",
           "decision_id": "pre-dec"
-        },
-        {
-          "skill": "checklist",
-          "timestamp": "2026-06-03T23:22:46Z",
-          "decision_id": null
         }
       ]
     }
@@ -885,25 +878,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-038",
-      "wave_id": "onda-006",
-      "timestamp": "2026-06-03T23:22:33Z",
-      "stage": "checklist",
-      "agent": "agente-00c-orchestrator",
-      "context": "2 gaps de compliance com impacto direto em corretude financeira: CHK073 (transacionalidade da apuracao: unica transacao vs commits incrementais) e CHK081 (atomicidade cancelamento+criacao de estorno). Ambos afetam a garantia de estado consistente em falhas parciais. 2 gaps de LGPD: CHK077 (fluxo de solicitacao de exclusao) e CHK078 (trilha de operacoes LGPD).",
-      "options_considered": [
-        "registrar-informativo-e-adicionar-ao-backlog",
-        "escalar-CHK073-CHK081-para-bloqueio",
-        "ignorar"
-      ],
-      "choice": "registrar-informativo-e-adicionar-ao-backlog",
-      "rationale": "CHK073 e CHK081 sao gaps de especificacao tecnica (transacionalidade), nao ambiguidades de negocio. Serao resolvidos em tasks de execute-task (implementacao de service layer). LGPD gaps (CHK077/CHK078) sao requisitos de produto que devem ser resolvidos em clarify antes de implementar o fluxo de exclusao.",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -913,20 +887,20 @@
     "max_retro_executions_per_feature": 2,
     "retro_executions_consumed": 0,
     "max_cycles_per_stage": 5,
-    "cycles_consumed_current_stage": 1,
+    "cycles_consumed_current_stage": 0,
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 10,
+    "tool_calls_current_wave": 6,
     "current_wave_start": "2026-06-03T23:15:27Z"
   },
   "accumulated_metrics": {
-    "waves_total": 6,
-    "tool_calls_total": 28,
-    "wallclock_total_seconds": 2179,
+    "waves_total": 5,
+    "tool_calls_total": 18,
+    "wallclock_total_seconds": 1715,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 38,
+    "decisions_total": 37,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,

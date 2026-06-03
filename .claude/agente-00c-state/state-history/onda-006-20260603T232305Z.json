@@ -15,7 +15,7 @@
     "finished_at": null
   },
   "current_stage": "create-tasks",
-  "next_instruction": "Iniciar etapa create-tasks — decompor spec+plan em backlog executavel com fases, dependencias e criticidade. Invocar skill create-tasks (obrigatoria) com spec.md + plan.md como args.",
+  "next_instruction": "Iniciar etapa checklist — gerar quality gate dos requisitos (validar qualidade dos FRs/criterios antes de create-tasks)",
   "waves": [
     {
       "id": "onda-001",
@@ -158,13 +158,11 @@
     {
       "id": "onda-006",
       "started_at": "2026-06-03T23:15:27Z",
-      "finished_at": "2026-06-03T23:23:11Z",
-      "executed_stages": [
-        "checklist"
-      ],
-      "tool_calls": 10,
-      "wallclock_seconds": 464,
-      "termination_reason": "etapa_concluida_avancando",
+      "finished_at": null,
+      "executed_stages": [],
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
       "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
@@ -917,13 +915,13 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 10,
+    "tool_calls_current_wave": 9,
     "current_wave_start": "2026-06-03T23:15:27Z"
   },
   "accumulated_metrics": {
-    "waves_total": 6,
-    "tool_calls_total": 28,
-    "wallclock_total_seconds": 2179,
+    "waves_total": 5,
+    "tool_calls_total": 18,
+    "wallclock_total_seconds": 1715,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 38,
