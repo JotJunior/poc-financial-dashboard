@@ -15,7 +15,7 @@
     "finished_at": null
   },
   "current_stage": "execute-task",
-  "next_instruction": "Iniciar etapa execute-task — executar tasks do backlog (tasks.md) em ordem de prioridade. Comecar pela FASE 0 (setup) e FASE 1 (dominio), que sao prerequisito do caminho critico. Seguir o workflow de execute-task: pre-flight, implementar, testes, fechar task.",
+  "next_instruction": "Iniciar etapa create-tasks — decompor spec+plan em backlog executavel com fases, dependencias e criticidade. Invocar skill create-tasks (obrigatoria) com spec.md + plan.md como args.",
   "waves": [
     {
       "id": "onda-001",
@@ -182,13 +182,11 @@
     {
       "id": "onda-007",
       "started_at": "2026-06-03T23:28:32Z",
-      "finished_at": "2026-06-03T23:36:19Z",
-      "executed_stages": [
-        "create-tasks"
-      ],
-      "tool_calls": 6,
-      "wallclock_seconds": 467,
-      "termination_reason": "etapa_concluida_avancando",
+      "finished_at": null,
+      "executed_stages": [],
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
       "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
@@ -995,17 +993,17 @@
     "max_retro_executions_per_feature": 2,
     "retro_executions_consumed": 0,
     "max_cycles_per_stage": 5,
-    "cycles_consumed_current_stage": 0,
+    "cycles_consumed_current_stage": 1,
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 6,
+    "tool_calls_current_wave": 5,
     "current_wave_start": "2026-06-03T23:28:32Z"
   },
   "accumulated_metrics": {
-    "waves_total": 7,
-    "tool_calls_total": 34,
-    "wallclock_total_seconds": 2646,
+    "waves_total": 6,
+    "tool_calls_total": 28,
+    "wallclock_total_seconds": 2179,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 41,

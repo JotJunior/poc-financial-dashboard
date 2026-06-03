@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-03T23:13:08Z
+**Gerado em**: 2026-06-03T23:23:49Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,15 +18,15 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 5 |
-| Tool calls totais | 18 |
-| Decisoes registradas | 34 |
+| Ondas executadas | 6 |
+| Tool calls totais | 28 |
+| Decisoes registradas | 38 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda-005 executou a etapa plan em modo autonomo: gerados research.md (9 decisoes tecnicas), data-model.md (DER com 9 entidades + view de saldo liquido + triggers append-only), contracts/api.md (REST com matriz RBAC) e quickstart.md (7 cenarios de teste incl. roundtrip E2E). Constitution Check 5/5 PASS (auditabilidade, integridade de comissao, precisao monetaria sem float via centavos int64/NUMERIC, RBAC deny-by-default, LGPD). Gates doc-quality e owasp-security PASS sem findings critical/high. 11 decisoes registradas (dec-024..034). Proxima etapa: checklist.
+Onda-006 executou a etapa checklist com quality gate multi-domínio dos requisitos (security, api, performance, compliance, requirements). 100 items gerados em 5 arquivos de checklist: 51 auto-resolvidos com evidencia citada, 41 aguardando decisao humana, 33 gaps/ambiguidades identificados para acao. Gaps criticos de seguranca (JWT revogacao, HTTPS, armazenamento JWT) devem ser resolvidos antes da tarefa de auth em execute-task. Gaps de compliance (atomicidade do estorno/apuracao) serao resolvidos na implementacao do service layer. 3 ambiguidades de requisitos (FR-019 vs FR-016 dashboard, fluxo cancelamento→estorno, indicadores de estorno pendente) devem ser clarificadas antes de create-tasks. Pipeline avancada para etapa create-tasks.
 
 ## 2. Linha do Tempo
 
@@ -37,17 +37,18 @@ Onda-005 executou a etapa plan em modo autonomo: gerados research.md (9 decisoes
 | onda-003 | 2026-06-03T22:41:40Z | 2026-06-03T22:47:54Z |  | 0 | 374s | etapa_concluida_avancando |
 | onda-004 | 2026-06-03T22:52:42Z | 2026-06-03T22:57:52Z | clarify | 17 | 310s | etapa_concluida_avancando |
 | onda-005 | 2026-06-03T23:03:48Z | 2026-06-03T23:12:26Z | plan | 0 | 518s | etapa_concluida_avancando |
+| onda-006 | 2026-06-03T23:15:27Z | 2026-06-03T23:23:11Z | checklist | 10 | 464s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 34 decisoes registradas.
+Total: 38 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 5 |
-| agente-00c-orchestrator | 6 |
+| agente-00c-feature-orchestrator | 6 |
+| agente-00c-orchestrator | 9 |
 | clarify-answerer | 4 |
 | orquestrador-00c | 19 |
 
@@ -590,6 +591,70 @@ Total: 34 decisoes registradas.
 **Escolha**: aceitar-risco-com-findings-para-create-tasks
 
 **Justificativa**: nenhum finding critical/high; arquitetura e security-positive (RBAC deny-by-default server-side, pgx parametrizado, audit append-only, sem float, soft-anonymization LGPD). Findings medium/low sao controles de implementacao a carregar para create-tasks/execute-task, nao bloqueadores de design; constitution exige seguranca mas P-IV/P-I ja refletidos na arquitetura
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-035 — model-routing — agente-00c-feature-orchestrator — 2026-06-03T23:15:02Z
+
+**Contexto**: Selecao de modelo para onda 5 (fase checklist)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=media fase=checklist (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-036 — checklist — agente-00c-orchestrator — 2026-06-03T23:22:06Z
+
+**Contexto**: Quality gate dos requisitos executado via skill checklist. 4 dominios analisados: security (26 items), api (18 items), performance (15 items), compliance (22 items), requirements (19 items). Total: 100 items gerados em 5 arquivos de checklist.
+
+**Opcoes consideradas**: executar-checklist-multidominio / executar-apenas-security / pular-checklist
+
+**Escolha**: executar-checklist-multidominio
+
+**Justificativa**: Sistema financeiro com dados de comissoes/pagamentos/vendedores: todos os 5 dominios relevantes (security, api, performance, compliance, requirements). Nenhum dominio dispensavel dado o escopo do MVP.
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-037 — checklist — agente-00c-orchestrator — 2026-06-03T23:22:21Z
+
+**Contexto**: 11 gaps de seguranca identificados no checklist security.md: CHK002 (TTL tokens ausente), CHK004 (hash params ausentes), CHK010 (comportamento token expirado), CHK011 (revogacao JWT), CHK014 (formato anonimizacao LGPD), CHK019 (limites campos TEXT), CHK020 (sanitizacao input), CHK023 (retencao audit), CHK024 (authN logging), CHK025 (HTTPS), CHK026 (armazenamento JWT). 3 sao riscos de seguranca medio/alto (CHK011, CHK025, CHK026).
+
+**Opcoes consideradas**: registrar-como-decisao-informativa / escalar-para-bloqueio-humano / ignorar-gaps
+
+**Escolha**: registrar-como-decisao-informativa
+
+**Justificativa**: Gaps de security sao comuns em requisitos pre-implementacao (muitas sao decisoes tecnicas possivelmente intencionalmente deixadas para plan/quickstart). Nao sao blockers para create-tasks — a etapa checklist identifica, a etapa execute-task resolve. OWASP PASS ja registrado em onda-005 (dec-034). 3 riscos mais criticos (CHK011/CHK025/CHK026) devem ser resolvidos antes de execute-task de auth.
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-038 — checklist — agente-00c-orchestrator — 2026-06-03T23:22:33Z
+
+**Contexto**: 2 gaps de compliance com impacto direto em corretude financeira: CHK073 (transacionalidade da apuracao: unica transacao vs commits incrementais) e CHK081 (atomicidade cancelamento+criacao de estorno). Ambos afetam a garantia de estado consistente em falhas parciais. 2 gaps de LGPD: CHK077 (fluxo de solicitacao de exclusao) e CHK078 (trilha de operacoes LGPD).
+
+**Opcoes consideradas**: registrar-informativo-e-adicionar-ao-backlog / escalar-CHK073-CHK081-para-bloqueio / ignorar
+
+**Escolha**: registrar-informativo-e-adicionar-ao-backlog
+
+**Justificativa**: CHK073 e CHK081 sao gaps de especificacao tecnica (transacionalidade), nao ambiguidades de negocio. Serao resolvidos em tasks de execute-task (implementacao de service layer). LGPD gaps (CHK077/CHK078) sao requisitos de produto que devem ser resolvidos em clarify antes de implementar o fluxo de exclusao.
 
 **Score**: 2
 
