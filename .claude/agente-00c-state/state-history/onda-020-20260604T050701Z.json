@@ -12,7 +12,7 @@
     "status": "concluida",
     "termination_reason": "concluido",
     "started_at": "2026-06-03T22:24:05Z",
-    "finished_at": "2026-06-04T05:07:01Z"
+    "finished_at": null
   },
   "current_stage": "review-features",
   "next_instruction": "Etapa review-features: consolidar relatorio de portfolio (execucao agente-00c unica) e avaliar conclusao",
@@ -460,11 +460,11 @@
     {
       "id": "onda-020",
       "started_at": "2026-06-04T05:06:00Z",
-      "finished_at": "2026-06-04T05:07:10Z",
+      "finished_at": null,
       "executed_stages": [],
       "tool_calls": 0,
-      "wallclock_seconds": 70,
-      "termination_reason": "concluido",
+      "wallclock_seconds": 0,
+      "termination_reason": null,
       "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
@@ -472,10 +472,6 @@
           "timestamp": "2026-06-04T05:06:44Z",
           "decision_id": "dec-081"
         }
-      ],
-      "touched_key_aspects": [
-        "dashboards",
-        "vendedores"
       ]
     }
   ],
@@ -2041,9 +2037,9 @@
     "current_wave_start": "2026-06-04T05:06:00Z"
   },
   "accumulated_metrics": {
-    "waves_total": 20,
+    "waves_total": 19,
     "tool_calls_total": 53,
-    "wallclock_total_seconds": 17686,
+    "wallclock_total_seconds": 17616,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 81,
