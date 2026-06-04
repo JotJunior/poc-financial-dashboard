@@ -260,14 +260,12 @@
     {
       "id": "onda-010",
       "started_at": "2026-06-04T00:13:04Z",
-      "finished_at": "2026-06-04T00:24:12Z",
-      "executed_stages": [
-        "execute-task"
-      ],
+      "finished_at": null,
+      "executed_stages": [],
       "tool_calls": 0,
-      "wallclock_seconds": 668,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T00:28:42Z",
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
           "skill": "execute-task",
@@ -1359,9 +1357,9 @@
     "current_wave_start": "2026-06-04T00:13:04Z"
   },
   "accumulated_metrics": {
-    "waves_total": 10,
+    "waves_total": 9,
     "tool_calls_total": 41,
-    "wallclock_total_seconds": 4638,
+    "wallclock_total_seconds": 3970,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 55,
@@ -1404,11 +1402,6 @@
       "event_type": "schedule_wait",
       "timestamp": "2026-06-03T23:53:36Z",
       "description": "onda-008 concluida: FASE 0 completa (5 tasks [C]), proxima onda inicia FASE 1 dominio+migrations"
-    },
-    {
-      "event_type": "schedule_wait",
-      "timestamp": "2026-06-04T00:24:05Z",
-      "description": "onda-010 fim: tasks 1.4.10+1.4.11+2.1+2.2+2.3 PASS; proxima onda: 2.4+2.5 ou FASE3"
     }
   ],
   "next_retrospective_milestone": 25,

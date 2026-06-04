@@ -260,36 +260,13 @@
     {
       "id": "onda-010",
       "started_at": "2026-06-04T00:13:04Z",
-      "finished_at": "2026-06-04T00:24:12Z",
-      "executed_stages": [
-        "execute-task"
-      ],
+      "finished_at": null,
+      "executed_stages": [],
       "tool_calls": 0,
-      "wallclock_seconds": 668,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T00:28:42Z",
-      "skills_invoked": [
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T00:23:40Z",
-          "decision_id": "dec-052"
-        },
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T00:23:40Z",
-          "decision_id": "dec-053"
-        },
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T00:23:40Z",
-          "decision_id": "dec-054"
-        },
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T00:23:40Z",
-          "decision_id": "dec-055"
-        }
-      ]
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
+      "skills_invoked": []
     }
   ],
   "decisions": [
@@ -1266,82 +1243,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-052",
-      "wave_id": "onda-010",
-      "timestamp": "2026-06-04T00:14:38Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Tasks 1.4.10+1.4.11: SC-007 migration aplicada e teste Go de schema automatizado",
-      "options_considered": [
-        "aplicar-migrations-e-criar-teste-go",
-        "apenas-query-manual",
-        "skip"
-      ],
-      "choice": "aplicar-migrations-e-criar-teste-go",
-      "rationale": "Migrations 002-009 aplicadas com sucesso (porta 5433). Query SC-007 retornou 0 linhas float. Teste Go criado em schema_test.go (tag integration) com 2 funções: NoFloat + CentsAreBigint (excluindo views por design SQL de agregação). Ambos PASS.",
-      "justification_score": 3,
-      "evidence": "go test ./internal/repository/... -v -tags integration -run TestSchema: TestSchema_NoFloatMonetaryColumns PASS; TestSchema_MonetaryColumnsAreBigintOrNumeric PASS. psql query information_schema.columns WHERE data_type IN float: 0 rows",
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-053",
-      "wave_id": "onda-010",
-      "timestamp": "2026-06-04T00:18:08Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Task 2.1 auth.go: HashPassword Argon2id m=65536 t=3 p=4 + JWT HS256 pinado + Claims com jti",
-      "options_considered": [
-        "implementar-argon2id",
-        "usar-bcrypt",
-        "usar-scrypt"
-      ],
-      "choice": "implementar-argon2id",
-      "rationale": "Constitution P-IV + 0.5.2 mandatam Argon2id m=64MB t=3 p=4. JWT alg pinado em HS256 (keyfunc rejeita outros) seguindo dec-034 OWASP. jti UUID v4 via crypto/rand presente em todo token. 12/12 testes PASS.",
-      "justification_score": 3,
-      "evidence": "go test ./internal/auth/... -v: 12/12 PASS ok 0.853s; go vet exit 0; go build exit 0",
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-054",
-      "wave_id": "onda-010",
-      "timestamp": "2026-06-04T00:20:52Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Task 2.2: blocklist JWT via PostgreSQL — migration 010, interface TokenBlocklist, DBBlocklist, VerifyTokenWithBlocklist",
-      "options_considered": [
-        "postgresql-blocklist",
-        "redis-blocklist",
-        "in-memory-blocklist"
-      ],
-      "choice": "postgresql-blocklist",
-      "rationale": "PostgreSQL já é o banco do projeto; Redis adicionaria dep extra não listada no stack. ON CONFLICT DO NOTHING garante idempotência. 5/5 integration tests PASS. VerifyTokenWithBlocklist combina assinatura+exp+alg+blocklist.",
-      "justification_score": 3,
-      "evidence": "go test ./internal/auth/... -v -tags integration -run TestBlocklist: 5/5 PASS ok 0.587s; go vet exit 0; migration 010/u applied 31ms",
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-055",
-      "wave_id": "onda-010",
-      "timestamp": "2026-06-04T00:23:24Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Task 2.3: middleware RBAC deny-by-default — RequireAuth, RequireRole, RequireVendorScope, AuthVerifier interface",
-      "options_considered": [
-        "middleware-chi-nativo",
-        "middleware-custom-com-verifier",
-        "biblioteca-externa"
-      ],
-      "choice": "middleware-custom-com-verifier",
-      "rationale": "AuthVerifier interface permite injetar blocklist sem acoplamento no middleware; constitution P-IV deny-by-default implementada. 14/14 testes PASS incluindo SC-005 BOLA/IDOR. go vet + go build OK.",
-      "justification_score": 3,
-      "evidence": "go test ./internal/http/middleware/... -v: 14/14 PASS ok 0.444s; go vet exit 0; go build exit 0",
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1359,12 +1260,12 @@
     "current_wave_start": "2026-06-04T00:13:04Z"
   },
   "accumulated_metrics": {
-    "waves_total": 10,
+    "waves_total": 9,
     "tool_calls_total": 41,
-    "wallclock_total_seconds": 4638,
+    "wallclock_total_seconds": 3970,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 55,
+    "decisions_total": 51,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
@@ -1404,11 +1305,6 @@
       "event_type": "schedule_wait",
       "timestamp": "2026-06-03T23:53:36Z",
       "description": "onda-008 concluida: FASE 0 completa (5 tasks [C]), proxima onda inicia FASE 1 dominio+migrations"
-    },
-    {
-      "event_type": "schedule_wait",
-      "timestamp": "2026-06-04T00:24:05Z",
-      "description": "onda-010 fim: tasks 1.4.10+1.4.11+2.1+2.2+2.3 PASS; proxima onda: 2.4+2.5 ou FASE3"
     }
   ],
   "next_retrospective_milestone": 25,
@@ -1782,80 +1678,6 @@
         "backend/migrations/009_views.up.sql"
       ],
       "recorded_at": "2026-06-04T00:07:21Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "1.4.10",
-      "title": "Verificar SC-007: zero colunas float",
-      "wave_id": "onda-010",
-      "outcome": "pass",
-      "tests_run": 2,
-      "tests_passed": 2,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/repository/schema_test.go"
-      ],
-      "recorded_at": "2026-06-04T00:23:54Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "1.4.11",
-      "title": "Teste de schema automatizado SC-007",
-      "wave_id": "onda-010",
-      "outcome": "pass",
-      "tests_run": 2,
-      "tests_passed": 2,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/repository/schema_test.go"
-      ],
-      "recorded_at": "2026-06-04T00:23:54Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "2.1",
-      "title": "Servico de autenticacao auth.go",
-      "wave_id": "onda-010",
-      "outcome": "pass",
-      "tests_run": 12,
-      "tests_passed": 12,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/auth/auth.go",
-        "backend/internal/auth/auth_test.go"
-      ],
-      "recorded_at": "2026-06-04T00:23:54Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "2.2",
-      "title": "Blocklist de tokens revogados",
-      "wave_id": "onda-010",
-      "outcome": "pass",
-      "tests_run": 5,
-      "tests_passed": 5,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/auth/blocklist.go",
-        "backend/internal/auth/blocklist_test.go",
-        "backend/migrations/010_token_blocklist.up.sql"
-      ],
-      "recorded_at": "2026-06-04T00:23:54Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "2.3",
-      "title": "Middleware RBAC deny-by-default",
-      "wave_id": "onda-010",
-      "outcome": "pass",
-      "tests_run": 14,
-      "tests_passed": 14,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/http/middleware/auth.go",
-        "backend/internal/http/middleware/auth_test.go"
-      ],
-      "recorded_at": "2026-06-04T00:23:54Z",
       "source": "execute-task"
     }
   ]
