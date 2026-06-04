@@ -41,6 +41,20 @@ A trilha completa da execução autônoma fica em:
 > `appliedPercentage` nas comissões) — exatamente o tipo de defeito que só aparece
 > exercitando a interface de verdade.
 
+### 🎥 Gravações de tela do desenvolvimento
+
+Toda a execução autônoma foi gravada (screencast), em ordem cronológica:
+
+| Parte | Conteúdo | Vídeo |
+|-------|----------|-------|
+| **0** | Comando inicial · briefing · constitution · plan · checklist · create-tasks | https://youtu.be/LM7x5Gwq9qU |
+| **1** | Desenvolvimento — ondas 8 a 10 | https://youtu.be/7eGQErrGea8 |
+| **2** | Desenvolvimento — ondas 11 a 13 | https://youtu.be/aDvnIBi8EUo |
+| **3** | Desenvolvimento — onda 14 | https://youtu.be/YOcTWU3PzkI |
+| **4** | Desenvolvimento — ondas 15 a 17 | https://youtu.be/6SXcYtPpgOM |
+| **5** | Desenvolvimento — onda 17 + idas e vindas dos testes headless do Playwright | https://youtu.be/saG5OYiQ6KY |
+| **6** | Finalização — testes E2E + Playwright headed (no navegador) | https://youtu.be/QQeiQgqkAq0 |
+
 ---
 
 ## 🧱 Stack
