@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-04T01:24:12Z
+**Gerado em**: 2026-06-04T01:46:54Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,15 +18,15 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 13 |
+| Ondas executadas | 14 |
 | Tool calls totais | 44 |
-| Decisoes registradas | 62 |
+| Decisoes registradas | 64 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda-013 completou FASE 5 (Apuracao de Comissoes P3): repository expandido com CreateBatch/FindByPeriod/Transition, ApurationService atomico (CHK073), CommissionHandler com 4 endpoints RBAC, migration 011 para transicao de status, 18 testes passando. FASE 6 (Dashboard e Metricas) e FASE 7 (Frontend Base) sao as proximas.
+Onda 014 entregou FASE 6 (Dashboard e Metricas backend) e FASE 7 (Frontend tipos+API) completas. FASE 6: repository, service, 4 endpoints HTTP, DTOs, 9 testes de integracao passando (repository + HTTP). FASE 7: tipos TypeScript completos com Zod schemas, API client fetchJSON com Bearer [REDACTED] (CHK026), 6 modulos de hooks react-query, 12 testes vitest. 2 commits locais. Proximas: FASE 8 (paginas e componentes React) e FASE 9 (E2E + integracao).
 
 ## 2. Linha do Tempo
 
@@ -45,17 +45,18 @@ Onda-013 completou FASE 5 (Apuracao de Comissoes P3): repository expandido com C
 | onda-011 | 2026-06-04T00:27:13Z | 2026-06-04T00:44:56Z |  | 1 | 1063s | etapa_concluida_avancando |
 | onda-012 | 2026-06-04T00:50:40Z | 2026-06-04T01:06:18Z | execute-task | 1 | 938s | etapa_concluida_avancando |
 | onda-013 | 2026-06-04T01:09:22Z | 2026-06-04T01:23:34Z | execute-task | 1 | 852s | etapa_concluida_avancando |
+| onda-014 | 2026-06-04T01:27:08Z | 2026-06-04T01:46:02Z | execute-task | 0 | 1134s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 62 decisoes registradas.
+Total: 64 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 13 |
-| agente-00c-orchestrator | 24 |
+| agente-00c-feature-orchestrator | 14 |
+| agente-00c-orchestrator | 25 |
 | clarify-answerer | 4 |
 | orquestrador-00c | 21 |
 
@@ -1048,6 +1049,38 @@ Total: 62 decisoes registradas.
 **Justificativa**: FASE 5 critica (P3): bloqueante para FASE 6/8. 11 unit tests + 7 integration tests passando. US3.1 validado empiricamente: totalCents=40000 para 8% de R.
 
 **Score**: 3
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-063 — model-routing — agente-00c-feature-orchestrator — 2026-06-04T01:26:35Z
+
+**Contexto**: Selecao de modelo para onda 13 (fase execute-task)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=rasa fase=execute-task (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-064 — execute-task — agente-00c-orchestrator — 2026-06-04T01:45:42Z
+
+**Contexto**: Onda 014: FASE 6 (dashboard backend) e FASE 7 (frontend tipos+API) concluidas
+
+**Opcoes consideradas**: continuar-para-proxima-fase / pausar
+
+**Escolha**: continuar-para-proxima-fase
+
+**Justificativa**: FASE 6 completa com 9 testes integracao passando; FASE 7 completa com 12 testes vitest; tsc sem erros; 2 commits locais
+
+**Score**: 2
 
 **Referencias**: (nenhuma)
 

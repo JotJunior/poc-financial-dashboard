@@ -368,12 +368,12 @@
     {
       "id": "onda-015",
       "started_at": "2026-06-04T01:49:35Z",
-      "finished_at": "2026-06-04T02:02:10Z",
+      "finished_at": null,
       "executed_stages": [],
-      "tool_calls": 2,
-      "wallclock_seconds": 755,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T02:06:40Z",
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
           "skill": "execute-task",
@@ -1648,24 +1648,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-067",
-      "wave_id": "onda-015",
-      "timestamp": "2026-06-04T02:02:01Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Drift warning: 5 ondas sem tocar aspectos-chave conforme detector. Porem FASE 8 entregou UI completa de dashboards/comissoes/pedidos/vendedores — os proprios aspectos do projeto.",
-      "options_considered": [
-        "ignorar-warning-falso-positivo",
-        "abortar"
-      ],
-      "choice": "ignorar-warning-falso-positivo",
-      "rationale": "initial_key_aspects=['vendedores','pedidos','comissoes','dashboards','pagamentos']. FASE 8 entregou paginas React para todos esses dominios. O drift detector nao reconhece mudancas .tsx como tocando aspectos por ausencia de matcher string. Exit=0 (nao abort). Drift nao bloqueia.",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1683,12 +1665,12 @@
     "current_wave_start": "2026-06-04T01:49:35Z"
   },
   "accumulated_metrics": {
-    "waves_total": 15,
-    "tool_calls_total": 46,
-    "wallclock_total_seconds": 9380,
+    "waves_total": 14,
+    "tool_calls_total": 44,
+    "wallclock_total_seconds": 8625,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 67,
+    "decisions_total": 66,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,

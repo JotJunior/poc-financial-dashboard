@@ -386,52 +386,52 @@ Ref: plan §Technical Context; contracts/api.md; research dec-032
 
 Ref: spec §US1..US5; contracts/api.md §Auth; plan §pages/
 
-- [ ] 8.1.1 Criar `web/src/pages/Login.tsx` — formulario de login com validacao Zod; chamar `useLogin()`; redirecionar apos sucesso
-- [ ] 8.1.2 Criar `web/src/components/Layout.tsx` — navbar com papel do usuario, menu por papel (Gestor: tudo; Vendedor: apenas proprio dashboard; Financeiro: comissoes)
-- [ ] 8.1.3 Criar `web/src/components/ProtectedRoute.tsx` — wrapper que verifica token valido e papel antes de renderizar pagina; redirecionar para Login se nao autenticado
-- [ ] 8.1.4 Configurar `react-router-dom` com rotas protegidas por papel (P-IV: UI complementar, nao barreira — backend e a barreira real)
-- [ ] 8.1.5 Escrever testes vitest: Login com credenciais incorretas → mensagem de erro; rota protegida sem token → redirect para Login
+- [x] 8.1.1 Criar `web/src/pages/Login.tsx` — formulario de login com validacao Zod; chamar `useLogin()`; redirecionar apos sucesso
+- [x] 8.1.2 Criar `web/src/components/Layout.tsx` — navbar com papel do usuario, menu por papel (Gestor: tudo; Vendedor: apenas proprio dashboard; Financeiro: comissoes)
+- [x] 8.1.3 Criar `web/src/components/ProtectedRoute.tsx` — wrapper que verifica token valido e papel antes de renderizar pagina; redirecionar para Login se nao autenticado
+- [x] 8.1.4 Configurar `react-router-dom` com rotas protegidas por papel (P-IV: UI complementar, nao barreira — backend e a barreira real)
+- [x] 8.1.5 Escrever testes vitest: Login com credenciais incorretas → mensagem de erro; rota protegida sem token → redirect para Login
 
 ### 8.2 Gestao de vendedores (P1) `[A]`
 
 Ref: spec §US1, FR-001..FR-005; plan §pages/
 
-- [ ] 8.2.1 Criar `web/src/pages/Vendors.tsx` — lista de vendedores com status ativo/inativo; filtro por status; paginacao
-- [ ] 8.2.2 Criar `web/src/components/VendorForm.tsx` — formulario para criar/editar vendedor; validacao Zod para percentual [0,100]; exibir percentual como "5,50%" (string decimal formatada)
-- [ ] 8.2.3 Criar `web/src/pages/VendorDetail.tsx` — historico de versoes de regra de comissao (auditabilidade FR-003); botao de desativar; botao de anonimizar LGPD (apenas Gestor)
-- [ ] 8.2.4 Implementar exibicao de erros de RBAC: se API retornar 403, exibir mensagem adequada (nao expor detalhes internos)
-- [ ] 8.2.5 Escrever testes vitest: renderizar lista de vendedores; submeter formulario com percentual invalido → erro de validacao; exibir historico de regras
+- [x] 8.2.1 Criar `web/src/pages/Vendors.tsx` — lista de vendedores com status ativo/inativo; filtro por status; paginacao
+- [x] 8.2.2 Criar `web/src/components/VendorForm.tsx` — formulario para criar/editar vendedor; validacao Zod para percentual [0,100]; exibir percentual como "5,50%" (string decimal formatada)
+- [x] 8.2.3 Criar `web/src/pages/VendorDetail.tsx` — historico de versoes de regra de comissao (auditabilidade FR-003); botao de desativar; botao de anonimizar LGPD (apenas Gestor)
+- [x] 8.2.4 Implementar exibicao de erros de RBAC: se API retornar 403, exibir mensagem adequada (nao expor detalhes internos)
+- [x] 8.2.5 Escrever testes vitest: renderizar lista de vendedores; submeter formulario com percentual invalido → erro de validacao; exibir historico de regras
 
 ### 8.3 Registro de pedidos (P2) `[A]`
 
 Ref: spec §US2, FR-006..FR-010; plan §pages/
 
-- [ ] 8.3.1 Criar `web/src/pages/Orders.tsx` — lista de pedidos com filtros por status, vendedor, periodo; exibir valor em reais (converter centavos: `totalCents / 100`)
-- [ ] 8.3.2 Criar `web/src/components/OrderForm.tsx` — formulario com: vendedor (select de ativos), valor (input decimal convertido para centavos ao enviar), data; validacao Zod
-- [ ] 8.3.3 Criar `web/src/components/OrderStatusBadge.tsx` — badge visual por status (rascunho/confirmado/pago/cancelado) com botoes de transicao validos (conforme maquina de estado)
-- [ ] 8.3.4 Garantir que valor monetario nunca e tratado como float no frontend: input recebe string decimal, converter para inteiro de centavos (ex: "1500.00" → 150000) antes de enviar
-- [ ] 8.3.5 Escrever testes vitest: renderizar lista; converter valor corretamente (R$15,00 → 1500 centavos); exibir apenas transicoes validas por status
+- [x] 8.3.1 Criar `web/src/pages/Orders.tsx` — lista de pedidos com filtros por status, vendedor, periodo; exibir valor em reais (converter centavos: `totalCents / 100`)
+- [x] 8.3.2 Criar `web/src/components/OrderForm.tsx` — formulario com: vendedor (select de ativos), valor (input decimal convertido para centavos ao enviar), data; validacao Zod
+- [x] 8.3.3 Criar `web/src/components/OrderStatusBadge.tsx` — badge visual por status (rascunho/confirmado/pago/cancelado) com botoes de transicao validos (conforme maquina de estado)
+- [x] 8.3.4 Garantir que valor monetario nunca e tratado como float no frontend: input recebe string decimal, converter para inteiro de centavos (ex: "1500.00" → 150000) antes de enviar
+- [x] 8.3.5 Escrever testes vitest: renderizar lista; converter valor corretamente (R$15,00 → 1500 centavos); exibir apenas transicoes validas por status
 
 ### 8.4 Apuracao e comissoes (P3/P4) `[A]`
 
 Ref: spec §US3, US4, FR-011..FR-015, FR-020..FR-023; plan §pages/
 
-- [ ] 8.4.1 Criar `web/src/pages/Commissions.tsx` — lista com filtros por status, vendedor, periodo; exibir saldo liquido (net) alem do valor bruto
-- [ ] 8.4.2 Criar `web/src/components/ApurationForm.tsx` — selecionar mes/ano e acionar apuracao; exibir resultado (quantidade calculada, puladas, total em reais)
-- [ ] 8.4.3 Criar `web/src/components/CommissionStatusBadge.tsx` — badge com botoes de transicao para Financeiro: aprovar, marcar como pago, reverter (com campo de motivo)
-- [ ] 8.4.4 Implementar visualizacao de estornos: para comissao com estorno, exibir valor bruto + valor liquido derivado + link para pedido cancelado
-- [ ] 8.4.5 Escrever testes vitest: lista de comissoes do vendedor (somente as suas); Financeiro ve botoes de aprovacao; exibir estorno com saldo liquido correto
+- [x] 8.4.1 Criar `web/src/pages/Commissions.tsx` — lista com filtros por status, vendedor, periodo; exibir saldo liquido (net) alem do valor bruto
+- [x] 8.4.2 Criar `web/src/components/ApurationForm.tsx` — selecionar mes/ano e acionar apuracao; exibir resultado (quantidade calculada, puladas, total em reais)
+- [x] 8.4.3 Criar `web/src/components/CommissionStatusBadge.tsx` — badge com botoes de transicao para Financeiro: aprovar, marcar como pago, reverter (com campo de motivo)
+- [x] 8.4.4 Implementar visualizacao de estornos: para comissao com estorno, exibir valor bruto + valor liquido derivado + link para pedido cancelado
+- [x] 8.4.5 Escrever testes vitest: lista de comissoes do vendedor (somente as suas); Financeiro ve botoes de aprovacao; exibir estorno com saldo liquido correto
 
 ### 8.5 Dashboards de performance (P5) `[M]`
 
 Ref: spec §US5, FR-016..FR-019, SC-004, SC-009; plan §pages/
 
-- [ ] 8.5.1 Criar `web/src/pages/DashboardConsolidated.tsx` — Gestor: total de vendas, total de comissoes apuradas, ranking de vendedores por volume; filtro por periodo (mes/ano ou intervalo)
-- [ ] 8.5.2 Criar `web/src/pages/DashboardVendor.tsx` — Vendedor: volume de vendas proprio, comissoes proprias, status de pagamentos; sem dados de outros vendedores (P-IV)
-- [ ] 8.5.3 Criar `web/src/components/SalesChart.tsx` com recharts — grafico de linha de vendas por periodo; grafico de barras de comissoes por vendedor
-- [ ] 8.5.4 Criar `web/src/components/DrillDown.tsx` — ao clicar em valor do dashboard, exibir pedidos individuais que o compoem (SC-004: <= 3 cliques para rastreabilidade)
-- [ ] 8.5.5 Criar `web/src/pages/PendingCommissions.tsx` — indicadores de comissoes pendentes (FR-019); para Gestor e Financeiro
-- [ ] 8.5.6 Escrever testes vitest: dashboard renderiza com dados mockados; drill-down navega para pedidos; Vendedor nao ve dados de outros
+- [x] 8.5.1 Criar `web/src/pages/DashboardConsolidated.tsx` — Gestor: total de vendas, total de comissoes apuradas, ranking de vendedores por volume; filtro por periodo (mes/ano ou intervalo)
+- [x] 8.5.2 Criar `web/src/pages/DashboardVendor.tsx` — Vendedor: volume de vendas proprio, comissoes proprias, status de pagamentos; sem dados de outros vendedores (P-IV)
+- [x] 8.5.3 Criar `web/src/components/SalesChart.tsx` com recharts — grafico de linha de vendas por periodo; grafico de barras de comissoes por vendedor
+- [x] 8.5.4 Criar `web/src/components/DrillDown.tsx` — ao clicar em valor do dashboard, exibir pedidos individuais que o compoem (SC-004: <= 3 cliques para rastreabilidade)
+- [x] 8.5.5 Criar `web/src/pages/PendingCommissions.tsx` — indicadores de comissoes pendentes (FR-019); para Gestor e Financeiro
+- [x] 8.5.6 Escrever testes vitest: dashboard renderiza com dados mockados; drill-down navega para pedidos; Vendedor nao ve dados de outros
 
 ---
 
