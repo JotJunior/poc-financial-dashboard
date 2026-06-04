@@ -167,12 +167,12 @@ Ref: checklists/security.md CHK011; dec-037 (risco medio/alto); FR-001 (desativa
 
 Ref: spec §FR-025, FR-026; plan §http/; constitution P-IV RBAC deny-by-default
 
-- [ ] 2.3.1 Criar `backend/internal/http/middleware/auth.go` com `RequireAuth` — extrai JWT do header `Authorization: Bearer`, verifica assinatura + expiracao + blocklist; retorna 401 se invalido
-- [ ] 2.3.2 Implementar response padrao para token expirado: `HTTP 401 {"error":"token_expired","message":"...","refreshUrl":"/api/v1/auth/refresh"}` (CHK010)
-- [ ] 2.3.3 Criar `RequireRole(roles ...string)` — verifica claim `role` contra lista; retorna 403 se papel nao autorizado
-- [ ] 2.3.4 Criar `RequireVendorScope` — para endpoints de vendedor: verifica que `vendor_id` do token == `vendor_id` do recurso (re-validacao server-side contra BOLA/IDOR — dec-034 owasp, SC-005)
-- [ ] 2.3.5 Escrever testes de middleware: request sem token → 401; token invalido → 401; token expirado → 401 com refreshUrl; papel errado → 403; vendedor tentando acessar recurso de outro → 403
-- [ ] 2.3.6 Escrever teste negativo por endpoint: verificar que CADA endpoint critico retorna 403 quando Vendedor tenta acessar dados de outro vendedor (SC-005)
+- [x] 2.3.1 Criar `backend/internal/http/middleware/auth.go` com `RequireAuth` — extrai JWT do header `Authorization: Bearer`, verifica assinatura + expiracao + blocklist; retorna 401 se invalido
+- [x] 2.3.2 Implementar response padrao para token expirado: `HTTP 401 {"error":"token_expired","message":"...","refreshUrl":"/api/v1/auth/refresh"}` (CHK010)
+- [x] 2.3.3 Criar `RequireRole(roles ...string)` — verifica claim `role` contra lista; retorna 403 se papel nao autorizado
+- [x] 2.3.4 Criar `RequireVendorScope` — para endpoints de vendedor: verifica que `vendor_id` do token == `vendor_id` do recurso (re-validacao server-side contra BOLA/IDOR — dec-034 owasp, SC-005)
+- [x] 2.3.5 Escrever testes de middleware: request sem token → 401; token invalido → 401; token expirado → 401 com refreshUrl; papel errado → 403; vendedor tentando acessar recurso de outro → 403
+- [x] 2.3.6 Escrever teste negativo por endpoint: verificar que CADA endpoint critico retorna 403 quando Vendedor tenta acessar dados de outro vendedor (SC-005)
 
 ### 2.4 Handlers de autenticacao `[A]`
 
