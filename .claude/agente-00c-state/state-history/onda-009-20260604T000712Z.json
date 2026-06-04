@@ -223,12 +223,12 @@
     {
       "id": "onda-009",
       "started_at": "2026-06-03T23:56:43Z",
-      "finished_at": "2026-06-04T00:07:55Z",
+      "finished_at": null,
       "executed_stages": [],
-      "tool_calls": 7,
-      "wallclock_seconds": 672,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T00:11:03Z",
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
           "skill": "execute-task",
@@ -244,17 +244,7 @@
           "skill": "execute-task",
           "timestamp": "2026-06-04T00:03:54Z",
           "decision_id": "dec-049"
-        },
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T00:07:21Z",
-          "decision_id": "dec-050"
         }
-      ],
-      "touched_key_aspects": [
-        "financial-dashboard",
-        "database",
-        "domain"
       ]
     }
   ],
@@ -1193,25 +1183,6 @@
       "evidence": "go test ./internal/domain/... -run TestCommission: PASS; go test -run TestDetermineReversal: PASS; go vet exit 0",
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-050",
-      "wave_id": "onda-009",
-      "timestamp": "2026-06-04T00:07:12Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Task 1.4 migrations 002-009: schema completo PostgreSQL com triggers P-I e zero float",
-      "options_considered": [
-        "criar-migrations-separadas",
-        "single-migration-monolitica",
-        "usar-orm-migrations"
-      ],
-      "choice": "criar-migrations-separadas",
-      "rationale": "Migrations separadas por entidade: rollback granular, auditável, padrão golang-migrate. Zero float verificado por grep. FK entre migrations ordenadas corretamente (users antes de vendors). 1.4.10/1.4.11 pendentes por requererem PostgreSQL.",
-      "justification_score": 3,
-      "evidence": "grep zero float colunas SQL: OK; ls migrations/ count=18 (9 pares up/down); git commit 0650271 17 files",
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1229,12 +1200,12 @@
     "current_wave_start": "2026-06-03T23:56:43Z"
   },
   "accumulated_metrics": {
-    "waves_total": 9,
-    "tool_calls_total": 41,
-    "wallclock_total_seconds": 3970,
+    "waves_total": 8,
+    "tool_calls_total": 34,
+    "wallclock_total_seconds": 3298,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 50,
+    "decisions_total": 49,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
@@ -1626,27 +1597,6 @@
         "backend/internal/domain/commission_test.go"
       ],
       "recorded_at": "2026-06-04T00:03:54Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "1.4",
-      "title": "Migrations: schema completo 002-009",
-      "wave_id": "onda-009",
-      "outcome": "pass",
-      "tests_run": 0,
-      "tests_passed": 0,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/migrations/002_users.up.sql",
-        "backend/migrations/003_vendors.up.sql",
-        "backend/migrations/004_commission_rules.up.sql",
-        "backend/migrations/005_orders.up.sql",
-        "backend/migrations/006_commissions.up.sql",
-        "backend/migrations/007_commission_reversals.up.sql",
-        "backend/migrations/008_audit_trail.up.sql",
-        "backend/migrations/009_views.up.sql"
-      ],
-      "recorded_at": "2026-06-04T00:07:21Z",
       "source": "execute-task"
     }
   ]

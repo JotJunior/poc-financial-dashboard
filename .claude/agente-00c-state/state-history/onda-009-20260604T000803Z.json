@@ -228,7 +228,7 @@
       "tool_calls": 7,
       "wallclock_seconds": 672,
       "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T00:11:03Z",
+      "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
           "skill": "execute-task",

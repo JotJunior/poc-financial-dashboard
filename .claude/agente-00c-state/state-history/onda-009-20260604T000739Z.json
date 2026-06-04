@@ -223,12 +223,12 @@
     {
       "id": "onda-009",
       "started_at": "2026-06-03T23:56:43Z",
-      "finished_at": "2026-06-04T00:07:55Z",
+      "finished_at": null,
       "executed_stages": [],
-      "tool_calls": 7,
-      "wallclock_seconds": 672,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T00:11:03Z",
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
           "skill": "execute-task",
@@ -252,9 +252,8 @@
         }
       ],
       "touched_key_aspects": [
-        "financial-dashboard",
         "database",
-        "domain"
+        "financial-dashboard"
       ]
     }
   ],
@@ -1229,9 +1228,9 @@
     "current_wave_start": "2026-06-03T23:56:43Z"
   },
   "accumulated_metrics": {
-    "waves_total": 9,
-    "tool_calls_total": 41,
-    "wallclock_total_seconds": 3970,
+    "waves_total": 8,
+    "tool_calls_total": 34,
+    "wallclock_total_seconds": 3298,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 50,
