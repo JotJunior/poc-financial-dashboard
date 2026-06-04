@@ -66,6 +66,12 @@ func main() {
 	vendorSvc := service.NewVendorService(vendorRepo, commissionRuleRepo, nil)
 	vendorHandler := apphttp.NewVendorHandler(vendorSvc)
 
+	// Order dependencies (FASE 4)
+	orderRepo := repository.NewPGOrderRepository(pool)
+	commissionRepo := repository.NewPGCommissionRepository(pool)
+	orderSvc := service.NewOrderService(orderRepo, commissionRepo, commissionRuleRepo)
+	orderHandler := apphttp.NewOrderHandler(orderSvc)
+
 	// Verifier que combina VerifyToken + blocklist (para RequireAuth).
 	authVerifier := func(r *http.Request, tokenString string) (*auth.Claims, error) {
 		return auth.VerifyTokenWithBlocklist(r.Context(), tokenString, blocklist)
@@ -115,6 +121,16 @@ func main() {
 
 			// DELETE /vendors/{id} — apenas Gestor (anonimização LGPD)
 			r.With(middleware.RequireRole("gestor")).Delete("/vendors/{id}", vendorHandler.Delete)
+
+			// FASE 4: Pedidos
+			// GET /orders — todos os papéis (Vendedor com escopo)
+			r.Get("/orders", orderHandler.List)
+			// POST /orders — apenas Gestor
+			r.With(middleware.RequireRole("gestor")).Post("/orders", orderHandler.Create)
+			// GET /orders/{id} — todos os papéis
+			r.Get("/orders/{id}", orderHandler.Get)
+			// PATCH /orders/{id}/status — apenas Gestor
+			r.With(middleware.RequireRole("gestor")).Patch("/orders/{id}/status", orderHandler.Transition)
 		})
 	})
 

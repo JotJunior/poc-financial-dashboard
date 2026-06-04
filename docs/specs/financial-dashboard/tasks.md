@@ -222,7 +222,7 @@ Ref: spec §FR-002, FR-003, FR-012; data-model.md §CommissionRule; plan §repos
 - [x] 3.2.2 Implementar `CreateRule(ctx, vendorID UUID, percentage decimal.Decimal) (CommissionRule, error)` — cierra a regra anterior (`valid_to = NOW()`) e cria nova versao em UNICA transacao (FR-003)
 - [x] 3.2.3 Implementar `FindActiveAtDate(ctx, vendorID UUID, date time.Time) (CommissionRule, error)` — selecao por `valid_from <= date AND (valid_to IS NULL OR valid_to > date)` (FR-012, dec-020/dec-027)
 - [x] 3.2.4 Implementar `ListByVendor(ctx, vendorID UUID) ([]CommissionRule, error)` — historico completo de versoes (auditoria FR-003)
-- [ ] 3.2.5 Escrever testes de integracao: criar 3 versoes de regra; verificar que `FindActiveAtDate` seleciona a correta pela data; verificar que regra anterior fica imutavel (trigger bloqueia UPDATE)
+- [x] 3.2.5 Escrever testes de integracao: criar 3 versoes de regra; verificar que `FindActiveAtDate` seleciona a correta pela data; verificar que regra anterior fica imutavel (trigger bloqueia UPDATE)
 
 ### 3.3 Service de vendedores `[A]`
 
@@ -255,32 +255,32 @@ Ref: spec §FR-001..FR-005; contracts/api.md §/vendors; plan §http/
 
 Ref: spec §FR-006..FR-010; data-model.md §Order; plan §repository/
 
-- [ ] 4.1.1 Criar `backend/internal/repository/order_repository.go` com interface `OrderRepository`
-- [ ] 4.1.2 Implementar `Create(ctx, order CreateOrderReq) (Order, error)` com status inicial `rascunho`, valor em centavos
-- [ ] 4.1.3 Implementar `FindByID(ctx, id UUID) (Order, error)` com items de linha (JOIN order_items)
-- [ ] 4.1.4 Implementar `List(ctx, filter OrderFilter) ([]Order, error)` com filtros: `vendor_id`, `status`, `period` (mes/ano) — bind params (CHK020 owasp)
-- [ ] 4.1.5 Implementar `Transition(ctx, id UUID, to OrderStatus, actorID UUID) (Order, error)` em UNICA transacao: UPDATE status + INSERT audit_trail (FR-009); chamar `order.Transition()` do dominio para validar; retornar `ErrInvalidTransition` se invalido
-- [ ] 4.1.6 Escrever testes de integracao: criar pedido; transicionar rascunho→confirmado→pago; tentar pago→rascunho → erro; verificar audit_trail com 2 registros
+- [x] 4.1.1 Criar `backend/internal/repository/order_repository.go` com interface `OrderRepository`
+- [x] 4.1.2 Implementar `Create(ctx, order CreateOrderReq) (Order, error)` com status inicial `rascunho`, valor em centavos
+- [x] 4.1.3 Implementar `FindByID(ctx, id UUID) (Order, error)` com items de linha (JOIN order_items)
+- [x] 4.1.4 Implementar `List(ctx, filter OrderFilter) ([]Order, error)` com filtros: `vendor_id`, `status`, `period` (mes/ano) — bind params (CHK020 owasp)
+- [x] 4.1.5 Implementar `Transition(ctx, id UUID, to OrderStatus, actorID UUID) (Order, error)` em UNICA transacao: UPDATE status + INSERT audit_trail (FR-009); chamar `order.Transition()` do dominio para validar; retornar `ErrInvalidTransition` se invalido
+- [x] 4.1.6 Escrever testes de integracao: criar pedido; transicionar rascunho→confirmado→pago; tentar pago→rascunho → erro; verificar audit_trail com 2 registros
 
 ### 4.2 Service de pedidos `[C]`
 
 Ref: spec §FR-006..FR-010, FR-027, FR-028; constitution P-I, P-II; dec-038 CHK081
 
-- [ ] 4.2.1 Criar `backend/internal/service/order_service.go` com `OrderService`
-- [ ] 4.2.2 Implementar `CreateOrder(ctx, req CreateOrderReq, actorRole string) (Order, error)` — validar papel (Gestor), validar valor (nao-negativo, sem float), criar pedido
-- [ ] 4.2.3 Implementar `TransitionOrder(ctx, id UUID, to OrderStatus, actorUserID UUID, actorRole string) (Order, error)` — validar RBAC; chamar repository.Transition; se transicao for `pago→cancelado`, chamar `createReversal` na mesma transacao (CHK081 — atomicidade)
-- [ ] 4.2.4 Implementar `createReversal(ctx, tx pgx.Tx, orderID UUID, actorID UUID) error` — OBRIGATORIO na mesma transacao do cancelamento: buscar comissoes do pedido, criar estorno para cada uma com logica de bifurcacao (FR-028), gravar audit_trail (CHK081/dec-038)
-- [ ] 4.2.5 **Criterio de aceite CHK081**: ao simular crash entre cancelamento e criacao de estorno (tx.Rollback forcado), verificar que NENHUM estado inconsistente e persistido (pedido cancelado sem estorno)
-- [ ] 4.2.6 Escrever testes unitarios: cancelar pedido pago com comissao `pendente` → estorno `aplicado`; cancelar com comissao `aprovado` → estorno `pendente_aprovacao`; cancelar sem comissao → sem estorno (nao errar)
+- [x] 4.2.1 Criar `backend/internal/service/order_service.go` com `OrderService`
+- [x] 4.2.2 Implementar `CreateOrder(ctx, req CreateOrderReq, actorRole string) (Order, error)` — validar papel (Gestor), validar valor (nao-negativo, sem float), criar pedido
+- [x] 4.2.3 Implementar `TransitionOrder(ctx, id UUID, to OrderStatus, actorUserID UUID, actorRole string) (Order, error)` — validar RBAC; chamar repository.Transition; se transicao for `pago→cancelado`, chamar `createReversal` na mesma transacao (CHK081 — atomicidade)
+- [x] 4.2.4 Implementar `createReversal(ctx, tx pgx.Tx, orderID UUID, actorID UUID) error` — OBRIGATORIO na mesma transacao do cancelamento: buscar comissoes do pedido, criar estorno para cada uma com logica de bifurcacao (FR-028), gravar audit_trail (CHK081/dec-038)
+- [x] 4.2.5 **Criterio de aceite CHK081**: ao simular crash entre cancelamento e criacao de estorno (tx.Rollback forcado), verificar que NENHUM estado inconsistente e persistido (pedido cancelado sem estorno)
+- [x] 4.2.6 Escrever testes unitarios: cancelar pedido pago com comissao `pendente` → estorno `aplicado`; cancelar com comissao `aprovado` → estorno `pendente_aprovacao`; cancelar sem comissao → sem estorno (nao errar)
 
 ### 4.3 Handlers HTTP de pedidos `[A]`
 
 Ref: spec §FR-006..FR-010; contracts/api.md §/orders; plan §http/
 
-- [ ] 4.3.1 Criar `backend/internal/http/order_handler.go` com chi router: `GET /api/v1/orders`, `POST /api/v1/orders`, `GET /api/v1/orders/{id}`, `PATCH /api/v1/orders/{id}/status`
-- [ ] 4.3.2 Aplicar middlewares: `RequireAuth` + `RequireRole("gestor")` em escrita; Financeiro e Vendedor podem ler (com escopo)
-- [ ] 4.3.3 Implementar DTOs de pedido com valor monetario como inteiro de centavos (`totalCents int64`) — nunca float (P-III)
-- [ ] 4.3.4 Escrever testes de integracao HTTP: POST /orders → 201; PATCH /orders/{id}/status → 200; Vendedor acessando pedido de outro → 403
+- [x] 4.3.1 Criar `backend/internal/http/order_handler.go` com chi router: `GET /api/v1/orders`, `POST /api/v1/orders`, `GET /api/v1/orders/{id}`, `PATCH /api/v1/orders/{id}/status`
+- [x] 4.3.2 Aplicar middlewares: `RequireAuth` + `RequireRole("gestor")` em escrita; Financeiro e Vendedor podem ler (com escopo)
+- [x] 4.3.3 Implementar DTOs de pedido com valor monetario como inteiro de centavos (`totalCents int64`) — nunca float (P-III)
+- [x] 4.3.4 Escrever testes de integracao HTTP: POST /orders → 201; PATCH /orders/{id}/status → 200; Vendedor acessando pedido de outro → 403
 
 ---
 
