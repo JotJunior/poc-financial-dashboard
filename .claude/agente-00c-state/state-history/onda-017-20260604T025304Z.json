@@ -15,7 +15,7 @@
     "finished_at": null
   },
   "current_stage": "review-task",
-  "next_instruction": "Iniciar etapa review-task: revisar progresso de todas as tasks do backlog, verificar completude FASE 0-10, e transicionar execucao para concluida se tudo verde.",
+  "next_instruction": "Iniciar etapa execute-task — executar tasks do backlog (tasks.md) em ordem de prioridade. Comecar pela FASE 0 (setup) e FASE 1 (dominio), que sao prerequisito do caminho critico. Seguir o workflow de execute-task: pre-flight, implementar, testes, fechar task.",
   "waves": [
     {
       "id": "onda-001",
@@ -409,21 +409,13 @@
     {
       "id": "onda-017",
       "started_at": "2026-06-04T02:47:59Z",
-      "finished_at": "2026-06-04T02:53:12Z",
-      "executed_stages": [
-        "execute-task"
-      ],
-      "tool_calls": 3,
-      "wallclock_seconds": 313,
-      "termination_reason": "etapa_concluida_avancando",
+      "finished_at": null,
+      "executed_stages": [],
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
       "next_wave_scheduled_for": null,
-      "skills_invoked": [],
-      "touched_key_aspects": [
-        "financial-dashboard",
-        "observabilidade",
-        "deploy",
-        "logging"
-      ]
+      "skills_invoked": []
     }
   ],
   "decisions": [
@@ -1798,9 +1790,9 @@
     "current_wave_start": "2026-06-04T02:47:59Z"
   },
   "accumulated_metrics": {
-    "waves_total": 17,
-    "tool_calls_total": 52,
-    "wallclock_total_seconds": 12039,
+    "waves_total": 16,
+    "tool_calls_total": 49,
+    "wallclock_total_seconds": 11726,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 71,

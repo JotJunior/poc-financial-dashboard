@@ -40,6 +40,7 @@ services:
       - proxy  # Ativar com: docker compose --profile proxy up
 
   # Backend Go — exposto apenas internamente (não publicar porta 8080 em produção)
+  # Build multi-stage: 1) build Go binário estático; 2) imagem final mínima (distroless/alpine)
   api:
     build:
       context: ./backend
@@ -48,6 +49,7 @@ services:
     restart: unless-stopped
     environment:
       SERVER_PORT: "8080"
+      ENVIRONMENT: "production"
       DATABASE_URL: "postgres://${POSTGRES_USER:-financialuser}:${POSTGRES_PASSWORD:-financialpass}@postgres:5432/${POSTGRES_DB:-financial_dashboard}?sslmode=disable"
       JWT_SECRET: ${JWT_SECRET}
       JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-15m}
@@ -55,11 +57,35 @@ services:
       # TLS direto no Go (alternativa ao nginx — use UM dos dois, não ambos)
       # TLS_CERT_PATH: /etc/app/tls/cert.pem
       # TLS_KEY_PATH: /etc/app/tls/key.pem
+    healthcheck:
+      # task 10.2.1: /ready verifica conexão com banco (não apenas se o processo está vivo)
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ready | grep -q ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     depends_on:
       postgres:
         condition: service_healthy
     profiles:
       - proxy  # Ativar junto com nginx
+
+  # Frontend React (build multi-stage Vite + nginx para servir static files)
+  # task 10.2.3: serviço de frontend + nginx como reverse proxy
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: "/api/v1"  # nginx proxy → api:8080
+    container_name: financial-dashboard-web
+    restart: unless-stopped
+    # Não expor porta — nginx gerencia o roteamento
+    depends_on:
+      api:
+        condition: service_healthy
+    profiles:
+      - fullstack  # Ativar com: docker compose --profile fullstack up
 
 volumes:
   postgres_data:

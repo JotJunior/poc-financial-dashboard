@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "review-task",
-  "next_instruction": "Iniciar etapa review-task: revisar progresso de todas as tasks do backlog, verificar completude FASE 0-10, e transicionar execucao para concluida se tudo verde.",
+  "current_stage": "execute-task",
+  "next_instruction": "Iniciar etapa execute-task — executar tasks do backlog (tasks.md) em ordem de prioridade. Comecar pela FASE 0 (setup) e FASE 1 (dominio), que sao prerequisito do caminho critico. Seguir o workflow de execute-task: pre-flight, implementar, testes, fechar task.",
   "waves": [
     {
       "id": "onda-001",
@@ -404,25 +404,6 @@
         "apuracao",
         "comissoes",
         "testes"
-      ]
-    },
-    {
-      "id": "onda-017",
-      "started_at": "2026-06-04T02:47:59Z",
-      "finished_at": "2026-06-04T02:53:12Z",
-      "executed_stages": [
-        "execute-task"
-      ],
-      "tool_calls": 3,
-      "wallclock_seconds": 313,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": null,
-      "skills_invoked": [],
-      "touched_key_aspects": [
-        "financial-dashboard",
-        "observabilidade",
-        "deploy",
-        "logging"
       ]
     }
   ],
@@ -1762,25 +1743,6 @@
       "evidence": "npx playwright test: 32 passed (3.0s) - sem nenhuma falha",
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-071",
-      "wave_id": "onda-017",
-      "timestamp": "2026-06-04T02:52:32Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "FASE 10 (tasks 10.1.1-10.2.4): observabilidade e deploy implementados",
-      "options_considered": [
-        "implementar-completo",
-        "implementar-parcial",
-        "pular"
-      ],
-      "choice": "implementar-completo",
-      "rationale": "Implementados: slog JSON/text por ENVIRONMENT, middleware StructuredLogger (sem PII), /ready endpoint, quickstart deploy docs, docker-compose multi-stage, Dockerfiles backend+frontend, testes logging+health. Todos passando.",
-      "justification_score": 3,
-      "evidence": "go test ./... -tags integration: all packages ok | logging_test.go: 2 PASS | health_test.go: 3 PASS",
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1795,15 +1757,15 @@
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
     "tool_calls_current_wave": 3,
-    "current_wave_start": "2026-06-04T02:47:59Z"
+    "current_wave_start": "2026-06-04T02:07:32Z"
   },
   "accumulated_metrics": {
-    "waves_total": 17,
-    "tool_calls_total": 52,
-    "wallclock_total_seconds": 12039,
+    "waves_total": 16,
+    "tool_calls_total": 49,
+    "wallclock_total_seconds": 11726,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 71,
+    "decisions_total": 70,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
@@ -2427,40 +2389,6 @@
         "e2e/tests/rbac.spec.ts"
       ],
       "recorded_at": "2026-06-04T02:45:59Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "10.1",
-      "title": "Logging estruturado (10.1.1-10.1.4)",
-      "wave_id": "onda-017",
-      "outcome": "pass",
-      "tests_run": 2,
-      "tests_passed": 2,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/http/middleware/logging.go",
-        "backend/internal/http/middleware/logging_test.go",
-        "backend/cmd/api/main.go"
-      ],
-      "recorded_at": "2026-06-04T02:52:41Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "10.2",
-      "title": "Health check e configuracao de producao (10.2.1-10.2.4)",
-      "wave_id": "onda-017",
-      "outcome": "pass",
-      "tests_run": 3,
-      "tests_passed": 3,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/cmd/api/health_test.go",
-        "backend/Dockerfile",
-        "web/Dockerfile",
-        "docker-compose.yml",
-        "docs/specs/financial-dashboard/quickstart.md"
-      ],
-      "recorded_at": "2026-06-04T02:52:42Z",
       "source": "execute-task"
     }
   ]

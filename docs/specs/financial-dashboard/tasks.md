@@ -471,19 +471,19 @@ Ref: quickstart.md §7 Testes; spec §SC-001..SC-004, SC-009; US1-US5 Independen
 
 Ref: plan §Technical Context (slog); constitution P-I (auditabilidade)
 
-- [ ] 10.1.1 Configurar `slog` em `main.go` com formato JSON em producao (`ENVIRONMENT=production`) e texto em dev
-- [ ] 10.1.2 Criar middleware de logging HTTP: method, path, status, latencia, request_id (UUID gerado por request) — sem logar headers de Authorization nem body de /auth/login
-- [ ] 10.1.3 Garantir que nenhuma PII (nome, email) e logada em nivel INFO ou abaixo; apenas em DEBUG (desabilitado em producao)
-- [ ] 10.1.4 Escrever teste: capturar output de log de request /auth/login e verificar ausencia de `password` e `password_hash`
+- [x] 10.1.1 Configurar `slog` em `main.go` com formato JSON em producao (`ENVIRONMENT=production`) e texto em dev
+- [x] 10.1.2 Criar middleware de logging HTTP: method, path, status, latencia, request_id (UUID gerado por request) — sem logar headers de Authorization nem body de /auth/login
+- [x] 10.1.3 Garantir que nenhuma PII (nome, email) e logada em nivel INFO ou abaixo; apenas em DEBUG (desabilitado em producao)
+- [x] 10.1.4 Escrever teste: capturar output de log de request /auth/login e verificar ausencia de `password` e `password_hash`
 
 ### 10.2 Health check e configuracao de producao `[M]`
 
 Ref: quickstart.md §Deploy; plan §Project Structure
 
-- [ ] 10.2.1 Criar `GET /health` e `GET /ready` (verifica conexao com banco) — sem autenticacao
-- [ ] 10.2.2 Documentar em `quickstart.md §Deploy` a configuracao completa de producao: variaveis de env obrigatorias, TLS, reverse proxy, backup de banco, rotacao de JWT_SECRET
-- [ ] 10.2.3 Atualizar `docker-compose.yml` com servico de backend + frontend (build multi-stage) + nginx como reverse proxy
-- [ ] 10.2.4 Escrever smoke test: `GET /health` retorna 200; `GET /ready` retorna 200 quando banco disponivel, 503 quando indisponivel
+- [x] 10.2.1 Criar `GET /health` e `GET /ready` (verifica conexao com banco) — sem autenticacao
+- [x] 10.2.2 Documentar em `quickstart.md §Deploy` a configuracao completa de producao: variaveis de env obrigatorias, TLS, reverse proxy, backup de banco, rotacao de JWT_SECRET
+- [x] 10.2.3 Atualizar `docker-compose.yml` com servico de backend + frontend (build multi-stage) + nginx como reverse proxy
+- [x] 10.2.4 Escrever smoke test: `GET /health` retorna 200; `GET /ready` retorna 200 quando banco disponivel, 503 quando indisponivel
 
 ---
 

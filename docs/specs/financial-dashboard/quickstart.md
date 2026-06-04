@@ -341,3 +341,66 @@ chmod 600 tls/key.pem
 - [ ] Certificado TLS válido (não auto-assinado) em produção
 - [ ] HSTS habilitado e testado via `curl -I https://seu-dominio.com/ | grep Strict`
 - [ ] `go build ./... && go vet ./...` sem erros antes de cada deploy
+
+## §Deploy — Configuração Completa de Produção (task 10.2.2)
+
+### Variáveis de ambiente obrigatórias
+
+| Variável | Obrigatória | Descrição | Exemplo |
+|----------|-------------|-----------|---------|
+| `DATABASE_URL` | sim | URL completa PostgreSQL | `postgres://user:pass@db:5432/dbname?sslmode=require` |
+| `JWT_SECRET` | sim | Chave HMAC-SHA256 (mín 32 bytes) | `openssl rand -base64 32` |
+| `JWT_ACCESS_TTL` | não | TTL do access token (default: 15m) | `15m` |
+| `JWT_REFRESH_TTL` | não | TTL do refresh token (default: 168h) | `168h` |
+| `SERVER_PORT` | não | Porta HTTP (default: 8080) | `8080` |
+| `ENVIRONMENT` | não | `production` = JSON logs; outros = texto | `production` |
+| `TLS_CERT_PATH` | não¹ | Path do certificado TLS | `/etc/tls/cert.pem` |
+| `TLS_KEY_PATH` | não¹ | Path da chave privada TLS | `/etc/tls/key.pem` |
+
+¹ Obrigatório se TLS direto no Go (alternativa ao nginx)
+
+### Logging em produção (task 10.1.1)
+
+Com `ENVIRONMENT=production`, o backend emite logs em formato JSON slog:
+
+```json
+{"time":"2026-06-01T00:00:00Z","level":"INFO","msg":"http_request","method":"GET","path":"/health","status":200,"latency_ms":1,"request_id":"host/abc-001","remote_addr":"10.0.0.1:12345"}
+```
+
+**Garantias de PII (task 10.1.3)**:
+- Headers `Authorization` **NUNCA** logados
+- Body de `/auth/login` (senha, password_hash) **NUNCA** logado
+- Nomes e emails de usuários **não** logados em INFO (apenas se necessário em DEBUG, desabilitado em produção)
+
+### Health check endpoints (task 10.2.1)
+
+- `GET /health` → 200 `{"status":"ok","timestamp":"..."}` — verifica apenas que o processo está vivo
+- `GET /ready` → 200 `{"status":"ready","timestamp":"..."}` quando banco disponível; 503 quando indisponível
+
+Use `/ready` no health check do container (Kubernetes/ECS) e `/health` para o load balancer.
+
+### TLS — recomendações de produção
+
+1. **Reverse proxy nginx** (recomendado): expor porta 443 via nginx, backend na porta 8080 internal
+2. **TLS direto no Go**: definir `TLS_CERT_PATH` e `TLS_KEY_PATH` (renova certificado sem restart)
+
+### Backup do banco de dados
+
+```bash
+# Backup completo (diário)
+pg_dump -U financialuser -h db-host -Fc financial_dashboard > backup_$(date +%Y%m%d).dump
+
+# Restore
+pg_restore -U financialuser -h db-host -d financial_dashboard backup.dump
+```
+
+**Dados imutáveis (P-I)**: `commission_rules`, `commissions`, `audit_trail`, `commission_reversals`
+têm triggers que bloqueiam UPDATE/DELETE — backup deve ser full snapshot, não diff.
+
+### Rotação do JWT_SECRET
+
+Ao rotar o `JWT_SECRET`:
+1. Os tokens existentes são **invalidados imediatamente** (assinatura verificada com novo secret)
+2. Usuários precisarão fazer login novamente
+3. Para rotação sem downtime: usar blocklist transitória (todos os tokens antigos na blocklist)
+4. Reiniciar o backend com o novo valor de `JWT_SECRET`

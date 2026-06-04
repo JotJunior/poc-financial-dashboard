@@ -30,9 +30,15 @@ func main() {
 	dbURL := getEnv("DATABASE_URL", "postgres://financialuser:financialpass@localhost:5433/financial_dashboard?sslmode=disable")
 
 	// Logger estruturado (constitution P-I — auditabilidade)
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level: slog.LevelInfo,
-	}))
+	// 10.1.1: JSON em produção (ENVIRONMENT=production), texto em dev — task 10.1.1
+	isProduction := os.Getenv("ENVIRONMENT") == "production"
+	var handler slog.Handler
+	if isProduction {
+		handler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
+	} else {
+		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
+	}
+	logger := slog.New(handler)
 	slog.SetDefault(logger)
 
 	// Conexão com PostgreSQL
@@ -87,17 +93,35 @@ func main() {
 	}
 
 	// Router chi
+	// 10.1.2: middleware de logging HTTP estruturado (slog) — task 10.1.2
+	// Substituímos chimiddleware.Logger pelo StructuredLogger que:
+	// - loga method, path, status, latency_ms, request_id
+	// - NUNCA loga headers Authorization nem body de login (task 10.1.3)
 	r := chi.NewRouter()
 	r.Use(chimiddleware.RequestID)
 	r.Use(chimiddleware.RealIP)
-	r.Use(chimiddleware.Logger)
+	r.Use(middleware.StructuredLogger) // slog estruturado (substituiu chimiddleware.Logger)
 	r.Use(chimiddleware.Recoverer)
 
-	// Health check
+	// Health check — 10.2.1: GET /health (sem autenticação)
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, `{"status":"ok","timestamp":"%s"}`, time.Now().UTC().Format(time.RFC3339))
+	})
+
+	// Ready check — 10.2.1: GET /ready (verifica conexão com banco, sem autenticação)
+	// Retorna 200 quando banco disponível, 503 quando indisponível.
+	r.Get("/ready", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		if err := pool.Ping(r.Context()); err != nil {
+			slog.Warn("ready check: banco indisponível", "err", err)
+			w.WriteHeader(http.StatusServiceUnavailable)
+			fmt.Fprintf(w, `{"status":"not_ready","error":"database_unavailable"}`)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, `{"status":"ready","timestamp":"%s"}`, time.Now().UTC().Format(time.RFC3339))
 	})
 
 	// API v1
