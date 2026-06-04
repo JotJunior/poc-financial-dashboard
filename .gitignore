@@ -4,6 +4,10 @@
 *.pem
 *.crt
 
+# Deploy — scripts/infra de provisionamento específicos do host.
+# Mantidos fora do repositório público (segredos são gerados no servidor).
+deploy/
+
 # Go
 backend/vendor/
 backend/*.test
