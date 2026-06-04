@@ -307,25 +307,6 @@
           "decision_id": "dec-057"
         }
       ]
-    },
-    {
-      "id": "onda-012",
-      "started_at": "2026-06-04T00:50:40Z",
-      "finished_at": "2026-06-04T01:06:18Z",
-      "executed_stages": [
-        "execute-task"
-      ],
-      "tool_calls": 1,
-      "wallclock_seconds": 938,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": null,
-      "skills_invoked": [
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T01:06:05Z",
-          "decision_id": "dec-implicit-fase4"
-        }
-      ]
     }
   ],
   "decisions": [
@@ -1453,26 +1434,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-060",
-      "wave_id": "onda-011",
-      "timestamp": "2026-06-04T00:50:15Z",
-      "stage": "model-routing",
-      "agent": "agente-00c-feature-orchestrator",
-      "context": "Selecao de modelo para onda 11 (fase execute-task)",
-      "options_considered": [
-        "haiku",
-        "sonnet",
-        "opus",
-        "manter-atual"
-      ],
-      "choice": "model:sonnet",
-      "rationale": "sugerido=sonnet aplicado=sonnet origem=mapa | faixa=rasa fase=execute-task (mapa primario)",
-      "justification_score": 0,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1487,15 +1448,15 @@
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
     "tool_calls_current_wave": 1,
-    "current_wave_start": "2026-06-04T00:50:40Z"
+    "current_wave_start": "2026-06-04T00:27:13Z"
   },
   "accumulated_metrics": {
-    "waves_total": 12,
-    "tool_calls_total": 43,
-    "wallclock_total_seconds": 6639,
+    "waves_total": 11,
+    "tool_calls_total": 42,
+    "wallclock_total_seconds": 5701,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 60,
+    "decisions_total": 59,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
