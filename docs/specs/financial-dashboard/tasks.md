@@ -102,11 +102,11 @@ Ref: spec §FR-007; plan §P-III; research dec-024/dec-025; constitution P-III N
 
 Ref: spec §FR-008, US2; plan §domain/order.go; dec-019
 
-- [ ] 1.2.1 Criar `backend/internal/domain/order.go` com enum `OrderStatus` (rascunho, confirmado, pago, cancelado)
-- [ ] 1.2.2 Implementar `(s OrderStatus) Transition(to OrderStatus) error` validando as 4 transicoes validas: rascunho→confirmado, confirmado→pago, confirmado→cancelado, pago→cancelado
-- [ ] 1.2.3 Garantir que todas as demais transicoes retornam `ErrInvalidTransition` (rejeitadas explicitamente — FR-008)
-- [ ] 1.2.4 Escrever testes unitarios para cada transicao valida e para >=5 transicoes invalidas (ex: pago→rascunho, cancelado→confirmado)
-- [ ] 1.2.5 Escrever teste para a regra de negocio: `pago→cancelado` retorna flag `RequiresReversalCheck=true` para sinalizar o service
+- [x] 1.2.1 Criar `backend/internal/domain/order.go` com enum `OrderStatus` (rascunho, confirmado, pago, cancelado)
+- [x] 1.2.2 Implementar `(s OrderStatus) Transition(to OrderStatus) error` validando as 4 transicoes validas: rascunho→confirmado, confirmado→pago, confirmado→cancelado, pago→cancelado
+- [x] 1.2.3 Garantir que todas as demais transicoes retornam `ErrInvalidTransition` (rejeitadas explicitamente — FR-008)
+- [x] 1.2.4 Escrever testes unitarios para cada transicao valida e para >=5 transicoes invalidas (ex: pago→rascunho, cancelado→confirmado)
+- [x] 1.2.5 Escrever teste para a regra de negocio: `pago→cancelado` retorna flag `RequiresReversalCheck=true` para sinalizar o service
 
 ### 1.3 Maquina de estado: Comissao/Pagamento `[C]`
 
