@@ -1,7 +1,7 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-04T04:54:36Z
-**Status no momento**: em_andamento
+**Gerado em**: 2026-06-04T05:08:16Z
+**Status no momento**: concluida
 **Versao do schema**: 1.0.0
 
 ---
@@ -14,19 +14,19 @@
 | Projeto-Alvo | /Users/jot/Projects/_lab/Jot/poc/financial-dashboard |
 | Descricao | Uma aplicação para cadastro de vendedores e registro de pedidos para entregar dashboards com métricas de performance de vendas, cálculo de comissões, controle de pagamentos |
 | Stack final | ["go","react","postgres"] |
-| Status | em_andamento |
-| Motivo termino | (em andamento) |
+| Status | concluida |
+| Motivo termino | concluido |
 | Iniciada em | 2026-06-03T22:24:05Z |
-| Terminada em | ainda em andamento |
-| Ondas executadas | 19 |
+| Terminada em | 2026-06-04T05:07:01Z |
+| Ondas executadas | 20 |
 | Tool calls totais | 53 |
-| Decisoes registradas | 78 |
+| Decisoes registradas | 81 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda-019 (review-task): validacao de completude do backlog concluida com sucesso. Todas as 37 tasks em 10 fases foram marcadas concluidas (200/200 subtarefas). Backend Go compilando, frontend React buildando, testes E2E 22/22 passando. Dois bugs de UX corrigidos na onda-018 (silent-refresh httpOnly, roteamento role-aware pos-login). Pronto para avancamento a etapa review-features.
+Execucao agente-00c CONCLUIDA. Sistema de gestao de vendas/comissoes construido via pipeline SDD completa (briefing -> constitution -> specify -> clarify -> plan -> checklist -> create-tasks -> execute-task -> review-task -> review-features). Backend Go (GOB) + Frontend React 100%, FASES 0-10. 219/219 subtasks (37 tasks) concluidas; review-features confirma portfolio 100%, sugestao ARQUIVAR. Testes de integracao Go + E2E Playwright passando (22/22 na onda-018). Correcoes pos-implementacao validadas em navegador real: UX (dec-075/076) e bugfix de comissao do Vendedor (dec-079: appliedPercentage StringFixed(4) + gate useVendors por papel + teste de regressao).
 
 ## 2. Linha do Tempo
 
@@ -51,19 +51,20 @@ Onda-019 (review-task): validacao de completude do backlog concluida com sucesso
 | onda-017 | 2026-06-04T02:47:59Z | 2026-06-04T02:53:12Z | execute-task | 3 | 313s | etapa_concluida_avancando |
 | onda-018 | 2026-06-04T02:58:06Z | 2026-06-04T04:29:50Z | review-task | 1 | 5504s | etapa_concluida_avancando |
 | onda-019 | 2026-06-04T04:53:06Z | 2026-06-04T04:54:19Z | review-features | 0 | 73s | etapa_concluida_avancando |
+| onda-020 | 2026-06-04T05:06:00Z | 2026-06-04T05:07:10Z |  | 0 | 70s | concluido |
 
 ## 3. Decisoes
 
-Total: 78 decisoes registradas.
+Total: 81 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 18 |
+| agente-00c-feature-orchestrator | 19 |
 | agente-00c-orchestrator | 33 |
 | clarify-answerer | 4 |
-| orquestrador-00c | 23 |
+| orquestrador-00c | 25 |
 
 ### 3.2 Lista detalhada
 
@@ -1315,6 +1316,54 @@ Total: 78 decisoes registradas.
 
 **Artefato originador**: (nenhum)
 
+#### dec-079 — review-features — orquestrador-00c — 2026-06-04T05:05:22Z
+
+**Contexto**: Bugfix pos-implementacao (operador via /bugfix, validado no navegador via Playwright MCP): pagina Minhas Comissoes do Vendedor falhava ('Erro ao carregar comissoes'). Raiz: dto/commission.go serializava appliedPercentage com decimal.String() (remove zeros -> '10'), violando contrato NUMERIC(7,4) e o Zod do frontend (/^d+.d{4}$/). Fix StringFixed(4) -> '10.0000'. Secundario: gate useVendors por papel (Vendedor nao chama GET /vendors -> elimina 403). Commit b641130 + teste de regressao dto.
+
+**Opcoes consideradas**: corrigido / adiar
+
+**Escolha**: corrigido
+
+**Justificativa**: Bug funcional real em fluxo P3 (comissoes do vendedor); corrigido na camada que detem o contrato (backend), com teste de regressao e verificacao live. go test integracao OK, tsc+vitest 33/33.
+
+**Score**: (n/a — decisao do orquestrador)
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-080 — model-routing — agente-00c-feature-orchestrator — 2026-06-04T05:05:22Z
+
+**Contexto**: Selecao de modelo para onda 19 (fase review-features)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: manter-atual
+
+**Justificativa**: sugerido=manter-atual aplicado=manter-atual origem=mapa | faixa= fase=review-features (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-081 — review-features — orquestrador-00c — 2026-06-04T05:06:44Z
+
+**Contexto**: Etapa terminal review-features: portfolio de 1 feature (financial-dashboard) agregado via aggregate.sh = 219/219 subtasks (100%), 0 pendentes/bloqueadas, sugestao ARQUIVAR. review-task previo confirmou 37/37 tasks. Backend Go + Frontend React 100%, FASES 0-10, testes integracao+E2E passando, bugs de UX e comissao do Vendedor corrigidos e validados no navegador real
+
+**Opcoes consideradas**: promover-execucao-para-concluida / manter-em-andamento-aguardando-mais-trabalho
+
+**Escolha**: promover-execucao-para-concluida
+
+**Justificativa**: Pipeline SDD completa e consistente: 100% das tasks concluidas, nenhum bloqueio pendente, gates de qualidade satisfeitos, validacao browser-driven dos fluxos criticos (login RBAC, comissoes appliedPercentage StringFixed(4), gate useVendors por papel). Nao ha trabalho restante no escopo da feature unica deste projeto
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
 
 ## 4. Bloqueios Humanos
 
@@ -1354,7 +1403,7 @@ Nenhuma sugestao para skills globais nesta execucao.
 
 ## 6. Licoes Aprendidas
 
-(Sera preenchido no relatorio final.)
+Validacao browser-driven (Playwright MCP) foi decisiva para pegar bugs que testes de unidade nao cobriam (comissao do Vendedor, gate de papel). PostgreSQL via docker em porta alternativa (5433) evitou conflito. O 401 do StrictMode no silent-refresh e benigno (double-mount em dev). Drift detection ficou em warning (4 ondas) sem abortar — esperado em fase terminal de review/correcao que toca poucos aspectos de produto.
 
 ---
 

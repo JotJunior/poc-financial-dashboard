@@ -1,6 +1,0 @@
-- generic [ref=e3]:
-  - heading "403" [level=1] [ref=e4]
-  - paragraph [ref=e5]: Sem permissão para acessar esta página.
-  - paragraph [ref=e6]:
-    - link "← Voltar ao meu painel" [ref=e7] [cursor=pointer]:
-      - /url: /

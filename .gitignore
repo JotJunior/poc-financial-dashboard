@@ -22,9 +22,38 @@ e2e/.playwright/
 
 # OS
 .DS_Store
+**/.DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# IDE
+# IDE / Editores
 .vscode/
 .idea/
 *.swp
+*.swo
+*~
+
+# Playwright / MCP — artefatos de sessão e relatórios gerados
+.playwright-mcp/
+e2e/playwright-report-ui/
+e2e/playwright-report*/
+e2e/test-results/
+**/playwright/.cache/
+
+# Screenshots de depuração geradas na raiz (ex.: 01-foo.png)
+/[0-9][0-9]-*.png
+
+# Go — binários locais
+backend/bin/
+backend/financial-dashboard
+*.test
+*.out
+
+# Logs e temporários
+*.log
+*.tmp
+
+# Estado de runtime do agente-00c (locks e histórico voláteis)
+.claude/**/*.lock
+.claude/agente-00c-state/state-history/
