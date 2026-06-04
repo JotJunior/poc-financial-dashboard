@@ -1,0 +1,68 @@
+- generic [ref=e15]:
+  - navigation [ref=e16]:
+    - generic [ref=e17]: FinDash
+    - link "Dashboard" [ref=e18] [cursor=pointer]:
+      - /url: /dashboard/consolidated
+    - link "Vendedores" [ref=e19] [cursor=pointer]:
+      - /url: /vendors
+    - link "Pedidos" [ref=e20] [cursor=pointer]:
+      - /url: /orders
+    - link "Comissões" [ref=e21] [cursor=pointer]:
+      - /url: /commissions
+    - link "Pendentes" [ref=e22] [cursor=pointer]:
+      - /url: /pending-commissions
+    - generic [ref=e23]: Gestor
+    - generic [ref=e24]: e2e00002…
+    - button "Sair" [ref=e25] [cursor=pointer]
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - heading "Dashboard Consolidado" [level=1] [ref=e29]
+        - generic [ref=e30]:
+          - combobox [ref=e31]:
+            - option "Todos os anos"
+            - option "2024"
+            - option "2025"
+            - option "2026" [selected]
+          - combobox [ref=e32]:
+            - option "Todos os meses"
+            - option "janeiro"
+            - option "fevereiro"
+            - option "março"
+            - option "abril"
+            - option "maio"
+            - option "junho" [selected]
+            - option "julho"
+            - option "agosto"
+            - option "setembro"
+            - option "outubro"
+            - option "novembro"
+            - option "dezembro"
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Total de Vendas
+          - paragraph [ref=e36]: R$ 0,00
+          - paragraph [ref=e37]: 0 pedidos
+        - generic [ref=e38]:
+          - paragraph [ref=e39]: Comissões Apuradas
+          - paragraph [ref=e40]: R$ 2.230,00
+        - generic [ref=e41]:
+          - paragraph [ref=e42]: Pendentes de Aprovação
+          - paragraph [ref=e43]: R$ 2.070,00
+        - generic [ref=e44]:
+          - paragraph [ref=e45]: Aprovadas (a pagar)
+          - paragraph [ref=e46]: R$ 80,00
+        - generic [ref=e47]:
+          - paragraph [ref=e48]: Pagas
+          - paragraph [ref=e49]: R$ 80,00
+      - generic [ref=e50]:
+        - heading "Top Vendedores — 0 vendedores" [level=2] [ref=e51]
+        - table [ref=e52]:
+          - rowgroup [ref=e53]:
+            - row "# Vendedor Pedidos Volume de Vendas Comissões Net" [ref=e54]:
+              - columnheader "#" [ref=e55]
+              - columnheader "Vendedor" [ref=e56]
+              - columnheader "Pedidos" [ref=e57]
+              - columnheader "Volume de Vendas" [ref=e58]
+              - columnheader "Comissões Net" [ref=e59]
+          - rowgroup

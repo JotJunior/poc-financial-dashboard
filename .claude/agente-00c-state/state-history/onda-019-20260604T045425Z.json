@@ -15,7 +15,7 @@
     "finished_at": null
   },
   "current_stage": "review-features",
-  "next_instruction": "Etapa review-features: consolidar relatorio de portfolio (execucao agente-00c unica) e avaliar conclusao",
+  "next_instruction": "Iniciar etapa review-task: revisar progresso de todas as tasks do backlog, verificar completude FASE 0-10, e transicionar execucao para concluida se tudo verde.",
   "waves": [
     {
       "id": "onda-001",

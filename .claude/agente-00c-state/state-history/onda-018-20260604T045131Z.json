@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "review-features",
-  "next_instruction": "Etapa review-features: consolidar relatorio de portfolio (execucao agente-00c unica) e avaliar conclusao",
+  "current_stage": "review-task",
+  "next_instruction": "Iniciar etapa review-task: revisar progresso de todas as tasks do backlog, verificar completude FASE 0-10, e transicionar execucao para concluida se tudo verde.",
   "waves": [
     {
       "id": "onda-001",
@@ -437,25 +437,6 @@
       "termination_reason": "etapa_concluida_avancando",
       "next_wave_scheduled_for": null,
       "skills_invoked": []
-    },
-    {
-      "id": "onda-019",
-      "started_at": "2026-06-04T04:53:06Z",
-      "finished_at": "2026-06-04T04:54:19Z",
-      "executed_stages": [
-        "review-features"
-      ],
-      "tool_calls": 0,
-      "wallclock_seconds": 73,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": null,
-      "skills_invoked": [
-        {
-          "skill": "review-task",
-          "timestamp": "2026-06-04T04:54:12Z",
-          "decision_id": "dec-078"
-        }
-      ]
     }
   ],
   "decisions": [
@@ -1890,63 +1871,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-076",
-      "wave_id": "onda-018",
-      "timestamp": "2026-06-04T04:51:31Z",
-      "stage": "review-task",
-      "agent": "orquestrador-00c",
-      "context": "Resolucao dos achados de dec-075 (validados ao vivo via Playwright MCP no navegador): (1) silent-refresh no mount do AuthProvider via refresh-cookie httpOnly + estado isLoading no ProtectedRoute -> hard reload nao expulsa mais; (2) navegacao role-aware no Login (homePathForRole a partir do token emitido) elimina a corrida Vendedor->/dashboard/consolidated->/403; (3) pagina /403 ganhou link de saida. BONUS: corrigida regressao da onda-018 que removeu o bloco test do vite.config.ts (comentario falso 'jsdom nao instalado') e quebrou o ambiente jsdom — suite vitest voltou de 19/33 para 33/33.",
-      "options_considered": [
-        "aplicar-correcoes",
-        "adiar"
-      ],
-      "choice": "aplicar-correcoes",
-      "rationale": "Operador pediu correcao imediata; bugs reproduzidos e correcoes verificadas no navegador real (login vendedor->dashboard proprio, reload mantem sessao, 403 com saida). tsc limpo, vitest 33/33.",
-      "justification_score": null,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-077",
-      "wave_id": "onda-018",
-      "timestamp": "2026-06-04T04:52:35Z",
-      "stage": "model-routing",
-      "agent": "agente-00c-feature-orchestrator",
-      "context": "Selecao de modelo para onda 18 (fase review-task)",
-      "options_considered": [
-        "haiku",
-        "sonnet",
-        "opus",
-        "manter-atual"
-      ],
-      "choice": "model:haiku",
-      "rationale": "sugerido=haiku aplicado=haiku origem=mapa | faixa=rasa fase=review-task (mapa primario)",
-      "justification_score": 0,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-078",
-      "wave_id": "onda-019",
-      "timestamp": "2026-06-04T04:54:12Z",
-      "stage": "review-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Review-task onda-019: validacao de completude do backlog FASE 0-10, 37/37 tasks 100% concluidas",
-      "options_considered": [
-        "concluir-execucao",
-        "detectar-desvio-e-corrigir",
-        "escalar-para-humano"
-      ],
-      "choice": "concluir-execucao",
-      "rationale": "Todas as 200 subtarefas marcadas como concluidas, builds passando (Go+React), 22/22 testes E2E headless passando, commits recentes confirmam delivery FASE 0-10 completa (backend+frontend+testes)",
-      "justification_score": 3,
-      "evidence": "git log --oneline: 53b3411 fix bugs UX, 7957028 FASE 10, 810064c FASE 9, 239d461 FASE 8 concluida; npm run build: dist pronto; go test ./...: PASS; e2e/tests-ui: 5 files com suite completa",
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1960,16 +1884,16 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 0,
-    "current_wave_start": "2026-06-04T04:53:06Z"
+    "tool_calls_current_wave": 1,
+    "current_wave_start": "2026-06-04T02:58:06Z"
   },
   "accumulated_metrics": {
-    "waves_total": 19,
+    "waves_total": 18,
     "tool_calls_total": 53,
-    "wallclock_total_seconds": 17616,
+    "wallclock_total_seconds": 17543,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 78,
+    "decisions_total": 75,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,

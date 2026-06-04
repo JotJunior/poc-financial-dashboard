@@ -14,8 +14,8 @@
     "started_at": "2026-06-03T22:24:05Z",
     "finished_at": null
   },
-  "current_stage": "review-features",
-  "next_instruction": "Etapa review-features: consolidar relatorio de portfolio (execucao agente-00c unica) e avaliar conclusao",
+  "current_stage": "review-task",
+  "next_instruction": "Iniciar etapa review-task: revisar progresso de todas as tasks do backlog, verificar completude FASE 0-10, e transicionar execucao para concluida se tudo verde.",
   "waves": [
     {
       "id": "onda-001",
@@ -441,13 +441,11 @@
     {
       "id": "onda-019",
       "started_at": "2026-06-04T04:53:06Z",
-      "finished_at": "2026-06-04T04:54:19Z",
-      "executed_stages": [
-        "review-features"
-      ],
+      "finished_at": null,
+      "executed_stages": [],
       "tool_calls": 0,
-      "wallclock_seconds": 73,
-      "termination_reason": "etapa_concluida_avancando",
+      "wallclock_seconds": 0,
+      "termination_reason": null,
       "next_wave_scheduled_for": null,
       "skills_invoked": [
         {
@@ -1964,9 +1962,9 @@
     "current_wave_start": "2026-06-04T04:53:06Z"
   },
   "accumulated_metrics": {
-    "waves_total": 19,
+    "waves_total": 18,
     "tool_calls_total": 53,
-    "wallclock_total_seconds": 17616,
+    "wallclock_total_seconds": 17543,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
     "decisions_total": 78,

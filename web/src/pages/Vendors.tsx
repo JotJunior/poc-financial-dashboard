@@ -2,7 +2,7 @@
 // Apenas Gestor/Financeiro (ProtectedRoute garante no roteador)
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useVendors, useCreateVendor, useSetCommissionRule } from '../api/vendors';
+import { useVendors, useCreateVendor } from '../api/vendors';
 import { VendorForm } from '../components/VendorForm';
 import type { VendorStatus } from '../types/vendor';
 import type { CreateVendorRequest } from '../types/vendor';
