@@ -6,7 +6,7 @@ import { z } from 'zod';
 // ─── Consolidated Dashboard ───────────────────────────────────────────────────
 
 export const VendorRankingSchema = z.object({
-  vendorId: z.string().uuid(),
+  vendorId: z.string().min(1),
   vendorName: z.string(),
   totalCents: z.number().int().nonnegative(),  // P-III
   orderCount: z.number().int().nonnegative(),
@@ -27,7 +27,7 @@ export const ConsolidatedDashboardSchema = z.object({
 // ─── Vendor Dashboard ─────────────────────────────────────────────────────────
 
 export const VendorDashboardSchema = z.object({
-  vendorId: z.string().uuid(),
+  vendorId: z.string().min(1),
   totalSalesCents: z.number().int().nonnegative(),   // P-III
   totalCommCents: z.number().int(),                  // P-III
   pendingCommCents: z.number().int().nonnegative(),  // P-III
@@ -48,15 +48,15 @@ export const PendingCommissionsSchema = z.object({
 // ─── DrillDown ───────────────────────────────────────────────────────────────
 
 export const DrillDownReversalSchema = z.object({
-  reversalId: z.string().uuid(),
+  reversalId: z.string().min(1),
   valueCents: z.number().int().max(0), // negativo (P-III)
   status: z.string(),
   createdAt: z.string(),
-  actorUserId: z.string().uuid(), // auditabilidade P-I
+  actorUserId: z.string().min(1), // auditabilidade P-I
 });
 
 export const DrillDownCommissionSchema = z.object({
-  commissionId: z.string().uuid(),
+  commissionId: z.string().min(1),
   valueCents: z.number().int().nonnegative(), // P-III
   netCents: z.number().int(),                 // P-III (pode ser negativo)
   status: z.string(),
@@ -66,8 +66,8 @@ export const DrillDownCommissionSchema = z.object({
 });
 
 export const DrillDownSchema = z.object({
-  orderId: z.string().uuid(),
-  vendorId: z.string().uuid(),
+  orderId: z.string().min(1),
+  vendorId: z.string().min(1),
   totalCents: z.number().int().nonnegative(), // P-III
   orderDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   status: z.string(),

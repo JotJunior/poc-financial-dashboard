@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx playwright test --config=playwright.config.ts",
+    "test:ui": "npx playwright test --config=playwright.ui.config.ts --ui",
+    "test:ui:headed": "npx playwright test --config=playwright.ui.config.ts --headed",
+    "test:ui:headless": "HEADLESS=true npx playwright test --config=playwright.ui.config.ts",
+    "test:ui:debug": "npx playwright test --config=playwright.ui.config.ts --debug",
+    "test:ui:report": "npx playwright show-report playwright-report-ui"
   },
   "keywords": [],
   "author": "",

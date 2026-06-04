@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -62,7 +63,14 @@ func main() {
 	blocklist := auth.NewDBBlocklist(pool)
 
 	// Rate limiter: 5 tentativas / IP / 60s (CHK / OWASP finding medium)
-	rateLimiter := apphttp.NewRateLimiter(5, 60*time.Second)
+	// RATE_LIMIT_MAX: override via env para testes E2E (ex: RATE_LIMIT_MAX=100)
+	rateLimitMax := 5
+	if v := os.Getenv("RATE_LIMIT_MAX"); v != "" {
+		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+			rateLimitMax = n
+		}
+	}
+	rateLimiter := apphttp.NewRateLimiter(rateLimitMax, 60*time.Second)
 
 	authHandler := apphttp.NewAuthHandler(userAdapter, blocklist, rateLimiter)
 

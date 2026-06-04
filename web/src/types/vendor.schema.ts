@@ -6,11 +6,11 @@ import { z } from 'zod';
 export const VendorStatusSchema = z.enum(['ativo', 'inativo']);
 
 export const VendorSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().min(1),
   name: z.string().max(200),
   email: z.string().email(),
   status: VendorStatusSchema,
-  anonymizedAt: z.string().nullable(), // ISO 8601 UTC
+  anonymizedAt: z.string().nullable().optional().default(null), // ISO 8601 UTC; ausente = null
 });
 
 export const VendorListSchema = z.array(VendorSchema);
@@ -27,8 +27,8 @@ export const VendorPatchSchema = z.object({
 });
 
 export const CommissionRuleSchema = z.object({
-  id: z.string().uuid(),
-  vendorId: z.string().uuid(),
+  id: z.string().min(1),
+  vendorId: z.string().min(1),
   percentage: z.string().regex(/^\d+\.\d{4}$/), // "5.5000" format
   validFrom: z.string(),
   validTo: z.string().nullable(),

@@ -424,6 +424,19 @@
         "deploy",
         "logging"
       ]
+    },
+    {
+      "id": "onda-018",
+      "started_at": "2026-06-04T02:58:06Z",
+      "finished_at": "2026-06-04T04:29:50Z",
+      "executed_stages": [
+        "review-task"
+      ],
+      "tool_calls": 1,
+      "wallclock_seconds": 5504,
+      "termination_reason": "etapa_concluida_avancando",
+      "next_wave_scheduled_for": null,
+      "skills_invoked": []
     }
   ],
   "decisions": [
@@ -1781,6 +1794,64 @@
       "evidence": "go test ./... -tags integration: all packages ok | logging_test.go: 2 PASS | health_test.go: 3 PASS",
       "references": [],
       "originating_artifact": null
+    },
+    {
+      "id": "dec-072",
+      "wave_id": "onda-017",
+      "timestamp": "2026-06-04T02:56:57Z",
+      "stage": "model-routing",
+      "agent": "agente-00c-feature-orchestrator",
+      "context": "Selecao de modelo para onda 17 (fase review-task)",
+      "options_considered": [
+        "haiku",
+        "sonnet",
+        "opus",
+        "manter-atual"
+      ],
+      "choice": "model:haiku",
+      "rationale": "sugerido=haiku aplicado=haiku origem=mapa | faixa=rasa fase=review-task (mapa primario)",
+      "justification_score": 0,
+      "evidence": null,
+      "references": [],
+      "originating_artifact": null
+    },
+    {
+      "id": "dec-073",
+      "wave_id": "onda-018",
+      "timestamp": "2026-06-04T02:59:45Z",
+      "stage": "review-task",
+      "agent": "agente-00c-orchestrator",
+      "context": "Operador solicitou testes E2E browser-driven Playwright headed (UI navega no Chromium real). Specs existentes em e2e/tests/*.spec.ts sao API-driven sem UI. Nova tarefa: criar tests-ui/ com config playwright.ui.config.ts, global-setup-ui.ts, page objects, specs de fluxo ponta-a-ponta, e scripts npm test:ui.",
+      "options_considered": [
+        "criar-tests-ui-separado",
+        "adaptar-config-existente",
+        "usar-fixtures-api-como-base"
+      ],
+      "choice": "criar-tests-ui-separado",
+      "rationale": "Diretriz do operador: manter separacao entre testes API (e2e/tests/) e testes UI (e2e/tests-ui/). Config playwright.ui.config.ts dedicado com headless:false, webServer reuseExisting, video/trace. Global setup UI distinto do API para nao quebrar suite existente.",
+      "justification_score": 2,
+      "evidence": null,
+      "references": [],
+      "originating_artifact": null
+    },
+    {
+      "id": "dec-074",
+      "wave_id": "onda-018",
+      "timestamp": "2026-06-04T04:29:45Z",
+      "stage": "review-task",
+      "agent": "agente-00c-orchestrator",
+      "context": "Entrega task 9.3: 22 testes E2E browser-driven headed passando (22/22). Bugs corrigidos no frontend: LoginResponseSchema camelCase, OrderSchema items:null via preprocess, VendorSchema anonymizedAt, Zod v4 UUID strict mode, DefaultDashboard role-aware, Layout clearAuth no logout, Vendors.tsx commissionPercentage no POST, vite.config.ts proxy /api, RATE_LIMIT_MAX env var no backend.",
+      "options_considered": [
+        "criar-specs-ui",
+        "usar-api-tests-existentes",
+        "usar-cypress"
+      ],
+      "choice": "criar-specs-ui",
+      "rationale": "Operador solicitou explicitamente testes que abrem o navegador. 22/22 passam em 30.5s headless; operador pode rodar test:ui:headed para assistir.",
+      "justification_score": 2,
+      "evidence": null,
+      "references": [],
+      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1794,16 +1865,16 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 3,
-    "current_wave_start": "2026-06-04T02:47:59Z"
+    "tool_calls_current_wave": 1,
+    "current_wave_start": "2026-06-04T02:58:06Z"
   },
   "accumulated_metrics": {
-    "waves_total": 17,
-    "tool_calls_total": 52,
-    "wallclock_total_seconds": 12039,
+    "waves_total": 18,
+    "tool_calls_total": 53,
+    "wallclock_total_seconds": 17543,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 71,
+    "decisions_total": 74,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,

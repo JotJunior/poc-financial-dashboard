@@ -21,6 +21,7 @@ export interface VendorCreate {
 export interface CreateVendorRequest {
   name: string;   // máx 200 chars
   email: string;  // máx 255 chars
+  commissionPercentage?: string; // "5.5000" — obrigatório na API; opcional no tipo para compatibilidade
 }
 
 export interface VendorPatch {

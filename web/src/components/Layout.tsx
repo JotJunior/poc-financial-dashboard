@@ -19,7 +19,7 @@ const ROLE_COLORS: Record<UserRole, string> = {
 };
 
 export function Layout() {
-  const { user } = useAuth();
+  const { user, clearAuth } = useAuth();
   const logout = useLogout();
   const navigate = useNavigate();
 
@@ -27,6 +27,10 @@ export function Layout() {
 
   async function handleLogout() {
     await logout.mutateAsync();
+    // Limpar o estado React do AuthContext (setAccessToken(null) no mutationFn
+    // só limpa o módulo; clearAuth() atualiza o state React, garantindo que
+    // isAuthenticated=false antes do navigate — previne redirect-loop no Login.)
+    clearAuth();
     navigate('/login', { replace: true });
   }
 

@@ -38,18 +38,9 @@ export function Vendors() {
   const paginated = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   async function handleCreate(vendorData: CreateVendorRequest, commission: { percentage: string; validFrom: string }) {
-    const created = await createVendor.mutateAsync(vendorData);
-    // Definir regra de comissão inicial
-    if (created?.id) {
-      const ruleHook = useSetCommissionRule;
-      void ruleHook; // será chamado via api/vendors direto abaixo
-      const { fetchJSON } = await import('../api/client');
-      const { CommissionRuleSchema } = await import('../types/vendor.schema');
-      await fetchJSON(`/vendors/${created.id}/commission-rule`, CommissionRuleSchema, {
-        method: 'PUT',
-        body: commission,
-      });
-    }
+    // Incluir commissionPercentage no body de criação (backend exige; FR-001)
+    const payload = { ...vendorData, commissionPercentage: commission.percentage };
+    await createVendor.mutateAsync(payload as CreateVendorRequest);
     setShowForm(false);
   }
 

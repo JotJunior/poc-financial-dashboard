@@ -2,7 +2,7 @@
 // P-IV: UI é complementar — backend é a barreira real de RBAC
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './api/auth-context';
+import { AuthProvider, useAuth } from './api/auth-context';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
 import { Login } from './pages/Login';
@@ -123,9 +123,17 @@ export default function App() {
   );
 }
 
-// Redirecionamento inteligente baseado no papel
+// Redirecionamento inteligente baseado no papel (Task 8.1.4)
+// Vendedor → /dashboard/vendor; Gestor/Financeiro → /dashboard/consolidated
+// user pode ser null se o token ainda não foi carregado — mas como o token é
+// lido sincronamente do módulo client.ts no useState, user NUNCA é null
+// quando isAuthenticated=true. Este componente só renderiza dentro do ProtectedRoute
+// (que já garantiu isAuthenticated=true), então user.role é sempre definido.
 function DefaultDashboard() {
-  // Lê do localStorage de forma segura (não tem AuthContext aqui — usar import direto)
-  // Como está dentro de AuthProvider, usamos o navigate do router
+  const { user } = useAuth();
+  if (user?.role === 'vendedor') {
+    return <Navigate to="/dashboard/vendor" replace />;
+  }
+  // Gestor, Financeiro, ou fallback
   return <Navigate to="/dashboard/consolidated" replace />;
 }

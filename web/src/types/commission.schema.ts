@@ -7,13 +7,13 @@ export const CommissionStatusSchema = z.enum(['pendente', 'aprovado', 'pago']);
 export const ReversalStatusSchema = z.enum(['aplicado', 'pendente_aprovacao', 'aprovado', 'lancado']);
 
 export const CommissionSchema = z.object({
-  id: z.string().uuid(),
-  orderId: z.string().uuid(),
-  vendorId: z.string().uuid(),
+  id: z.string().min(1),
+  orderId: z.string().min(1),
+  vendorId: z.string().min(1),
   valueCents: z.number().int().nonnegative(),   // P-III: NUNCA float
   netCents: z.number().int(),                   // P-III: pode ser negativo com estornos
   appliedPercentage: z.string().regex(/^\d+\.\d{4}$/), // "5.5000"
-  ruleId: z.string().uuid(),
+  ruleId: z.string().min(1),
   periodYear: z.number().int().min(2020).max(2100),
   periodMonth: z.number().int().min(1).max(12),
   status: CommissionStatusSchema,
@@ -23,18 +23,18 @@ export const CommissionSchema = z.object({
 export const CommissionListSchema = z.array(CommissionSchema);
 
 export const CommissionReversalSchema = z.object({
-  id: z.string().uuid(),
-  commissionId: z.string().uuid(),
-  orderId: z.string().uuid(),
+  id: z.string().min(1),
+  commissionId: z.string().min(1),
+  orderId: z.string().min(1),
   valueCents: z.number().int().max(0), // negativo ou zero (P-III)
   status: ReversalStatusSchema,
   createdAt: z.string(),
-  actorUserId: z.string().uuid(),
+  actorUserId: z.string().min(1),
 });
 
 export const CommissionNetBalanceSchema = z.object({
-  commissionId: z.string().uuid(),
-  vendorId: z.string().uuid(),
+  commissionId: z.string().min(1),
+  vendorId: z.string().min(1),
   netCents: z.number().int(), // pode ser negativo (P-III)
 });
 

@@ -9,10 +9,12 @@ export const LoginRequestSchema = z.object({
   password: z.string().min(1),
 });
 
+// Backend retorna snake_case: {"access_token":"..."} (contracts/api.md §/auth)
+// Transformar para camelCase internamente para consistência com o restante do código.
 export const LoginResponseSchema = z.object({
-  accessToken: z.string().min(1),
+  access_token: z.string().min(1),
   // refresh_token: httpOnly cookie — não aparece no JSON (CHK026)
-});
+}).transform(raw => ({ accessToken: raw.access_token }));
 
 export const AuthUserSchema = z.object({
   sub: z.string().uuid(),

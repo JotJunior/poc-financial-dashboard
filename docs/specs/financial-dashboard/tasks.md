@@ -461,6 +461,27 @@ Ref: quickstart.md §7 Testes; spec §SC-001..SC-004, SC-009; US1-US5 Independen
 - [x] 9.2.5 Escrever `e2e/tests/dashboard.spec.ts`: valores do dashboard derivados de pedidos fixos → totais corretos; drill-down em <= 3 cliques (SC-004); dashboard carrega < 3s com 10.000 pedidos (SC-009)
 - [x] 9.2.6 Escrever `e2e/tests/rbac.spec.ts`: Vendedor nao acessa dados de outros em dashboard, comissoes e pedidos (SC-005); Financeiro nao acessa cadastro de vendedores
 
+### 9.3 Testes E2E Browser-Driven (headed) `[A]`
+
+Ref: quickstart.md §"E2E no navegador (headed)"; diretriz operador onda-018; spec §P-IV
+
+Testes Playwright que ABREM o Chromium real e navegam a UI React.
+Config dedicada: `e2e/playwright.ui.config.ts` (headless:false por padrao, video+trace).
+Fixtures: `e2e/tests-ui/fixtures/ui-auth.ts` (login via UI por test, rate limit 100).
+Page objects: `e2e/tests-ui/pages/` (LoginPage, NavBar, VendorsPage, OrdersPage, CommissionsPage, DashboardPage).
+
+- [x] 9.3.1 `playwright.ui.config.ts` com webServer(backend Go + Vite), headless:false, video:on, trace:on
+- [x] 9.3.2 `global-setup-ui.ts`: verifica conectividade com backend (NAO consome rate limit)
+- [x] 9.3.3 `e2e/tests-ui/01-login.ui.spec.ts`: formulario, credenciais invalidas, navbar Gestor, navbar Vendedor (P-IV), logout
+- [x] 9.3.4 `e2e/tests-ui/02-vendor-ui.spec.ts`: cadastrar vendedor via form, lista, filtros, link detalhes
+- [x] 9.3.5 `e2e/tests-ui/03-order-flow-ui.spec.ts`: criar pedido, confirmar, marcar pago, filtros
+- [x] 9.3.6 `e2e/tests-ui/04-commissions-ui.spec.ts`: apurar comissoes, comissoes pendentes, filtros
+- [x] 9.3.7 `e2e/tests-ui/05-dashboard-ui.spec.ts`: dashboard consolidado (metricas), dashboard vendedor (P-IV), navegacao completa
+- [x] 9.3.8 Scripts em `e2e/package.json`: test:ui, test:ui:headed, test:ui:headless, test:ui:debug
+- [x] 9.3.9 Vite proxy `/api → localhost:8080` em `web/vite.config.ts` (necessario para E2E sem CORS)
+- [x] 9.3.10 Bugs corrigidos durante criacao: auth.schema camelCase, order.schema items:null, vendor.schema anonymizedAt, Zod v4 UUID strict, DefaultDashboard role-aware, Layout clearAuth no logout, Vendors.tsx commissionPercentage no POST
+- [x] 9.3.11 Resultado validado: 22/22 testes passam em 30.5s (headless)
+
 ---
 
 ## FASE 10 — Observabilidade e Deploy `[M]`

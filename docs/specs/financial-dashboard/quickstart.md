@@ -259,6 +259,79 @@ WHERE table_schema = 'public'
 
 ---
 
+## E2E no navegador (headed) — como assistir
+
+Os testes em `e2e/tests-ui/` abrem o Chromium real e navegam a UI React. Use este modo
+para assistir o fluxo completo ponta-a-ponta no seu monitor.
+
+### Pre-requisitos
+
+```bash
+# 1. Banco de dados PostgreSQL (Docker)
+docker compose up -d postgres
+# Verificar: docker ps → "financial-dashboard-db" healthy
+
+# 2. Backend Go com rate limit estendido para E2E (5→100 logins/60s)
+cd backend
+RATE_LIMIT_MAX=100 \
+DATABASE_URL="postgres://financialuser:financialpass@localhost:5433/financial_dashboard?sslmode=disable" \
+JWT_SECRET="e2e-test-secret-change-in-prod" \
+JWT_ACCESS_TTL="1h" \
+JWT_REFRESH_TTL="168h" \
+go run ./cmd/api &
+
+# 3. Frontend Vite (já inclui proxy /api → backend)
+cd web && npm run dev &
+
+# Aguardar: curl http://localhost:8080/health → {"status":"ok"}
+#           curl http://localhost:5173 → HTML do React
+```
+
+### Credenciais de seed E2E
+
+| Papel | Email | Senha |
+|-------|-------|-------|
+| Gestor | `gestor-e2e@test.com` | `E2ETest@2026!` |
+| Vendedor | `vendedor-user-e2e@test.com` | `E2ETest@2026!` |
+
+### Comandos para assistir no navegador
+
+```bash
+cd e2e
+
+# Modo headed (RECOMENDADO — voce ve o Chromium em tempo real)
+npm run test:ui:headed
+
+# Modo UI interativo (Playwright Test UI — selecione testes, veja trace)
+npm run test:ui
+
+# Modo debug (pause automatico em cada step)
+npm run test:ui:debug
+
+# Headless (para CI ou validacao rapida sem abrir janela)
+npm run test:ui:headless
+```
+
+### O que voce vai assistir
+
+Os specs em `e2e/tests-ui/` cobrem:
+
+| Arquivo | Fluxos |
+|---------|--------|
+| `01-login.ui.spec.ts` | Login Gestor/Vendedor, navbar por papel, logout |
+| `02-vendor-ui.spec.ts` | Cadastrar vendedor via formulario, filtros, detalhes |
+| `03-order-flow-ui.spec.ts` | Criar pedido, confirmar, marcar pago, filtros |
+| `04-commissions-ui.spec.ts` | Apurar comissoes, comissoes pendentes, filtros |
+| `05-dashboard-ui.spec.ts` | Dashboard consolidado (metricas, grafico), dashboard vendedor (P-IV) |
+
+### Config dedicada
+
+`e2e/playwright.ui.config.ts` — headed por padrao, video+trace gravados,
+`webServer` sobe backend+frontend automaticamente se nao estiverem rodando
+(`reuseExistingServer: true`).
+
+---
+
 ## Mapa de cobertura
 
 | Cenario | User Story | FRs | Success Criteria |

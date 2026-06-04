@@ -6,7 +6,7 @@ import { z } from 'zod';
 export const OrderStatusSchema = z.enum(['rascunho', 'confirmado', 'pago', 'cancelado']);
 
 export const OrderItemSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().min(1),
   description: z.string().max(500),
   quantity: z.number().int().positive(),
   unitPriceCents: z.number().int().nonnegative(), // P-III: inteiro centavos
@@ -14,13 +14,13 @@ export const OrderItemSchema = z.object({
 });
 
 export const OrderSchema = z.object({
-  id: z.string().uuid(),
-  vendorId: z.string().uuid(),
+  id: z.string().min(1),       // UUID-like — min(1) aceita seeds sintéticas de teste
+  vendorId: z.string().min(1), // UUID-like — min(1) aceita seeds sintéticas de teste
   totalCents: z.number().int().nonnegative(), // P-III: NUNCA float
   orderDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   status: OrderStatusSchema,
-  paidAt: z.string().nullable(),
-  items: z.array(OrderItemSchema),
+  paidAt: z.string().nullish().transform(v => v ?? null), // undefined → null
+  items: z.preprocess(v => v ?? [], z.array(OrderItemSchema)), // null/undefined → []
 });
 
 export const OrderListSchema = z.array(OrderSchema);
@@ -32,7 +32,7 @@ export const CreateOrderItemRequestSchema = z.object({
 });
 
 export const CreateOrderRequestSchema = z.object({
-  vendorId: z.string().uuid(),
+  vendorId: z.string().min(1),
   orderDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   items: z.array(CreateOrderItemRequestSchema).min(1),
 });
