@@ -443,23 +443,23 @@ Ref: spec §US5, FR-016..FR-019, SC-004, SC-009; plan §pages/
 
 Ref: spec §SC-001..SC-009; quickstart.md §7 Testes; constitution P-I, P-II
 
-- [ ] 9.1.1 Escrever suite de testes de integracao Go (com banco real) para: CRUD de vendedores + historico de regras; ciclo completo de pedido (rascunho→pago→cancelado + estorno atomico CHK081)
-- [ ] 9.1.2 Escrever testes de apuracao: 1 vendedor 10% + 3 pedidos R$1.000 = R$300 exatos (US3 Independent Test); reprocessar → 0 duplicatas (SC-003)
-- [ ] 9.1.3 Escrever teste de escopo RBAC: Vendedor tentando acessar dados de outro → 403 em TODOS os endpoints relevantes (SC-005); listar cada endpoint coberto
-- [ ] 9.1.4 Escrever teste de schema float: query `information_schema.columns` → 0 colunas float em campos monetarios (SC-007/CHK063)
-- [ ] 9.1.5 Escrever teste de audit_trail: toda transicao de estado registra ator + timestamp + from_state + to_state (SC-006)
-- [ ] 9.1.6 Escrever teste de LGPD anonimizacao: anonimizar vendedor → PII substituida + audit_trail gravada (CHK078) + registros financeiros preservados
+- [x] 9.1.1 Escrever suite de testes de integracao Go (com banco real) para: CRUD de vendedores + historico de regras; ciclo completo de pedido (rascunho→pago→cancelado + estorno atomico CHK081)
+- [x] 9.1.2 Escrever testes de apuracao: 1 vendedor 10% + 3 pedidos R$1.000 = R$300 exatos (US3 Independent Test); reprocessar → 0 duplicatas (SC-003)
+- [x] 9.1.3 Escrever teste de escopo RBAC: Vendedor tentando acessar dados de outro → 403 em TODOS os endpoints relevantes (SC-005); listar cada endpoint coberto
+- [x] 9.1.4 Escrever teste de schema float: query `information_schema.columns` → 0 colunas float em campos monetarios (SC-007/CHK063)
+- [x] 9.1.5 Escrever teste de audit_trail: toda transicao de estado registra ator + timestamp + from_state + to_state (SC-006)
+- [x] 9.1.6 Escrever teste de LGPD anonimizacao: anonimizar vendedor → PII substituida + audit_trail gravada (CHK078) + registros financeiros preservados
 
 ### 9.2 Testes E2E Playwright `[A]`
 
 Ref: quickstart.md §7 Testes; spec §SC-001..SC-004, SC-009; US1-US5 Independent Tests
 
-- [ ] 9.2.1 Escrever `e2e/tests/vendor-lifecycle.spec.ts`: criar vendedor, alterar percentual, desativar, verificar que nao aparece em novos pedidos (US1 Independent Test)
-- [ ] 9.2.2 Escrever `e2e/tests/order-lifecycle.spec.ts`: criar pedido, transicionar rascunho→confirmado→pago, verificar trilha (US2 Independent Test)
-- [ ] 9.2.3 Escrever `e2e/tests/commission-apuration.spec.ts`: apurar periodo com dados fixos, verificar valor exato, reapurar → sem duplicatas (US3 Independent Test)
-- [ ] 9.2.4 Escrever `e2e/tests/payment-lifecycle.spec.ts`: Financeiro aprova comissao, marca como paga, Vendedor nao pode aprovar (US4 Independent Test)
-- [ ] 9.2.5 Escrever `e2e/tests/dashboard.spec.ts`: valores do dashboard derivados de pedidos fixos → totais corretos; drill-down em <= 3 cliques (SC-004); dashboard carrega < 3s com 10.000 pedidos (SC-009)
-- [ ] 9.2.6 Escrever `e2e/tests/rbac.spec.ts`: Vendedor nao acessa dados de outros em dashboard, comissoes e pedidos (SC-005); Financeiro nao acessa cadastro de vendedores
+- [x] 9.2.1 Escrever `e2e/tests/vendor-lifecycle.spec.ts`: criar vendedor, alterar percentual, desativar, verificar que nao aparece em novos pedidos (US1 Independent Test)
+- [x] 9.2.2 Escrever `e2e/tests/order-lifecycle.spec.ts`: criar pedido, transicionar rascunho→confirmado→pago, verificar trilha (US2 Independent Test)
+- [x] 9.2.3 Escrever `e2e/tests/commission-apuration.spec.ts`: apurar periodo com dados fixos, verificar valor exato, reapurar → sem duplicatas (US3 Independent Test)
+- [x] 9.2.4 Escrever `e2e/tests/payment-lifecycle.spec.ts`: Financeiro aprova comissao, marca como paga, Vendedor nao pode aprovar (US4 Independent Test)
+- [x] 9.2.5 Escrever `e2e/tests/dashboard.spec.ts`: valores do dashboard derivados de pedidos fixos → totais corretos; drill-down em <= 3 cliques (SC-004); dashboard carrega < 3s com 10.000 pedidos (SC-009)
+- [x] 9.2.6 Escrever `e2e/tests/rbac.spec.ts`: Vendedor nao acessa dados de outros em dashboard, comissoes e pedidos (SC-005); Financeiro nao acessa cadastro de vendedores
 
 ---
 

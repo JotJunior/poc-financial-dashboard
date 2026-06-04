@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-04T01:46:54Z
+**Gerado em**: 2026-06-04T02:02:57Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,15 +18,15 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 14 |
-| Tool calls totais | 44 |
-| Decisoes registradas | 64 |
+| Ondas executadas | 15 |
+| Tool calls totais | 46 |
+| Decisoes registradas | 67 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda 014 entregou FASE 6 (Dashboard e Metricas backend) e FASE 7 (Frontend tipos+API) completas. FASE 6: repository, service, 4 endpoints HTTP, DTOs, 9 testes de integracao passando (repository + HTTP). FASE 7: tipos TypeScript completos com Zod schemas, API client fetchJSON com Bearer [REDACTED] (CHK026), 6 modulos de hooks react-query, 12 testes vitest. 2 commits locais. Proximas: FASE 8 (paginas e componentes React) e FASE 9 (E2E + integracao).
+Onda 015 entregou FASE 8 completa: 26 tasks React implementadas (Login com gestao de token em memoria, Layout com navbar por papel, ProtectedRoute com RBAC, roteamento react-router-dom, paginas Vendors/VendorDetail/Orders/Commissions/DashboardConsolidated/DashboardVendor/PendingCommissions, componentes VendorForm/OrderForm/OrderStatusBadge/CommissionStatusBadge/ApurationForm/SalesChart/DrillDown, hooks useForm/AuthContext). TSC limpo, 33 vitest passando. Proxima: FASE 9 testes de integracao.
 
 ## 2. Linha do Tempo
 
@@ -46,17 +46,18 @@ Onda 014 entregou FASE 6 (Dashboard e Metricas backend) e FASE 7 (Frontend tipos
 | onda-012 | 2026-06-04T00:50:40Z | 2026-06-04T01:06:18Z | execute-task | 1 | 938s | etapa_concluida_avancando |
 | onda-013 | 2026-06-04T01:09:22Z | 2026-06-04T01:23:34Z | execute-task | 1 | 852s | etapa_concluida_avancando |
 | onda-014 | 2026-06-04T01:27:08Z | 2026-06-04T01:46:02Z | execute-task | 0 | 1134s | etapa_concluida_avancando |
+| onda-015 | 2026-06-04T01:49:35Z | 2026-06-04T02:02:10Z |  | 2 | 755s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 64 decisoes registradas.
+Total: 67 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 14 |
-| agente-00c-orchestrator | 25 |
+| agente-00c-feature-orchestrator | 15 |
+| agente-00c-orchestrator | 27 |
 | clarify-answerer | 4 |
 | orquestrador-00c | 21 |
 
@@ -1079,6 +1080,54 @@ Total: 64 decisoes registradas.
 **Escolha**: continuar-para-proxima-fase
 
 **Justificativa**: FASE 6 completa com 9 testes integracao passando; FASE 7 completa com 12 testes vitest; tsc sem erros; 2 commits locais
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-065 — model-routing — agente-00c-feature-orchestrator — 2026-06-04T01:49:04Z
+
+**Contexto**: Selecao de modelo para onda 14 (fase execute-task)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=rasa fase=execute-task (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-066 — execute-task — agente-00c-orchestrator — 2026-06-04T02:01:14Z
+
+**Contexto**: FASE 8 completa: 26 tasks implementadas (paginas/componentes React, testes vitest, roteamento RBAC)
+
+**Opcoes consideradas**: implementar-fase8-nesta-onda / dividir-em-multiplas-ondas
+
+**Escolha**: implementar-fase8-nesta-onda
+
+**Justificativa**: Budget OK; todas as 26 tasks FASE 8 cobertas: Login, Layout, ProtectedRoute, rotas RBAC, Vendors/VendorDetail/VendorForm, Orders/OrderForm/OrderStatusBadge, Commissions/CommissionStatusBadge/ApurationForm, DashboardConsolidated/DashboardVendor/PendingCommissions, SalesChart/DrillDown, AuthContext, useForm hook. TSC limpo, 33 testes passando.
+
+**Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-067 — execute-task — agente-00c-orchestrator — 2026-06-04T02:02:01Z
+
+**Contexto**: Drift warning: 5 ondas sem tocar aspectos-chave conforme detector. Porem FASE 8 entregou UI completa de dashboards/comissoes/pedidos/vendedores — os proprios aspectos do projeto.
+
+**Opcoes consideradas**: ignorar-warning-falso-positivo / abortar
+
+**Escolha**: ignorar-warning-falso-positivo
+
+**Justificativa**: initial_key_aspects=['vendedores','pedidos','comissoes','dashboards','pagamentos']. FASE 8 entregou paginas React para todos esses dominios. O drift detector nao reconhece mudancas .tsx como tocando aspectos por ausencia de matcher string. Exit=0 (nao abort). Drift nao bloqueia.
 
 **Score**: 2
 

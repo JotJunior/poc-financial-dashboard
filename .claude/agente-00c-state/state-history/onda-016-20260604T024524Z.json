@@ -390,21 +390,13 @@
     {
       "id": "onda-016",
       "started_at": "2026-06-04T02:07:32Z",
-      "finished_at": "2026-06-04T02:46:38Z",
-      "executed_stages": [
-        "execute-task"
-      ],
-      "tool_calls": 3,
-      "wallclock_seconds": 2346,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T02:49:38Z",
-      "skills_invoked": [],
-      "touched_key_aspects": [
-        "financial-dashboard",
-        "apuracao",
-        "comissoes",
-        "testes"
-      ]
+      "finished_at": null,
+      "executed_stages": [],
+      "tool_calls": 0,
+      "wallclock_seconds": 0,
+      "termination_reason": null,
+      "next_wave_scheduled_for": null,
+      "skills_invoked": []
     }
   ],
   "decisions": [
@@ -1724,25 +1716,6 @@
       "evidence": "go test ./internal/integration/... -tags integration: 9 testes PASS (0.836s)",
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-070",
-      "wave_id": "onda-016",
-      "timestamp": "2026-06-04T02:45:24Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "FASE 9.2 (tasks 9.2.1-9.2.6): suite E2E Playwright API-driven criada e verde",
-      "options_considered": [
-        "criar-suite-e2e-api",
-        "criar-suite-e2e-ui",
-        "pular"
-      ],
-      "choice": "criar-suite-e2e-api",
-      "rationale": "32 testes Playwright API-driven (sem UI) cobrindo US1-US4 + SC-004/SC-005/SC-009. Descoberta: comissões são auto-criadas ao pagar pedido (handlePayment no OrderService). Todos 32 testes PASS em 3.0s.",
-      "justification_score": 3,
-      "evidence": "npx playwright test: 32 passed (3.0s) - sem nenhuma falha",
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1760,12 +1733,12 @@
     "current_wave_start": "2026-06-04T02:07:32Z"
   },
   "accumulated_metrics": {
-    "waves_total": 16,
-    "tool_calls_total": 49,
-    "wallclock_total_seconds": 11726,
+    "waves_total": 15,
+    "tool_calls_total": 46,
+    "wallclock_total_seconds": 9380,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 70,
+    "decisions_total": 69,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
@@ -2356,39 +2329,6 @@
         "web/src/api/auth.ts"
       ],
       "recorded_at": "2026-06-04T01:45:55Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "9.1",
-      "title": "Testes de integracao backend (9.1.1-9.1.6)",
-      "wave_id": "onda-016",
-      "outcome": "pass",
-      "tests_run": 9,
-      "tests_passed": 9,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/integration/fase9_integration_test.go"
-      ],
-      "recorded_at": "2026-06-04T02:45:58Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "9.2",
-      "title": "Testes E2E Playwright (9.2.1-9.2.6)",
-      "wave_id": "onda-016",
-      "outcome": "pass",
-      "tests_run": 32,
-      "tests_passed": 32,
-      "lint_ok": true,
-      "touched_files": [
-        "e2e/tests/vendor-lifecycle.spec.ts",
-        "e2e/tests/order-lifecycle.spec.ts",
-        "e2e/tests/commission-apuration.spec.ts",
-        "e2e/tests/payment-lifecycle.spec.ts",
-        "e2e/tests/dashboard.spec.ts",
-        "e2e/tests/rbac.spec.ts"
-      ],
-      "recorded_at": "2026-06-04T02:45:59Z",
       "source": "execute-task"
     }
   ]

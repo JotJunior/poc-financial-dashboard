@@ -22,23 +22,29 @@ export function getAccessToken(): string | null {
 // ─── Erros tipados ────────────────────────────────────────────────────────────
 
 export class ApiError extends Error {
+  readonly status: number;
+  readonly body: unknown;
   constructor(
-    public readonly status: number,
-    public readonly body: unknown,
+    status: number,
+    body: unknown,
     message?: string,
   ) {
     super(message ?? `API error ${status}`);
     this.name = 'ApiError';
+    this.status = status;
+    this.body = body;
   }
 }
 
 export class ValidationError extends Error {
+  readonly issues: z.ZodIssue[];
   constructor(
-    public readonly issues: z.ZodIssue[],
+    issues: z.ZodIssue[],
     message?: string,
   ) {
     super(message ?? `Resposta inválida da API: ${issues.map((i) => i.message).join('; ')}`);
     this.name = 'ValidationError';
+    this.issues = issues;
   }
 }
 
