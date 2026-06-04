@@ -345,25 +345,6 @@
           "decision_id": "dec-062"
         }
       ]
-    },
-    {
-      "id": "onda-014",
-      "started_at": "2026-06-04T01:27:08Z",
-      "finished_at": "2026-06-04T01:46:02Z",
-      "executed_stages": [
-        "execute-task"
-      ],
-      "tool_calls": 0,
-      "wallclock_seconds": 1134,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T01:49:02Z",
-      "skills_invoked": [
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T01:45:27Z",
-          "decision_id": "wave-014-fase6-fase7"
-        }
-      ]
     }
   ],
   "decisions": [
@@ -1550,44 +1531,6 @@
       "evidence": "go test -tags=integration ./internal/http/... -run TestCommInteg: 7/7 PASS; go test ./...: 7 pkgs ok; TestCommInteg_ApurateOK totalCents=40000",
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-063",
-      "wave_id": "onda-013",
-      "timestamp": "2026-06-04T01:26:35Z",
-      "stage": "model-routing",
-      "agent": "agente-00c-feature-orchestrator",
-      "context": "Selecao de modelo para onda 13 (fase execute-task)",
-      "options_considered": [
-        "haiku",
-        "sonnet",
-        "opus",
-        "manter-atual"
-      ],
-      "choice": "model:sonnet",
-      "rationale": "sugerido=sonnet aplicado=sonnet origem=mapa | faixa=rasa fase=execute-task (mapa primario)",
-      "justification_score": 0,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
-    },
-    {
-      "id": "dec-064",
-      "wave_id": "onda-014",
-      "timestamp": "2026-06-04T01:45:42Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "Onda 014: FASE 6 (dashboard backend) e FASE 7 (frontend tipos+API) concluidas",
-      "options_considered": [
-        "continuar-para-proxima-fase",
-        "pausar"
-      ],
-      "choice": "continuar-para-proxima-fase",
-      "rationale": "FASE 6 completa com 9 testes integracao passando; FASE 7 completa com 12 testes vitest; tsc sem erros; 2 commits locais",
-      "justification_score": 2,
-      "evidence": null,
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1601,16 +1544,16 @@
     "tool_calls_threshold_wave": 80,
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
-    "tool_calls_current_wave": 0,
-    "current_wave_start": "2026-06-04T01:27:08Z"
+    "tool_calls_current_wave": 1,
+    "current_wave_start": "2026-06-04T01:09:22Z"
   },
   "accumulated_metrics": {
-    "waves_total": 14,
+    "waves_total": 13,
     "tool_calls_total": 44,
-    "wallclock_total_seconds": 8625,
+    "wallclock_total_seconds": 7491,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 64,
+    "decisions_total": 62,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
@@ -2164,43 +2107,6 @@
         "docs/specs/financial-dashboard/tasks.md"
       ],
       "recorded_at": "2026-06-04T01:23:16Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "6.1-6.2",
-      "title": "FASE 6 Dashboard e Metricas backend",
-      "wave_id": "onda-014",
-      "outcome": "pass",
-      "tests_run": 9,
-      "tests_passed": 9,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/repository/dashboard.go",
-        "backend/internal/service/dashboard_service.go",
-        "backend/internal/http/dashboard_handler.go",
-        "backend/internal/dto/dashboard.go"
-      ],
-      "recorded_at": "2026-06-04T01:45:55Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "7.1-7.2",
-      "title": "FASE 7 Frontend tipos, schemas Zod, API client e hooks",
-      "wave_id": "onda-014",
-      "outcome": "pass",
-      "tests_run": 12,
-      "tests_passed": 12,
-      "lint_ok": true,
-      "touched_files": [
-        "web/src/types/dashboard.ts",
-        "web/src/api/client.ts",
-        "web/src/api/vendors.ts",
-        "web/src/api/orders.ts",
-        "web/src/api/commissions.ts",
-        "web/src/api/dashboard.ts",
-        "web/src/api/auth.ts"
-      ],
-      "recorded_at": "2026-06-04T01:45:55Z",
       "source": "execute-task"
     }
   ]

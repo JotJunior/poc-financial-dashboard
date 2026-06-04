@@ -1,6 +1,6 @@
 # Relatorio do Agente-00C — exec-2026-06-03T22-24-05Z-agente-00c-cadastro-vendas
 
-**Gerado em**: 2026-06-04T00:45:46Z
+**Gerado em**: 2026-06-04T01:24:12Z
 **Status no momento**: em_andamento
 **Versao do schema**: 1.0.0
 
@@ -18,15 +18,15 @@
 | Motivo termino | (em andamento) |
 | Iniciada em | 2026-06-03T22:24:05Z |
 | Terminada em | ainda em andamento |
-| Ondas executadas | 11 |
-| Tool calls totais | 42 |
-| Decisoes registradas | 59 |
+| Ondas executadas | 13 |
+| Tool calls totais | 44 |
+| Decisoes registradas | 62 |
 | Bloqueios humanos | 0 |
 | Sugestoes para skills globais | 0 |
 | Issues abertas no toolkit | 0 |
 | Profundidade max de subagentes | 1 |
 
-Onda 011 concluiu tasks 2.4 (handlers auth: login/refresh/logout com rate-limit OWASP 5req/IP/60s, httpOnly cookie para refresh_token, testes unitarios+integracao), 2.5 (TLS/HTTPS: nginx reverse proxy, smoke test com cert auto-assinado, documentacao Deploy) e FASE 3 parcial: 3.1 (PGVendorRepository), 3.2 (PGCommissionRuleRepository), 3.3 (VendorService RBAC), 3.4 (VendorHandler HTTP). Todos os testes unitarios e de integracao contra PostgreSQL real passando. Commit local realizado.
+Onda-013 completou FASE 5 (Apuracao de Comissoes P3): repository expandido com CreateBatch/FindByPeriod/Transition, ApurationService atomico (CHK073), CommissionHandler com 4 endpoints RBAC, migration 011 para transicao de status, 18 testes passando. FASE 6 (Dashboard e Metricas) e FASE 7 (Frontend Base) sao as proximas.
 
 ## 2. Linha do Tempo
 
@@ -43,17 +43,19 @@ Onda 011 concluiu tasks 2.4 (handlers auth: login/refresh/logout com rate-limit 
 | onda-009 | 2026-06-03T23:56:43Z | 2026-06-04T00:07:55Z |  | 7 | 672s | etapa_concluida_avancando |
 | onda-010 | 2026-06-04T00:13:04Z | 2026-06-04T00:24:12Z | execute-task | 0 | 668s | etapa_concluida_avancando |
 | onda-011 | 2026-06-04T00:27:13Z | 2026-06-04T00:44:56Z |  | 1 | 1063s | etapa_concluida_avancando |
+| onda-012 | 2026-06-04T00:50:40Z | 2026-06-04T01:06:18Z | execute-task | 1 | 938s | etapa_concluida_avancando |
+| onda-013 | 2026-06-04T01:09:22Z | 2026-06-04T01:23:34Z | execute-task | 1 | 852s | etapa_concluida_avancando |
 
 ## 3. Decisoes
 
-Total: 59 decisoes registradas.
+Total: 62 decisoes registradas.
 
 ### 3.1 Por agente
 
 | Agente | Quantidade |
 |--------|------------|
-| agente-00c-feature-orchestrator | 11 |
-| agente-00c-orchestrator | 23 |
+| agente-00c-feature-orchestrator | 13 |
+| agente-00c-orchestrator | 24 |
 | clarify-answerer | 4 |
 | orquestrador-00c | 21 |
 
@@ -998,6 +1000,54 @@ Total: 59 decisoes registradas.
 **Justificativa**: Fundacao do sistema. Vendor CRUD completo com: repository (CRUD+anonymize), service (RBAC deny-by-default P-IV), handler chi, DTO camelCase, testes unitarios+integracao PostgreSQL real. Task 3.2.5 (integration tests para commission_rule) adiada para proxima onda.
 
 **Score**: 2
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-060 — model-routing — agente-00c-feature-orchestrator — 2026-06-04T00:50:15Z
+
+**Contexto**: Selecao de modelo para onda 11 (fase execute-task)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=rasa fase=execute-task (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-061 — model-routing — agente-00c-feature-orchestrator — 2026-06-04T01:08:40Z
+
+**Contexto**: Selecao de modelo para onda 12 (fase execute-task)
+
+**Opcoes consideradas**: haiku / sonnet / opus / manter-atual
+
+**Escolha**: model:sonnet
+
+**Justificativa**: sugerido=sonnet aplicado=sonnet origem=mapa | faixa=rasa fase=execute-task (mapa primario)
+
+**Score**: 0
+
+**Referencias**: (nenhuma)
+
+**Artefato originador**: (nenhum)
+
+#### dec-062 — execute-task — agente-00c-orchestrator — 2026-06-04T01:23:00Z
+
+**Contexto**: FASE 5 completa: repository CreateBatch/FindByPeriod/Transition, ApurationService CHK073, CommissionHandler 4 endpoints, migration 011, 18 testes passando
+
+**Opcoes consideradas**: implementar-fase5 / adiar-fase5 / bloqueio-humano
+
+**Escolha**: implementar-fase5
+
+**Justificativa**: FASE 5 critica (P3): bloqueante para FASE 6/8. 11 unit tests + 7 integration tests passando. US3.1 validado empiricamente: totalCents=40000 para 8% de R.
+
+**Score**: 3
 
 **Referencias**: (nenhuma)
 
