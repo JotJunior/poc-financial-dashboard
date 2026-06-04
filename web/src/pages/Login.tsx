@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 import { useLogin } from '../api/auth';
-import { useAuth } from '../api/auth-context';
+import { useAuth, decodeJwtPayload, homePathForRole } from '../api/auth-context';
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -17,17 +17,20 @@ type LoginForm = z.infer<typeof loginSchema>;
 export function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, setToken } = useAuth();
+  const { isAuthenticated, user, setToken } = useAuth();
   const loginMutation = useLogin();
 
   const from = (location.state as { from?: { pathname: string } } | null)?.from?.pathname ?? '/';
 
-  // Se já autenticado, redirecionar
+  // Se já autenticado (ex.: sessão restaurada via silent refresh), redirecionar
+  // para o destino salvo ou para a home do papel — nunca para '/' genérico, que
+  // mandaria o Vendedor por /dashboard/consolidated → /403.
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from, { replace: true });
+      const dest = from && from !== '/' ? from : homePathForRole(user?.role);
+      navigate(dest, { replace: true });
     }
-  }, [isAuthenticated, from, navigate]);
+  }, [isAuthenticated, user, from, navigate]);
 
   const form = useForm<LoginForm>({
     schema: loginSchema,
@@ -37,7 +40,11 @@ export function Login() {
   async function onSubmit(data: LoginForm) {
     const result = await loginMutation.mutateAsync(data);
     setToken(result.accessToken);
-    navigate(from, { replace: true });
+    // Navegar role-aware a partir do token recém-emitido (não depende do estado
+    // assíncrono do contexto), evitando a corrida que levava o Vendedor ao /403.
+    const decoded = decodeJwtPayload(result.accessToken);
+    const dest = from && from !== '/' ? from : homePathForRole(decoded?.role);
+    navigate(dest, { replace: true });
   }
 
   const inputStyle = {

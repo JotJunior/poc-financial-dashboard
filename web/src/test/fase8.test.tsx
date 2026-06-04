@@ -47,7 +47,7 @@ describe('ProtectedRoute (Task 8.1.3, 8.1.5)', () => {
     setAccessToken(null);
   });
 
-  it('redireciona para /login quando não autenticado', () => {
+  it('redireciona para /login quando não autenticado', async () => {
     render(
       <Wrapper initialPath="/vendedores">
         <Routes>
@@ -63,7 +63,10 @@ describe('ProtectedRoute (Task 8.1.3, 8.1.5)', () => {
         </Routes>
       </Wrapper>
     );
-    expect(screen.getByTestId('login-page')).toBeInTheDocument();
+    // Sem token em memória, o ProtectedRoute primeiro tenta restaurar a sessão
+    // (silent refresh via cookie). Em teste não há cookie → falha → redireciona.
+    // findByTestId aguarda essa transição assíncrona.
+    expect(await screen.findByTestId('login-page')).toBeInTheDocument();
     expect(screen.queryByTestId('protected')).not.toBeInTheDocument();
   });
 

@@ -12,8 +12,27 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, roles }: ProtectedRouteProps) {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();
+
+  if (isLoading) {
+    // Sessão ainda sendo restaurada (silent refresh via cookie). Não redirecionar
+    // para /login ainda — senão um reload sempre expulsaria o usuário logado.
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#1e1e2e',
+          color: '#a6adc8',
+        }}
+      >
+        Carregando…
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     // Redirecionar para login preservando a URL de destino

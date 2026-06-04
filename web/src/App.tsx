@@ -1,7 +1,7 @@
 // App.tsx — configuração do roteador com rotas protegidas por papel (Task 8.1.4)
 // P-IV: UI é complementar — backend é a barreira real de RBAC
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AuthProvider, useAuth } from './api/auth-context';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
@@ -37,6 +37,13 @@ function Forbidden() {
     <div style={{ textAlign: 'center', padding: '4rem', color: '#a6adc8' }}>
       <h1 style={{ color: '#f38ba8' }}>403</h1>
       <p>Sem permissão para acessar esta página.</p>
+      {/* Saída para não deixar o usuário preso (ex.: Vendedor que tocou uma
+          rota de Gestor). Link '/' → DefaultDashboard → home do papel. */}
+      <p style={{ marginTop: '1.5rem' }}>
+        <Link to="/" style={{ color: '#cba6f7', fontWeight: 600 }}>
+          ← Voltar ao meu painel
+        </Link>
+      </p>
     </div>
   );
 }
