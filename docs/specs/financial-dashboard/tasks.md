@@ -131,8 +131,8 @@ Ref: data-model.md (schema completo); plan §P-I/P-II/P-III; constitution P-III 
 - [x] 1.4.7 Criar migration `008_audit_trail.sql`: tabela `audit_trail` com `id UUID PK`, `entity_type VARCHAR(50)`, `entity_id UUID`, `actor_user_id FK`, `occurred_at TIMESTAMPTZ DEFAULT NOW()`, `from_state VARCHAR(50)`, `to_state VARCHAR(50)`, `reason TEXT`, `metadata JSONB`; trigger BEFORE UPDATE OR DELETE → RAISE EXCEPTION
 - [x] 1.4.8 Criar migration `009_views.sql`: view `commission_net_balance` com SQL: `SELECT c.id, c.vendor_id, c.value_cents + COALESCE(SUM(cr.value_cents),0) AS net_cents FROM commissions c LEFT JOIN commission_reversals cr ON cr.commission_id = c.id GROUP BY c.id, c.vendor_id`
 - [x] 1.4.9 Criar indices de performance: `(vendor_id, order_date)` em orders; `(vendor_id, period_year, period_month)` em commissions; `(entity_type, entity_id)` em audit_trail
-- [ ] 1.4.10 Verificar SC-007: executar query contra `information_schema.columns` confirmando ausencia de colunas com `data_type IN ('real','double precision','float4','float8')`
-- [ ] 1.4.11 Escrever teste de schema automatizado (Go test) que varre `information_schema.columns` e falha se qualquer coluna monetaria for float — criterio de aceite SC-007/CHK063
+- [x] 1.4.10 Verificar SC-007: executar query contra `information_schema.columns` confirmando ausencia de colunas com `data_type IN ('real','double precision','float4','float8')`
+- [x] 1.4.11 Escrever teste de schema automatizado (Go test) que varre `information_schema.columns` e falha se qualquer coluna monetaria for float — criterio de aceite SC-007/CHK063
 
 ---
 
