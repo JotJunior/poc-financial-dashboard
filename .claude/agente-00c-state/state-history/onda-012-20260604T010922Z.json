@@ -326,25 +326,6 @@
           "decision_id": "dec-implicit-fase4"
         }
       ]
-    },
-    {
-      "id": "onda-013",
-      "started_at": "2026-06-04T01:09:22Z",
-      "finished_at": "2026-06-04T01:23:34Z",
-      "executed_stages": [
-        "execute-task"
-      ],
-      "tool_calls": 1,
-      "wallclock_seconds": 852,
-      "termination_reason": "etapa_concluida_avancando",
-      "next_wave_scheduled_for": "2026-06-04T01:28:04Z",
-      "skills_invoked": [
-        {
-          "skill": "execute-task",
-          "timestamp": "2026-06-04T01:23:06Z",
-          "decision_id": "dec-062"
-        }
-      ]
     }
   ],
   "decisions": [
@@ -1512,25 +1493,6 @@
       "evidence": null,
       "references": [],
       "originating_artifact": null
-    },
-    {
-      "id": "dec-062",
-      "wave_id": "onda-013",
-      "timestamp": "2026-06-04T01:23:00Z",
-      "stage": "execute-task",
-      "agent": "agente-00c-orchestrator",
-      "context": "FASE 5 completa: repository CreateBatch/FindByPeriod/Transition, ApurationService CHK073, CommissionHandler 4 endpoints, migration 011, 18 testes passando",
-      "options_considered": [
-        "implementar-fase5",
-        "adiar-fase5",
-        "bloqueio-humano"
-      ],
-      "choice": "implementar-fase5",
-      "rationale": "FASE 5 critica (P3): bloqueante para FASE 6/8. 11 unit tests + 7 integration tests passando. US3.1 validado empiricamente: totalCents=40000 para 8% de R.",
-      "justification_score": 3,
-      "evidence": "go test -tags=integration ./internal/http/... -run TestCommInteg: 7/7 PASS; go test ./...: 7 pkgs ok; TestCommInteg_ApurateOK totalCents=40000",
-      "references": [],
-      "originating_artifact": null
     }
   ],
   "human_blocks": [],
@@ -1545,15 +1507,15 @@
     "wallclock_threshold_seconds": 5400,
     "state_size_threshold_bytes": 1048576,
     "tool_calls_current_wave": 1,
-    "current_wave_start": "2026-06-04T01:09:22Z"
+    "current_wave_start": "2026-06-04T00:50:40Z"
   },
   "accumulated_metrics": {
-    "waves_total": 13,
-    "tool_calls_total": 44,
-    "wallclock_total_seconds": 7491,
+    "waves_total": 12,
+    "tool_calls_total": 43,
+    "wallclock_total_seconds": 6639,
     "max_depth_reached": 1,
     "subagents_spawned": 0,
-    "decisions_total": 62,
+    "decisions_total": 61,
     "human_blocks_total": 0,
     "global_skill_suggestions_total": 0,
     "toolkit_issues_opened": 0,
@@ -1598,11 +1560,6 @@
       "event_type": "schedule_wait",
       "timestamp": "2026-06-04T00:24:05Z",
       "description": "onda-010 fim: tasks 1.4.10+1.4.11+2.1+2.2+2.3 PASS; proxima onda: 2.4+2.5 ou FASE3"
-    },
-    {
-      "event_type": "schedule_wait",
-      "timestamp": "2026-06-04T01:23:34Z",
-      "description": "onda-013 fase5 completa, agendando proxima onda para fase6"
     }
   ],
   "next_retrospective_milestone": 25,
@@ -2050,63 +2007,6 @@
         "backend/internal/http/middleware/auth_test.go"
       ],
       "recorded_at": "2026-06-04T00:23:54Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "5.1",
-      "title": "Repository de comissoes",
-      "wave_id": "onda-013",
-      "outcome": "pass",
-      "tests_run": 7,
-      "tests_passed": 7,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/repository/commission.go",
-        "backend/internal/service/apuration_service.go",
-        "backend/internal/http/commission_handler.go",
-        "backend/internal/dto/commission.go",
-        "backend/migrations/011_commission_status_transition.up.sql",
-        "docs/specs/financial-dashboard/tasks.md"
-      ],
-      "recorded_at": "2026-06-04T01:23:16Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "5.2",
-      "title": "Service de apuracao",
-      "wave_id": "onda-013",
-      "outcome": "pass",
-      "tests_run": 11,
-      "tests_passed": 11,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/repository/commission.go",
-        "backend/internal/service/apuration_service.go",
-        "backend/internal/http/commission_handler.go",
-        "backend/internal/dto/commission.go",
-        "backend/migrations/011_commission_status_transition.up.sql",
-        "docs/specs/financial-dashboard/tasks.md"
-      ],
-      "recorded_at": "2026-06-04T01:23:16Z",
-      "source": "execute-task"
-    },
-    {
-      "task_id": "5.3",
-      "title": "Handlers HTTP de apuracao e comissoes",
-      "wave_id": "onda-013",
-      "outcome": "pass",
-      "tests_run": 7,
-      "tests_passed": 7,
-      "lint_ok": true,
-      "touched_files": [
-        "backend/internal/repository/commission.go",
-        "backend/internal/service/apuration_service.go",
-        "backend/internal/http/commission_handler.go",
-        "backend/internal/dto/commission.go",
-        "backend/migrations/011_commission_status_transition.up.sql",
-        "docs/specs/financial-dashboard/tasks.md"
-      ],
-      "recorded_at": "2026-06-04T01:23:16Z",
       "source": "execute-task"
     }
   ]
