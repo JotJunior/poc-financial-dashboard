@@ -356,25 +356,25 @@ Ref: spec §FR-016..FR-019, SC-009; contracts/api.md §/dashboard; plan §http/
 
 Ref: plan §Convencoes de Borda; contracts/api.md; spec §FR-007 (centavos); dec-032
 
-- [ ] 7.1.1 Criar `web/src/types/vendor.ts`: interface `Vendor`, `CreateVendorRequest`, `VendorPatch`, `CommissionRule` — campos camelCase, percentual como `string` ("5.5000")
-- [ ] 7.1.2 Criar `web/src/types/order.ts`: interface `Order`, `OrderItem`, `CreateOrderRequest` — `totalCents: number` (inteiro), nunca float (P-III)
-- [ ] 7.1.3 Criar `web/src/types/commission.ts`: interface `Commission`, `CommissionReversal`, `ApurationRequest`, `ApurationResult`, `CommissionNetBalance`
-- [ ] 7.1.4 Criar `web/src/types/dashboard.ts`: interface `ConsolidatedDashboard`, `VendorDashboard`, `DrillDown`
-- [ ] 7.1.5 Criar schemas Zod correspondentes em `web/src/types/*.schema.ts` — parse em toda resposta da API (borda de validacao)
-- [ ] 7.1.6 Criar `web/src/types/index.ts` barrel com todos os exports
-- [ ] 7.1.7 Verificar paridade EXATA com contracts/api.md: cada campo do contrato deve ter correspondente no schema Zod (diff manual + teste smoke)
+- [x] 7.1.1 Criar `web/src/types/vendor.ts`: interface `Vendor`, `CreateVendorRequest`, `VendorPatch`, `CommissionRule` — campos camelCase, percentual como `string` ("5.5000")
+- [x] 7.1.2 Criar `web/src/types/order.ts`: interface `Order`, `OrderItem`, `CreateOrderRequest` — `totalCents: number` (inteiro), nunca float (P-III)
+- [x] 7.1.3 Criar `web/src/types/commission.ts`: interface `Commission`, `CommissionReversal`, `ApurationRequest`, `ApurationResult`, `CommissionNetBalance`
+- [x] 7.1.4 Criar `web/src/types/dashboard.ts`: interface `ConsolidatedDashboard`, `VendorDashboard`, `DrillDown`
+- [x] 7.1.5 Criar schemas Zod correspondentes em `web/src/types/*.schema.ts` — parse em toda resposta da API (borda de validacao)
+- [x] 7.1.6 Criar `web/src/types/index.ts` barrel com todos os exports
+- [x] 7.1.7 Verificar paridade EXATA com contracts/api.md: cada campo do contrato deve ter correspondente no schema Zod (diff manual + teste smoke)
 
 ### 7.2 API client com react-query `[A]`
 
 Ref: plan §Technical Context; contracts/api.md; research dec-032
 
-- [ ] 7.2.1 Criar `web/src/api/client.ts` com `fetchJSON<T>(url, options): Promise<T>` — faz fetch, verifica status, faz zod.parse na resposta (CHK026: envia access_token como Bearer header, refresh_token nunca tocado no JS — httpOnly cookie)
-- [ ] 7.2.2 Criar `web/src/api/vendors.ts` com hooks: `useVendors()`, `useVendor(id)`, `useCreateVendor()`, `useUpdateVendor()`, `useDeactivateVendor()`
-- [ ] 7.2.3 Criar `web/src/api/orders.ts` com hooks: `useOrders(filter)`, `useOrder(id)`, `useCreateOrder()`, `useTransitionOrder()`
-- [ ] 7.2.4 Criar `web/src/api/commissions.ts` com hooks: `useCommissions(filter)`, `useApurate()`, `useTransitionCommission()`
-- [ ] 7.2.5 Criar `web/src/api/dashboard.ts` com hooks: `useConsolidatedDashboard(filter)`, `useVendorDashboard(filter)`, `usePendingCommissions()`
-- [ ] 7.2.6 Criar `web/src/api/auth.ts` com: `useLogin()`, `useLogout()`, `useRefreshToken()` (renovacao automatica via interceptor react-query)
-- [ ] 7.2.7 Escrever testes vitest: mock de fetch; verificar que zod.parse rejeita resposta malformada; verificar que token e enviado como Bearer header
+- [x] 7.2.1 Criar `web/src/api/client.ts` com `fetchJSON<T>(url, options): Promise<T>` — faz fetch, verifica status, faz zod.parse na resposta (CHK026: envia access_token como Bearer header, refresh_token nunca tocado no JS — httpOnly cookie)
+- [x] 7.2.2 Criar `web/src/api/vendors.ts` com hooks: `useVendors()`, `useVendor(id)`, `useCreateVendor()`, `useUpdateVendor()`, `useDeactivateVendor()`
+- [x] 7.2.3 Criar `web/src/api/orders.ts` com hooks: `useOrders(filter)`, `useOrder(id)`, `useCreateOrder()`, `useTransitionOrder()`
+- [x] 7.2.4 Criar `web/src/api/commissions.ts` com hooks: `useCommissions(filter)`, `useApurate()`, `useTransitionCommission()`
+- [x] 7.2.5 Criar `web/src/api/dashboard.ts` com hooks: `useConsolidatedDashboard(filter)`, `useVendorDashboard(filter)`, `usePendingCommissions()`
+- [x] 7.2.6 Criar `web/src/api/auth.ts` com: `useLogin()`, `useLogout()`, `useRefreshToken()` (renovacao automatica via interceptor react-query)
+- [x] 7.2.7 Escrever testes vitest: mock de fetch; verificar que zod.parse rejeita resposta malformada; verificar que token e enviado como Bearer header
 
 ---
 
