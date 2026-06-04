@@ -144,11 +144,11 @@ Ref: data-model.md (schema completo); plan §P-I/P-II/P-III; constitution P-III 
 
 Ref: spec §FR-024, FR-025, FR-026; plan §auth/; research dec-026; checklists CHK001/CHK004/CHK011/CHK025/CHK026
 
-- [ ] 2.1.1 Criar `backend/internal/auth/auth.go` com funcoes: `HashPassword(plain string) (string, error)` usando Argon2id (m=64MB, t=3, p=4) e `VerifyPassword(plain, hash string) bool`
-- [ ] 2.1.2 Implementar `IssueAccessToken(userID, role, vendorID string) (string, error)` com HS256, claims `sub/role/vendor_id/exp`, TTL=15min (`JWT_ACCESS_TTL` do env)
-- [ ] 2.1.3 Implementar `IssueRefreshToken(userID string) (string, error)` com TTL=7dias (`JWT_REFRESH_TTL` do env)
-- [ ] 2.1.4 Implementar `VerifyToken(tokenString string) (*Claims, error)` com validacao de algoritmo (pinnar `alg=HS256`, rejeitar outros — dec-034 owasp finding)
-- [ ] 2.1.5 Escrever testes: hash/verify senha; emitir/verificar token valido; rejeitar token expirado (401); rejeitar token com alg diferente; verificar que claims contem sub/role/vendor_id
+- [x] 2.1.1 Criar `backend/internal/auth/auth.go` com funcoes: `HashPassword(plain string) (string, error)` usando Argon2id (m=64MB, t=3, p=4) e `VerifyPassword(plain, hash string) bool`
+- [x] 2.1.2 Implementar `IssueAccessToken(userID, role, vendorID string) (string, error)` com HS256, claims `sub/role/vendor_id/exp`, TTL=15min (`JWT_ACCESS_TTL` do env)
+- [x] 2.1.3 Implementar `IssueRefreshToken(userID string) (string, error)` com TTL=7dias (`JWT_REFRESH_TTL` do env)
+- [x] 2.1.4 Implementar `VerifyToken(tokenString string) (*Claims, error)` com validacao de algoritmo (pinnar `alg=HS256`, rejeitar outros — dec-034 owasp finding)
+- [x] 2.1.5 Escrever testes: hash/verify senha; emitir/verificar token valido; rejeitar token expirado (401); rejeitar token com alg diferente; verificar que claims contem sub/role/vendor_id
 
 ### 2.2 Blocklist de tokens revogados `[C]`
 
