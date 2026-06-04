@@ -141,7 +141,10 @@ export function Commissions() {
 
                 <CommissionStatusBadge
                   status={comm.status}
-                  interactive={isFinanceiro || isGestor}
+                  // Transição de status de comissão (aprovar/pagar/reverter) é
+                  // exclusiva do Financeiro (spec US4; backend requireRole("financeiro")).
+                  // O Gestor apenas apura — habilitar o controle para ele gerava 403.
+                  interactive={isFinanceiro}
                   isLoading={transitionComm.isPending}
                   onTransition={(to, motivo) => {
                     void transitionComm.mutateAsync({ id: comm.id, status: to, motivo });
