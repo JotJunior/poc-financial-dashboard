@@ -156,12 +156,12 @@ Ref: checklists/security.md CHK011; dec-037 (risco medio/alto); FR-001 (desativa
 
 > CHK011: JWT stateless nao tem revogacao nativa. Task dedicada obrigatoria antes de qualquer endpoint autenticado.
 
-- [ ] 2.2.1 Criar migration `010_token_blocklist.sql`: tabela `token_blocklist` com `jti UUID PK`, `expires_at TIMESTAMPTZ`, `revoked_at TIMESTAMPTZ DEFAULT NOW()`, `reason VARCHAR(100)`; indice em `expires_at` para cleanup periodico
-- [ ] 2.2.2 Criar `backend/internal/auth/blocklist.go` com interface `TokenBlocklist` e implementacao `DBBlocklist` (pgx)
-- [ ] 2.2.3 Implementar `Revoke(jti string, expiresAt time.Time, reason string) error` — insere na tabela
-- [ ] 2.2.4 Implementar `IsRevoked(jti string) (bool, error)` — verifica na tabela; integrar em `VerifyToken` (verificar blocklist apos validar assinatura)
-- [ ] 2.2.5 Adicionar claim `jti` (JWT ID uuid) a todo token emitido — necessario para revogar individualmente
-- [ ] 2.2.6 Escrever testes: revogar token e verificar que IsRevoked retorna true; verificar que token nao-revogado passa; verificar que desativacao de vendedor revoga token ativo
+- [x] 2.2.1 Criar migration `010_token_blocklist.sql`: tabela `token_blocklist` com `jti UUID PK`, `expires_at TIMESTAMPTZ`, `revoked_at TIMESTAMPTZ DEFAULT NOW()`, `reason VARCHAR(100)`; indice em `expires_at` para cleanup periodico
+- [x] 2.2.2 Criar `backend/internal/auth/blocklist.go` com interface `TokenBlocklist` e implementacao `DBBlocklist` (pgx)
+- [x] 2.2.3 Implementar `Revoke(jti string, expiresAt time.Time, reason string) error` — insere na tabela
+- [x] 2.2.4 Implementar `IsRevoked(jti string) (bool, error)` — verifica na tabela; integrar em `VerifyToken` (verificar blocklist apos validar assinatura)
+- [x] 2.2.5 Adicionar claim `jti` (JWT ID uuid) a todo token emitido — necessario para revogar individualmente
+- [x] 2.2.6 Escrever testes: revogar token e verificar que IsRevoked retorna true; verificar que token nao-revogado passa; verificar que desativacao de vendedor revoga token ativo
 
 ### 2.3 Middleware de autenticacao e RBAC `[C]`
 

@@ -34,6 +34,9 @@ var (
 
 	// ErrMissingSecret é retornado quando JWT_SECRET não está definido.
 	ErrMissingSecret = errors.New("auth: JWT_SECRET não definido no ambiente")
+
+	// ErrTokenRevoked é retornado quando o JTI do token está na blocklist.
+	ErrTokenRevoked = errors.New("auth: token revogado")
 )
 
 // ─── Parâmetros Argon2id ──────────────────────────────────────────────────────
