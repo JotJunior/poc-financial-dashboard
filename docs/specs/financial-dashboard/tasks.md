@@ -112,11 +112,11 @@ Ref: spec §FR-008, US2; plan §domain/order.go; dec-019
 
 Ref: spec §FR-020, US4; plan §domain/commission.go; dec-019/dec-021
 
-- [ ] 1.3.1 Criar `backend/internal/domain/commission.go` com enum `CommissionStatus` (pendente, aprovado, pago)
-- [ ] 1.3.2 Implementar transicoes: pendente→aprovado, aprovado→pago, aprovado→pendente (com motivo obrigatorio)
-- [ ] 1.3.3 Criar enum `ReversalStatus` (aplicado, pendente_aprovacao, aprovado, lancado) para Estorno (FR-027/FR-028)
-- [ ] 1.3.4 Implementar logica de bifurcacao do estorno: comissao `pendente` → estorno `aplicado`; comissao `aprovado`/`pago` → estorno `pendente_aprovacao` (FR-028)
-- [ ] 1.3.5 Escrever testes unitarios para cada transicao valida, invalida e para a logica de bifurcacao do estorno
+- [x] 1.3.1 Criar `backend/internal/domain/commission.go` com enum `CommissionStatus` (pendente, aprovado, pago)
+- [x] 1.3.2 Implementar transicoes: pendente→aprovado, aprovado→pago, aprovado→pendente (com motivo obrigatorio)
+- [x] 1.3.3 Criar enum `ReversalStatus` (aplicado, pendente_aprovacao, aprovado, lancado) para Estorno (FR-027/FR-028)
+- [x] 1.3.4 Implementar logica de bifurcacao do estorno: comissao `pendente` → estorno `aplicado`; comissao `aprovado`/`pago` → estorno `pendente_aprovacao` (FR-028)
+- [x] 1.3.5 Escrever testes unitarios para cada transicao valida, invalida e para a logica de bifurcacao do estorno
 
 ### 1.4 Migrations: schema completo `[C]`
 
