@@ -270,3 +270,74 @@ WHERE table_schema = 'public'
 | 5 | — | FR-027..029 | (imutabilidade P-I) |
 | 6 | US5 | FR-016..019 | SC-001, SC-004, SC-009 |
 | 7 | US5 + borda | FR-016..018, FR-007 | SC-007, SC-009 |
+
+---
+
+## Deploy — Configuração TLS/HTTPS (CHK025, task 2.5)
+
+> **NEVER expose HTTP em produção.** Todo tráfego deve passar por HTTPS.
+> HTTP só é aceito em desenvolvimento local (sem dados reais trafegando).
+
+### Opção 1 — TLS direto no Go (simples, para servidores single-node)
+
+```bash
+# Definir no ambiente (jamais comitar a chave privada):
+TLS_CERT_PATH=/etc/app/tls/fullchain.pem
+TLS_KEY_PATH=/etc/app/tls/privkey.pem
+SERVER_PORT=443
+
+# main.go detecta automaticamente e usa http.ListenAndServeTLS
+```
+
+Certificado para produção: use [Let's Encrypt](https://letsencrypt.org/) + `certbot` ou `acme.sh`.
+
+```bash
+# Exemplo com certbot (renovação automática via cron)
+certbot certonly --standalone -d seu-dominio.com
+# Certs em: /etc/letsencrypt/live/seu-dominio.com/
+```
+
+### Opção 2 — Reverse proxy nginx (recomendado para produção)
+
+```bash
+# 1. Gerar certificado Let's Encrypt (ou copiar o seu para ./tls/)
+mkdir -p tls
+cp /etc/letsencrypt/live/seu-dominio.com/fullchain.pem tls/cert.pem
+cp /etc/letsencrypt/live/seu-dominio.com/privkey.pem   tls/key.pem
+chmod 600 tls/key.pem
+
+# 2. Subir com profile proxy (nginx + api + postgres)
+docker compose --profile proxy up -d
+
+# 3. Verificar redirect HTTP → HTTPS
+curl -I http://localhost:8080/health
+# Esperado: 301 Location: https://...
+```
+
+### Certificado auto-assinado (desenvolvimento/CI)
+
+```bash
+# Gerar certificado auto-assinado para dev (não usar em produção)
+openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 \
+  -keyout tls/key.pem -out tls/cert.pem -days 365 -nodes \
+  -subj "/CN=localhost" \
+  -addext "subjectAltName=IP:127.0.0.1,DNS:localhost"
+chmod 600 tls/key.pem
+```
+
+### TLS hardening (nginx.conf — já configurado)
+
+- `ssl_protocols TLSv1.2 TLSv1.3` — TLS 1.0/1.1 desabilitados
+- `ssl_ciphers` com cipher suites ECDHE (forward secrecy)
+- `Strict-Transport-Security: max-age=31536000` (HSTS 1 ano)
+- `ssl_session_tickets off` — previne downgrade via session ticket
+- HTTP redireciona automaticamente para HTTPS via `return 301`
+
+### Checklist de deploy seguro
+
+- [ ] `JWT_SECRET` definido via variável de ambiente (mínimo 32 chars aleatórios — `openssl rand -base64 32`)
+- [ ] `DATABASE_URL` sem senha hardcoded (usar secrets manager ou variável de ambiente)
+- [ ] Porta 8080 do backend Go NÃO exposta publicamente (apenas nginx na 443)
+- [ ] Certificado TLS válido (não auto-assinado) em produção
+- [ ] HSTS habilitado e testado via `curl -I https://seu-dominio.com/ | grep Strict`
+- [ ] `go build ./... && go vet ./...` sem erros antes de cada deploy

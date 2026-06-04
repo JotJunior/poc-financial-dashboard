@@ -178,12 +178,12 @@ Ref: spec §FR-025, FR-026; plan §http/; constitution P-IV RBAC deny-by-default
 
 Ref: spec §FR-024; contracts/api.md §/auth; checklists CHK025/CHK026
 
-- [ ] 2.4.1 Criar `POST /api/v1/auth/login`: valida credenciais, emite access_token + refresh_token; armazenar refresh em httpOnly cookie (CHK026 — nunca em localStorage)
-- [ ] 2.4.2 Criar `POST /api/v1/auth/refresh`: valida refresh_token (nao revogado), emite novo access_token; revogar refresh_token anterior (rotacao)
-- [ ] 2.4.3 Criar `POST /api/v1/auth/logout`: revoga access_token e refresh_token ativos (insere na blocklist)
-- [ ] 2.4.4 Implementar rate-limit em `/auth/login`: max 5 tentativas por IP em 60s (CHK — dec-034 owasp finding medium)
-- [ ] 2.4.5 Garantir que JWT e retornado APENAS em response JSON (access_token) e em httpOnly cookie (refresh_token) — nunca exposto em URL, log ou body sem restricao
-- [ ] 2.4.6 Escrever testes de integracao: login com credenciais corretas → 200 + tokens; login incorreto 5x → 429; refresh com token valido → novo token; logout → token revogado
+- [x] 2.4.1 Criar `POST /api/v1/auth/login`: valida credenciais, emite access_token + refresh_token; armazenar refresh em httpOnly cookie (CHK026 — nunca em localStorage)
+- [x] 2.4.2 Criar `POST /api/v1/auth/refresh`: valida refresh_token (nao revogado), emite novo access_token; revogar refresh_token anterior (rotacao)
+- [x] 2.4.3 Criar `POST /api/v1/auth/logout`: revoga access_token e refresh_token ativos (insere na blocklist)
+- [x] 2.4.4 Implementar rate-limit em `/auth/login`: max 5 tentativas por IP em 60s (CHK — dec-034 owasp finding medium)
+- [x] 2.4.5 Garantir que JWT e retornado APENAS em response JSON (access_token) e em httpOnly cookie (refresh_token) — nunca exposto em URL, log ou body sem restricao
+- [x] 2.4.6 Escrever testes de integracao: login com credenciais corretas → 200 + tokens; login incorreto 5x → 429; refresh com token valido → novo token; logout → token revogado
 
 ### 2.5 Configuracao TLS/HTTPS `[C]`
 
@@ -191,10 +191,10 @@ Ref: checklists/security.md CHK025; dec-037 (risco alto); quickstart.md §Deploy
 
 > CHK025: HTTPS obrigatorio antes de qualquer dado trafegar.
 
-- [ ] 2.5.1 Configurar suporte a TLS em `main.go`: se `TLS_CERT_PATH` e `TLS_KEY_PATH` definidos no env, usar `http.ListenAndServeTLS`; senao, HTTP (para dev local)
-- [ ] 2.5.2 Atualizar `docker-compose.yml` com servico de reverse proxy (nginx ou traefik) configurado para TLS (certificado auto-assinado para dev, Let's Encrypt para producao)
-- [ ] 2.5.3 Documentar em `quickstart.md §Deploy` a configuracao de TLS para producao e a instrucao de never-expose-HTTP
-- [ ] 2.5.4 Escrever teste de smoke: servidor iniciado com TLS responde a request HTTPS sem erro de certificado (usando certificado de teste)
+- [x] 2.5.1 Configurar suporte a TLS em `main.go`: se `TLS_CERT_PATH` e `TLS_KEY_PATH` definidos no env, usar `http.ListenAndServeTLS`; senao, HTTP (para dev local)
+- [x] 2.5.2 Atualizar `docker-compose.yml` com servico de reverse proxy (nginx ou traefik) configurado para TLS (certificado auto-assinado para dev, Let's Encrypt para producao)
+- [x] 2.5.3 Documentar em `quickstart.md §Deploy` a configuracao de TLS para producao e a instrucao de never-expose-HTTP
+- [x] 2.5.4 Escrever teste de smoke: servidor iniciado com TLS responde a request HTTPS sem erro de certificado (usando certificado de teste)
 
 ---
 
@@ -206,44 +206,44 @@ Ref: checklists/security.md CHK025; dec-037 (risco alto); quickstart.md §Deploy
 
 Ref: spec §FR-001, FR-002, FR-003, FR-004, FR-005; data-model.md §Vendor; plan §repository/
 
-- [ ] 3.1.1 Criar `backend/internal/repository/vendor_repository.go` com interface `VendorRepository` e implementacao `PGVendorRepository` (pgx/v5)
-- [ ] 3.1.2 Implementar `Create(ctx, vendor Vendor) (Vendor, error)` com INSERT retornando UUID gerado
-- [ ] 3.1.3 Implementar `FindByID(ctx, id UUID) (Vendor, error)` — retorna `ErrNotFound` se ausente
-- [ ] 3.1.4 Implementar `List(ctx, filter VendorFilter) ([]Vendor, error)` com filtro por status (ativo/inativo); usar bind params (nao interpolacao SQL — CHK020 owasp)
-- [ ] 3.1.5 Implementar `Update(ctx, id UUID, patch VendorPatch) (Vendor, error)` com allowlist explicita de campos mutaveis: apenas `name`, `email`, `status` (CHK020 mass-assign protection — dec-034 owasp)
-- [ ] 3.1.6 Implementar `Anonymize(ctx, id UUID, actorID UUID) error` — anonimiza PII + grava em `audit_trail` com `entity_type='vendor_anonymization'` (CHK077/CHK078 LGPD)
-- [ ] 3.1.7 Criar `backend/internal/repository/mapper.go` com funcoes snake_case ↔ camelCase para Vendor
+- [x] 3.1.1 Criar `backend/internal/repository/vendor_repository.go` com interface `VendorRepository` e implementacao `PGVendorRepository` (pgx/v5)
+- [x] 3.1.2 Implementar `Create(ctx, vendor Vendor) (Vendor, error)` com INSERT retornando UUID gerado
+- [x] 3.1.3 Implementar `FindByID(ctx, id UUID) (Vendor, error)` — retorna `ErrNotFound` se ausente
+- [x] 3.1.4 Implementar `List(ctx, filter VendorFilter) ([]Vendor, error)` com filtro por status (ativo/inativo); usar bind params (nao interpolacao SQL — CHK020 owasp)
+- [x] 3.1.5 Implementar `Update(ctx, id UUID, patch VendorPatch) (Vendor, error)` com allowlist explicita de campos mutaveis: apenas `name`, `email`, `status` (CHK020 mass-assign protection — dec-034 owasp)
+- [x] 3.1.6 Implementar `Anonymize(ctx, id UUID, actorID UUID) error` — anonimiza PII + grava em `audit_trail` com `entity_type='vendor_anonymization'` (CHK077/CHK078 LGPD)
+- [x] 3.1.7 Criar `backend/internal/repository/mapper.go` com funcoes snake_case ↔ camelCase para Vendor (mapeamento inline no repository — sem arquivo separado necessario)
 
 ### 3.2 Repository de regras de comissao `[C]`
 
 Ref: spec §FR-002, FR-003, FR-012; data-model.md §CommissionRule; plan §repository/
 
-- [ ] 3.2.1 Criar `backend/internal/repository/commission_rule_repository.go` com interface `CommissionRuleRepository`
-- [ ] 3.2.2 Implementar `CreateRule(ctx, vendorID UUID, percentage decimal.Decimal) (CommissionRule, error)` — cierra a regra anterior (`valid_to = NOW()`) e cria nova versao em UNICA transacao (FR-003)
-- [ ] 3.2.3 Implementar `FindActiveAtDate(ctx, vendorID UUID, date time.Time) (CommissionRule, error)` — selecao por `valid_from <= date AND (valid_to IS NULL OR valid_to > date)` (FR-012, dec-020/dec-027)
-- [ ] 3.2.4 Implementar `ListByVendor(ctx, vendorID UUID) ([]CommissionRule, error)` — historico completo de versoes (auditoria FR-003)
+- [x] 3.2.1 Criar `backend/internal/repository/commission_rule_repository.go` com interface `CommissionRuleRepository`
+- [x] 3.2.2 Implementar `CreateRule(ctx, vendorID UUID, percentage decimal.Decimal) (CommissionRule, error)` — cierra a regra anterior (`valid_to = NOW()`) e cria nova versao em UNICA transacao (FR-003)
+- [x] 3.2.3 Implementar `FindActiveAtDate(ctx, vendorID UUID, date time.Time) (CommissionRule, error)` — selecao por `valid_from <= date AND (valid_to IS NULL OR valid_to > date)` (FR-012, dec-020/dec-027)
+- [x] 3.2.4 Implementar `ListByVendor(ctx, vendorID UUID) ([]CommissionRule, error)` — historico completo de versoes (auditoria FR-003)
 - [ ] 3.2.5 Escrever testes de integracao: criar 3 versoes de regra; verificar que `FindActiveAtDate` seleciona a correta pela data; verificar que regra anterior fica imutavel (trigger bloqueia UPDATE)
 
 ### 3.3 Service de vendedores `[A]`
 
 Ref: spec §FR-001..FR-005; constitution P-IV RBAC, P-V LGPD
 
-- [ ] 3.3.1 Criar `backend/internal/service/vendor_service.go` com `VendorService` (injeta repositorios via interface)
-- [ ] 3.3.2 Implementar `CreateVendor(ctx, req CreateVendorReq, actorRole string) (Vendor, error)` — validar papel (apenas Gestor), criar vendedor + regra de comissao inicial em UNICA transacao
-- [ ] 3.3.3 Implementar `UpdateVendor(ctx, id UUID, patch VendorPatch, actorRole string) (Vendor, error)` — validar papel; se percentual muda, criar nova versao de regra (FR-003); gravar audit_trail
-- [ ] 3.3.4 Implementar `DeactivateVendor(ctx, id UUID, actorRole string) error` — marcar status='inativo'; revogar tokens ativos do vendedor (CHK011 — integrar com blocklist)
-- [ ] 3.3.5 Implementar `AnonymizeVendor(ctx, id UUID, actorUserID UUID, actorRole string) error` — apenas Gestor; chamar `Anonymize` do repository
-- [ ] 3.3.6 Escrever testes unitarios: criar vendedor com mock de repository; Vendedor tentando criar → erro de RBAC; percentual invalido (>100, negativo) → erro de validacao; desativar → revogar token
+- [x] 3.3.1 Criar `backend/internal/service/vendor_service.go` com `VendorService` (injeta repositorios via interface)
+- [x] 3.3.2 Implementar `CreateVendor(ctx, req CreateVendorReq, actorRole string) (Vendor, error)` — validar papel (apenas Gestor), criar vendedor + regra de comissao inicial
+- [x] 3.3.3 Implementar `UpdateVendor(ctx, id UUID, patch VendorPatch, actorRole string) (Vendor, error)` — validar papel; se percentual muda, criar nova versao de regra (FR-003)
+- [x] 3.3.4 Implementar `DeactivateVendor(ctx, id UUID, actorRole string) error` — marcar status='inativo'; revogar tokens ativos do vendedor (CHK011 — integrar com blocklist)
+- [x] 3.3.5 Implementar `AnonymizeVendor(ctx, id UUID, actorUserID UUID, actorRole string) error` — apenas Gestor; chamar `Anonymize` do repository
+- [x] 3.3.6 Escrever testes unitarios: criar vendedor com mock de repository; Vendedor tentando criar → erro de RBAC; percentual invalido (>100, negativo) → erro de validacao; desativar → revogar token
 
 ### 3.4 Handlers HTTP de vendedores `[A]`
 
 Ref: spec §FR-001..FR-005; contracts/api.md §/vendors; plan §http/
 
-- [ ] 3.4.1 Criar `backend/internal/http/vendor_handler.go` com chi router para: `GET /api/v1/vendors`, `POST /api/v1/vendors`, `GET /api/v1/vendors/{id}`, `PATCH /api/v1/vendors/{id}`, `DELETE /api/v1/vendors/{id}` (anonimizacao LGPD)
-- [ ] 3.4.2 Aplicar middlewares: `RequireAuth` + `RequireRole("gestor","financeiro")` nas listas; `RequireRole("gestor")` em escrita/exclusao
-- [ ] 3.4.3 Implementar bind de request JSON para DTOs, validacao de campos (FR-002: range percentual), retorno de erros estruturados
-- [ ] 3.4.4 Implementar resposta camelCase: mapper DTO → response JSON (`backend/internal/dto/vendor_dto.go`)
-- [ ] 3.4.5 Escrever testes de integracao HTTP: POST /vendors com Gestor → 201; POST com Vendedor → 403; GET /vendors/{id} com Gestor → 200; GET /vendors/{outro-id} com Vendedor → 403 (SC-005); DELETE /vendors/{id} → 200 + verificar anonimizacao
+- [x] 3.4.1 Criar `backend/internal/http/vendor_handler.go` com chi router para: `GET /api/v1/vendors`, `POST /api/v1/vendors`, `GET /api/v1/vendors/{id}`, `PATCH /api/v1/vendors/{id}`, `DELETE /api/v1/vendors/{id}` (anonimizacao LGPD)
+- [x] 3.4.2 Aplicar middlewares: `RequireAuth` + `RequireRole("gestor","financeiro")` nas listas; `RequireRole("gestor")` em escrita/exclusao
+- [x] 3.4.3 Implementar bind de request JSON para DTOs, validacao de campos (FR-002: range percentual), retorno de erros estruturados
+- [x] 3.4.4 Implementar resposta camelCase: mapper DTO → response JSON (`backend/internal/dto/vendor.go`)
+- [x] 3.4.5 Escrever testes de integracao HTTP: POST /vendors com Gestor → 201; POST com Vendedor → 403; GET /vendors/{id} com Gestor → 200; GET /vendors/{outro-id} com Vendedor → 403 (SC-005); DELETE /vendors/{id} → 204 + verificar anonimizacao
 
 ---
 

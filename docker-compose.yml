@@ -19,6 +19,48 @@ services:
       timeout: 5s
       retries: 10
 
+  # Reverse proxy TLS — CHK025: HTTPS obrigatório antes de qualquer dado trafegar.
+  # Dev: certificado auto-assinado (self-signed) gerado em ./tls/dev/
+  # Produção: montar certificado real em ./tls/prod/ ou usar Traefik + Let's Encrypt.
+  # Não expor a porta 8080 do serviço `api` diretamente — todo tráfego passa por nginx.
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: financial-dashboard-proxy
+    restart: unless-stopped
+    ports:
+      - "${HTTPS_PORT:-8443}:443"
+      # Redireciona HTTP → HTTPS para não vazar dados em HTTP acidental
+      - "${HTTP_PORT:-8080}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./tls:/etc/nginx/tls:ro
+    depends_on:
+      - api
+    profiles:
+      - proxy  # Ativar com: docker compose --profile proxy up
+
+  # Backend Go — exposto apenas internamente (não publicar porta 8080 em produção)
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: financial-dashboard-api
+    restart: unless-stopped
+    environment:
+      SERVER_PORT: "8080"
+      DATABASE_URL: "postgres://${POSTGRES_USER:-financialuser}:${POSTGRES_PASSWORD:-financialpass}@postgres:5432/${POSTGRES_DB:-financial_dashboard}?sslmode=disable"
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-15m}
+      JWT_REFRESH_TTL: ${JWT_REFRESH_TTL:-168h}
+      # TLS direto no Go (alternativa ao nginx — use UM dos dois, não ambos)
+      # TLS_CERT_PATH: /etc/app/tls/cert.pem
+      # TLS_KEY_PATH: /etc/app/tls/key.pem
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - proxy  # Ativar junto com nginx
+
 volumes:
   postgres_data:
     driver: local
