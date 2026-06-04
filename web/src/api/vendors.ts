@@ -26,11 +26,14 @@ export const vendorKeys = {
 
 // ─── Queries ──────────────────────────────────────────────────────────────────
 
-/** GET /api/v1/vendors — lista todos os vendedores (Gestor/Financeiro) */
-export function useVendors() {
+/** GET /api/v1/vendors — lista todos os vendedores (Gestor/Financeiro).
+ *  `enabled` permite ao chamador NÃO disparar a query quando o papel não tem
+ *  permissão (ex.: Vendedor) — evitando um 403 inútil. */
+export function useVendors(enabled = true) {
   return useQuery({
     queryKey: vendorKeys.list(),
     queryFn: () => fetchJSON('/vendors', VendorListSchema),
+    enabled,
   });
 }
 

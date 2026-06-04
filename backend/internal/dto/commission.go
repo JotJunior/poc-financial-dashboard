@@ -30,7 +30,10 @@ func CommissionFromDomain(c repository.Commission) CommissionResponse {
 		VendorID:          c.VendorID,
 		ValueCents:        c.ValueCents,
 		NetCents:          c.NetCents,
-		AppliedPercentage: c.AppliedPercentage.String(),
+		// StringFixed(4) garante 4 casas decimais ("10.0000") conforme o contrato
+		// (NUMERIC(7,4)). Decimal.String() removia zeros à direita ("10"), o que
+		// quebrava a validação Zod do frontend (/^\d+\.\d{4}$/) e a página inteira.
+		AppliedPercentage: c.AppliedPercentage.StringFixed(4),
 		RuleID:            c.RuleID,
 		PeriodYear:        c.PeriodYear,
 		PeriodMonth:       c.PeriodMonth,

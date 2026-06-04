@@ -26,7 +26,9 @@ export function Commissions() {
     year: filterYear ? parseInt(filterYear, 10) : undefined,
     month: filterMonth ? parseInt(filterMonth, 10) : undefined,
   });
-  const { data: vendors = [] } = useVendors();
+  // Vendedor não tem permissão em GET /vendors (403) e nem precisa do mapa —
+  // só vê as próprias comissões. Disparar a query apenas para Gestor/Financeiro.
+  const { data: vendors = [] } = useVendors(isGestor || isFinanceiro);
   const transitionComm = useTransitionCommission();
 
   const vendorName = (id: string) => vendors.find(v => v.id === id)?.name ?? id.slice(0, 8) + '…';
