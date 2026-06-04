@@ -76,6 +76,11 @@ func main() {
 	apurationSvc := service.NewApurationService(orderRepo, commissionRuleRepo, commissionRepo)
 	commissionHandler := apphttp.NewCommissionHandler(apurationSvc)
 
+	// Dashboard dependencies (FASE 6)
+	dashboardRepo := repository.NewPGDashboardRepository(pool)
+	dashboardSvc := service.NewDashboardService(dashboardRepo)
+	dashboardHandler := apphttp.NewDashboardHandler(dashboardSvc)
+
 	// Verifier que combina VerifyToken + blocklist (para RequireAuth).
 	authVerifier := func(r *http.Request, tokenString string) (*auth.Claims, error) {
 		return auth.VerifyTokenWithBlocklist(r.Context(), tokenString, blocklist)
@@ -145,6 +150,16 @@ func main() {
 			r.With(middleware.RequireRole("gestor", "financeiro", "vendedor")).Get("/commissions/{id}", commissionHandler.Get)
 			// PATCH /commissions/{id}/status — apenas Financeiro
 			r.With(middleware.RequireRole("financeiro")).Patch("/commissions/{id}/status", commissionHandler.Transition)
+
+			// FASE 6: Dashboard e Métricas
+			// GET /dashboard/consolidated — apenas Gestor e Financeiro
+			r.With(middleware.RequireRole("gestor", "financeiro")).Get("/dashboard/consolidated", dashboardHandler.Consolidated)
+			// GET /dashboard/vendor — Gestor (com ?vendorId), Financeiro, Vendedor (próprio)
+			r.With(middleware.RequireRole("gestor", "financeiro", "vendedor")).Get("/dashboard/vendor", dashboardHandler.VendorDashboard)
+			// GET /dashboard/commissions/pending — apenas Gestor e Financeiro
+			r.With(middleware.RequireRole("gestor", "financeiro")).Get("/dashboard/commissions/pending", dashboardHandler.PendingCommissions)
+			// GET /orders/{id}/drilldown — todos os papéis autenticados (escopo no service SC-004)
+			r.Get("/orders/{id}/drilldown", dashboardHandler.DrillDown)
 		})
 	})
 

@@ -329,22 +329,22 @@ Ref: spec §FR-015, FR-020..FR-023; contracts/api.md §/commissions; plan §http
 
 Ref: spec §FR-016..FR-019; data-model.md §Views; plan §repository/; constitution P-I (derivado deterministico)
 
-- [ ] 6.1.1 Criar `backend/internal/repository/dashboard_repository.go` com interface `DashboardRepository`
-- [ ] 6.1.2 Implementar `GetConsolidated(ctx, filter DashboardFilter) (ConsolidatedDashboard, error)` — query com bind params (CHK020 owasp SQL injection — dec-034): total de vendas (SUM pedidos pagos), total de comissoes, ranking por volume
-- [ ] 6.1.3 Implementar `GetVendorDashboard(ctx, vendorID UUID, filter DashboardFilter) (VendorDashboard, error)` — filtra por vendor_id; escopo de vendedor garantido no service
-- [ ] 6.1.4 Implementar `GetDrillDown(ctx, orderID UUID) (DrillDown, error)` — retorna pedido + comissoes + estornos para rastreabilidade SC-004
-- [ ] 6.1.5 Escrever testes de integracao: dashboard com dados fixos → totais corretos e identicos em execucoes repetidas (SC-002); drill-down retorna rastreabilidade ate pedido individual (SC-004)
+- [x] 6.1.1 Criar `backend/internal/repository/dashboard_repository.go` com interface `DashboardRepository`
+- [x] 6.1.2 Implementar `GetConsolidated(ctx, filter DashboardFilter) (ConsolidatedDashboard, error)` — query com bind params (CHK020 owasp SQL injection — dec-034): total de vendas (SUM pedidos pagos), total de comissoes, ranking por volume
+- [x] 6.1.3 Implementar `GetVendorDashboard(ctx, vendorID UUID, filter DashboardFilter) (VendorDashboard, error)` — filtra por vendor_id; escopo de vendedor garantido no service
+- [x] 6.1.4 Implementar `GetDrillDown(ctx, orderID UUID) (DrillDown, error)` — retorna pedido + comissoes + estornos para rastreabilidade SC-004
+- [x] 6.1.5 Escrever testes de integracao: dashboard com dados fixos → totais corretos e identicos em execucoes repetidas (SC-002); drill-down retorna rastreabilidade ate pedido individual (SC-004)
 
 ### 6.2 Service e handlers de dashboard `[M]`
 
 Ref: spec §FR-016..FR-019, SC-009; contracts/api.md §/dashboard; plan §http/
 
-- [ ] 6.2.1 Criar `backend/internal/service/dashboard_service.go` — aplicar escopo: Gestor ve todos os vendedores; Vendedor ve apenas os proprios (P-IV)
-- [ ] 6.2.2 Criar `GET /api/v1/dashboard/consolidated` com filtros `year`, `month` (ou `startDate`/`endDate`) — apenas Gestor e Financeiro
-- [ ] 6.2.3 Criar `GET /api/v1/dashboard/vendor` — Vendedor ve apenas os proprios; Gestor pode filtrar por `vendorId`
-- [ ] 6.2.4 Criar `GET /api/v1/dashboard/commissions/pending` — indicadores de comissoes pendentes de aprovacao e pagamento (FR-019) — Gestor e Financeiro
-- [ ] 6.2.5 Criar `GET /api/v1/orders/{id}/drilldown` — rastreabilidade valor → pedidos individuais (SC-004, P-I)
-- [ ] 6.2.6 Escrever testes HTTP + performance: dashboard com 10.000 pedidos carrega em < 3s (SC-009); Vendedor acessando dashboard consolidado → 403
+- [x] 6.2.1 Criar `backend/internal/service/dashboard_service.go` — aplicar escopo: Gestor ve todos os vendedores; Vendedor ve apenas os proprios (P-IV)
+- [x] 6.2.2 Criar `GET /api/v1/dashboard/consolidated` com filtros `year`, `month` (ou `startDate`/`endDate`) — apenas Gestor e Financeiro
+- [x] 6.2.3 Criar `GET /api/v1/dashboard/vendor` — Vendedor ve apenas os proprios; Gestor pode filtrar por `vendorId`
+- [x] 6.2.4 Criar `GET /api/v1/dashboard/commissions/pending` — indicadores de comissoes pendentes de aprovacao e pagamento (FR-019) — Gestor e Financeiro
+- [x] 6.2.5 Criar `GET /api/v1/orders/{id}/drilldown` — rastreabilidade valor → pedidos individuais (SC-004, P-I)
+- [x] 6.2.6 Escrever testes HTTP + performance: dashboard com 10.000 pedidos carrega em < 3s (SC-009); Vendedor acessando dashboard consolidado → 403
 
 ---
 
