@@ -292,32 +292,32 @@ Ref: spec §FR-006..FR-010; contracts/api.md §/orders; plan §http/
 
 Ref: spec §FR-011..FR-015; data-model.md §Commission; plan §repository/; constitution P-I, P-II
 
-- [ ] 5.1.1 Criar `backend/internal/repository/commission_repository.go` com interface `CommissionRepository`
-- [ ] 5.1.2 Implementar `CreateBatch(ctx, tx pgx.Tx, commissions []Commission) ([]Commission, int, error)` — INSERT em batch com `ON CONFLICT (order_id) DO NOTHING`; retornar contagem de inseridos e de pulados (idempotencia FR-014)
-- [ ] 5.1.3 Implementar `FindByPeriod(ctx, filter CommissionFilter) ([]Commission, error)` com filtros: `vendor_id`, `period_year`, `period_month`, `status`; usar view `commission_net_balance` para saldo liquido
-- [ ] 5.1.4 Implementar `Transition(ctx, id UUID, to CommissionStatus, actorID UUID, motivo string) (Commission, error)` em UNICA transacao com INSERT audit_trail
-- [ ] 5.1.5 Escrever testes de integracao: inserir 3 comissoes; re-inserir as mesmas → 0 novas (idempotencia SC-003); verificar `commission_net_balance` com estorno
+- [x] 5.1.1 Criar `backend/internal/repository/commission_repository.go` com interface `CommissionRepository`
+- [x] 5.1.2 Implementar `CreateBatch(ctx, tx pgx.Tx, commissions []Commission) ([]Commission, int, error)` — INSERT em batch com `ON CONFLICT (order_id) DO NOTHING`; retornar contagem de inseridos e de pulados (idempotencia FR-014)
+- [x] 5.1.3 Implementar `FindByPeriod(ctx, filter CommissionFilter) ([]Commission, error)` com filtros: `vendor_id`, `period_year`, `period_month`, `status`; usar view `commission_net_balance` para saldo liquido
+- [x] 5.1.4 Implementar `Transition(ctx, id UUID, to CommissionStatus, actorID UUID, motivo string) (Commission, error)` em UNICA transacao com INSERT audit_trail
+- [x] 5.1.5 Escrever testes de integracao: inserir 3 comissoes; re-inserir as mesmas → 0 novas (idempotencia SC-003); verificar `commission_net_balance` com estorno
 
 ### 5.2 Service de apuracao `[C]`
 
 Ref: spec §FR-011..FR-015; constitution P-II NON-NEGOTIABLE; dec-038 CHK073; research dec-025/dec-028
 
-- [ ] 5.2.1 Criar `backend/internal/service/apuration_service.go` com `ApurationService`
-- [ ] 5.2.2 Implementar `ApurateMonth(ctx, year, month int, actorRole string) (ApurationResult, error)` com UNICA transacao para toda a apuracao (CHK073 — atomicidade tudo-ou-nada; dec-038)
-- [ ] 5.2.3 Dentro da transacao: (1) buscar todos os pedidos `pago` do periodo; (2) para cada pedido, buscar `commission_rule` vigente na `order_date` (FR-012); (3) calcular `money.RoundCommission()` (P-III); (4) `CreateBatch` com `ON CONFLICT DO NOTHING` (FR-014)
-- [ ] 5.2.4 Retornar `ApurationResult`: total de comissoes calculadas, total de centavos, total de puladas por idempotencia, periodo apurado
-- [ ] 5.2.5 **Criterio de aceite CHK073**: ao simular falha no meio da apuracao (tx.Rollback forcado apos processar 50%), verificar que nenhuma comissao parcial e persistida; reexecutar → apuracao completa sem duplicatas
-- [ ] 5.2.6 Escrever testes: 1 vendedor 8% + 2 pedidos (R$2000 + R$3000) → comissao R$400 exatos (US3.1); reprocessar → 0 duplicatas (SC-003); pedido `confirmado` nao entra (FR-011); percentual na data do pedido (US3.4)
+- [x] 5.2.1 Criar `backend/internal/service/apuration_service.go` com `ApurationService`
+- [x] 5.2.2 Implementar `ApurateMonth(ctx, year, month int, actorRole string) (ApurationResult, error)` com UNICA transacao para toda a apuracao (CHK073 — atomicidade tudo-ou-nada; dec-038)
+- [x] 5.2.3 Dentro da transacao: (1) buscar todos os pedidos `pago` do periodo; (2) para cada pedido, buscar `commission_rule` vigente na `order_date` (FR-012); (3) calcular `money.RoundCommission()` (P-III); (4) `CreateBatch` com `ON CONFLICT DO NOTHING` (FR-014)
+- [x] 5.2.4 Retornar `ApurationResult`: total de comissoes calculadas, total de centavos, total de puladas por idempotencia, periodo apurado
+- [x] 5.2.5 **Criterio de aceite CHK073**: ao simular falha no meio da apuracao (tx.Rollback forcado apos processar 50%), verificar que nenhuma comissao parcial e persistida; reexecutar → apuracao completa sem duplicatas
+- [x] 5.2.6 Escrever testes: 1 vendedor 8% + 2 pedidos (R$2000 + R$3000) → comissao R$400 exatos (US3.1); reprocessar → 0 duplicatas (SC-003); pedido `confirmado` nao entra (FR-011); percentual na data do pedido (US3.4)
 
 ### 5.3 Handlers HTTP de apuracao e comissoes `[A]`
 
 Ref: spec §FR-015, FR-020..FR-023; contracts/api.md §/commissions; plan §http/
 
-- [ ] 5.3.1 Criar `POST /api/v1/commissions/apurate` com body `{"year":2026,"month":6}` — apenas Gestor; retornar `ApurationResult`
-- [ ] 5.3.2 Criar `GET /api/v1/commissions` com filtros `vendorId`, `year`, `month`, `status` — Gestor ve tudo; Vendedor ve apenas as suas (escopo via `RequireVendorScope` — SC-005)
-- [ ] 5.3.3 Criar `PATCH /api/v1/commissions/{id}/status` — apenas Financeiro; transicoes: pendente→aprovado, aprovado→pago, aprovado→pendente (com motivo)
-- [ ] 5.3.4 Criar `GET /api/v1/commissions/{id}` — Gestor e Financeiro veem tudo; Vendedor ve somente suas (RBAC P-IV)
-- [ ] 5.3.5 Escrever testes HTTP: apurar periodo → 200 com resultado; Vendedor tentando apurar → 403; Vendedor listando comissoes → somente as suas; Financeiro aprovando comissao → 200
+- [x] 5.3.1 Criar `POST /api/v1/commissions/apurate` com body `{"year":2026,"month":6}` — apenas Gestor; retornar `ApurationResult`
+- [x] 5.3.2 Criar `GET /api/v1/commissions` com filtros `vendorId`, `year`, `month`, `status` — Gestor ve tudo; Vendedor ve apenas as suas (escopo via `RequireVendorScope` — SC-005)
+- [x] 5.3.3 Criar `PATCH /api/v1/commissions/{id}/status` — apenas Financeiro; transicoes: pendente→aprovado, aprovado→pago, aprovado→pendente (com motivo)
+- [x] 5.3.4 Criar `GET /api/v1/commissions/{id}` — Gestor e Financeiro veem tudo; Vendedor ve somente suas (RBAC P-IV)
+- [x] 5.3.5 Escrever testes HTTP: apurar periodo → 200 com resultado; Vendedor tentando apurar → 403; Vendedor listando comissoes → somente as suas; Financeiro aprovando comissao → 200
 
 ---
 
