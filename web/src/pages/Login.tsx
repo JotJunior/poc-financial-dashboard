@@ -73,6 +73,12 @@ export function Login() {
     marginTop: '4px',
   };
 
+  const linkStyle = {
+    color: '#cba6f7',
+    fontWeight: 600,
+    textDecoration: 'underline',
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -178,6 +184,63 @@ export function Login() {
             {loginMutation.isPending ? 'Entrando…' : 'Entrar'}
           </button>
         </form>
+
+        {/* Disclaimer — prova de conceito gerada autonomamente (cstk + agente-00c) */}
+        <div style={{
+          marginTop: '1.75rem',
+          paddingTop: '1.25rem',
+          borderTop: '1px solid #313244',
+          fontSize: '0.78rem',
+          lineHeight: 1.55,
+          color: '#a6adc8',
+        }}>
+          <p style={{ margin: 0 }}>
+            <strong style={{ color: '#f9e2af' }}>⚠️ Prova de conceito.</strong>{' '}
+            Projeto experimental — briefing, código, testes e documentação foram
+            gerados de forma autônoma pelo{' '}
+            <a
+              href="https://github.com/JotJunior/cstk"
+              target="_blank"
+              rel="noreferrer"
+              style={linkStyle}
+            >
+              cstk + agente-00c
+            </a>
+            . Não é software pronto para produção.
+          </p>
+          <p style={{ margin: '0.75rem 0 0' }}>
+            🔑 As credenciais de teste (Gestor / Financeiro / Vendedor) estão no{' '}
+            <a
+              href="https://github.com/JotJunior/poc-financial-dashboard#-credenciais-de-demonstração"
+              target="_blank"
+              rel="noreferrer"
+              style={linkStyle}
+            >
+              README do repositório
+            </a>
+            .
+          </p>
+          <p style={{ margin: '0.75rem 0 0' }}>
+            Repositórios:{' '}
+            <a
+              href="https://github.com/JotJunior/poc-financial-dashboard"
+              target="_blank"
+              rel="noreferrer"
+              style={linkStyle}
+            >
+              projeto
+            </a>
+            {' · '}
+            <a
+              href="https://github.com/JotJunior/cstk"
+              target="_blank"
+              rel="noreferrer"
+              style={linkStyle}
+            >
+              cstk
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
